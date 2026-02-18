@@ -4,15 +4,42 @@ import BaseHead from '../components/BaseHead.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import FormattedDate from '../components/FormattedDate.astro';
+import InstagramEmbed from '../components/InstagramEmbed.astro';
+import ShareButtons from '../components/ShareButtons.astro';
 
 type Props = CollectionEntry<'reviews'>['data'];
 
-const { title, description, pubDate, updatedDate, image: heroImage } = Astro.props;
+const {
+	title,
+	description,
+	pubDate,
+	updatedDate,
+	visitDate,
+	image: heroImage,
+	address,
+	locality,
+	averagePrice,
+	categoryArray,
+	favorite,
+	trending,
+	rating,
+	restaurantLinks,
+	anecdote,
+	instagramPostId,
+} = Astro.props;
+
+/** Renderiza estrellas visuales para una puntuación 1-5 */
+function renderStars(score: number): string {
+	const full = Math.floor(score);
+	const half = score % 1 >= 0.5 ? 1 : 0;
+	const empty = 5 - full - half;
+	return '★'.repeat(full) + (half ? '½' : '') + '☆'.repeat(empty);
+}
 ---
 
 <html lang="es">
 	<head>
-		<BaseHead title={title} description={description} />
+		<BaseHead title={title} description={description} image={heroImage} />
 		<style>
 			main {
 				width: calc(100% - 2em);
@@ -35,13 +62,13 @@ const { title, description, pubDate, updatedDate, image: heroImage } = Astro.pro
 				padding: 1em;
 				color: rgb(var(--gray-dark));
 			}
-			.title {
+			.title-section {
 				margin-bottom: 1em;
 				padding: 1em 0;
 				text-align: center;
 				line-height: 1;
 			}
-			.title h1 {
+			.title-section h1 {
 				margin: 0 0 0.5em 0;
 			}
 			.date {
@@ -51,32 +78,252 @@ const { title, description, pubDate, updatedDate, image: heroImage } = Astro.pro
 			.last-updated-on {
 				font-style: italic;
 			}
+
+			/* Badges */
+			.badges {
+				display: flex;
+				justify-content: center;
+				gap: 0.5rem;
+				margin-bottom: 1rem;
+			}
+			.badge {
+				font-size: 0.85rem;
+				font-weight: 600;
+				padding: 0.3rem 0.8rem;
+				border-radius: 999px;
+			}
+			.badge-fav {
+				background: rgba(255, 215, 0, 0.85);
+				color: #333;
+			}
+			.badge-trend {
+				background: rgba(255, 69, 0, 0.85);
+				color: #fff;
+			}
+
+			/* Meta info */
+			.meta-info {
+				display: flex;
+				flex-wrap: wrap;
+				justify-content: center;
+				gap: 1rem;
+				margin: 1rem 0;
+				font-size: 0.9rem;
+				color: rgb(var(--gray));
+			}
+			.meta-info span {
+				display: flex;
+				align-items: center;
+				gap: 0.3rem;
+			}
+
+			/* Categories */
+			.categories {
+				display: flex;
+				justify-content: center;
+				flex-wrap: wrap;
+				gap: 0.4rem;
+				margin: 0.75rem 0;
+			}
+			.category-tag {
+				font-size: 0.8rem;
+				padding: 0.2rem 0.6rem;
+				border-radius: 999px;
+				background: rgba(var(--accent-rgb), 0.1);
+				color: var(--accent);
+				font-weight: 500;
+				text-transform: capitalize;
+			}
+
+			/* Ratings */
+			.ratings {
+				display: grid;
+				grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+				gap: 0.75rem;
+				margin: 1.5rem 0;
+				padding: 1.25rem;
+				background: rgba(var(--gray-light), 0.5);
+				border-radius: 12px;
+			}
+			.rating-item {
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				font-size: 0.9rem;
+			}
+			.rating-label {
+				font-weight: 600;
+				color: rgb(var(--gray-dark));
+			}
+			.rating-stars {
+				color: var(--accent);
+				letter-spacing: 2px;
+			}
+
+			/* Restaurant links */
+			.restaurant-links {
+				display: flex;
+				flex-wrap: wrap;
+				justify-content: center;
+				gap: 0.75rem;
+				margin: 1.5rem 0;
+			}
+			.restaurant-link {
+				display: inline-flex;
+				align-items: center;
+				gap: 0.4rem;
+				padding: 0.5rem 1rem;
+				border-radius: 8px;
+				background: var(--accent);
+				color: #fff;
+				text-decoration: none;
+				font-size: 0.85rem;
+				font-weight: 500;
+				transition: opacity 0.2s;
+			}
+			.restaurant-link:hover {
+				opacity: 0.85;
+			}
+
+			/* Anecdote */
+			.anecdote {
+				margin: 1.5rem 0;
+				padding: 1.25rem 1.5rem;
+				border-left: 4px solid var(--accent);
+				background: rgba(var(--accent-rgb), 0.05);
+				border-radius: 0 8px 8px 0;
+				font-style: italic;
+				color: rgb(var(--gray-dark));
+			}
+			.anecdote::before {
+				content: '💡 ';
+				font-style: normal;
+			}
 		</style>
 	</head>
 
 	<body>
 		<Header />
-		<main>
+		<main id="main-content">
 			<article>
 				<div class="hero-image">
-					{heroImage && <img width={1020} height={510} src={heroImage} alt="" />}
+					{heroImage && <img width={1020} height={510} src={heroImage} alt={`Imagen de ${title}`} />}
 				</div>
 				<div class="prose">
-					<div class="title">
+					<div class="title-section">
+						{/* Badges */}
+						{(favorite || trending) && (
+							<div class="badges">
+								{favorite && <span class="badge badge-fav">⭐ Favorito</span>}
+								{trending && <span class="badge badge-trend">🔥 Tendencia</span>}
+							</div>
+						)}
+
 						<div class="date">
 							<FormattedDate date={pubDate} />
-							{
-								updatedDate && (
-									<div class="last-updated-on">
-										Última actualización el <FormattedDate date={updatedDate} />
-									</div>
-								)
-							}
+							{visitDate && (
+								<span> · Visitado el <FormattedDate date={visitDate} /></span>
+							)}
+							{updatedDate && (
+								<div class="last-updated-on">
+									Última actualización el <FormattedDate date={updatedDate} />
+								</div>
+							)}
 						</div>
 						<h1>{title}</h1>
+
+						{/* Meta info: localidad, dirección, precio */}
+						<div class="meta-info">
+							{locality && <span>📍 {locality}</span>}
+							{address && <span>🏠 {address}</span>}
+							{averagePrice && <span>💰 ~{averagePrice}€/persona</span>}
+						</div>
+
+						{/* Categorías */}
+						{categoryArray && categoryArray.length > 0 && (
+							<div class="categories">
+								{categoryArray.map((cat) => (
+									<span class="category-tag">{cat}</span>
+								))}
+							</div>
+						)}
+
 						<hr />
 					</div>
+
+					{/* Ratings por dimensión */}
+					{rating && (
+						<div class="ratings">
+							<div class="rating-item">
+								<span class="rating-label">🍽️ Comida</span>
+								<span class="rating-stars">{renderStars(rating.food)}</span>
+							</div>
+							<div class="rating-item">
+								<span class="rating-label">🤵 Servicio</span>
+								<span class="rating-stars">{renderStars(rating.service)}</span>
+							</div>
+							<div class="rating-item">
+								<span class="rating-label">✨ Ambiente</span>
+								<span class="rating-stars">{renderStars(rating.ambiance)}</span>
+							</div>
+							<div class="rating-item">
+								<span class="rating-label">💎 Calidad-precio</span>
+								<span class="rating-stars">{renderStars(rating.value)}</span>
+							</div>
+						</div>
+					)}
+
+					{/* Anécdota */}
+					{anecdote && (
+						<aside class="anecdote">
+							{anecdote}
+						</aside>
+					)}
+
+					{/* Contenido principal (MDX) */}
 					<slot />
+
+					{/* Instagram embed */}
+					<InstagramEmbed instagramPostId={instagramPostId} />
+
+					{/* Enlaces del restaurante */}
+					{restaurantLinks && (
+						<nav class="restaurant-links" aria-label="Enlaces del restaurante">
+							{restaurantLinks.website && (
+								<a href={restaurantLinks.website} target="_blank" rel="noopener noreferrer" class="restaurant-link">
+									🌐 Web
+								</a>
+							)}
+							{restaurantLinks.reservations && (
+								<a href={restaurantLinks.reservations} target="_blank" rel="noopener noreferrer" class="restaurant-link">
+									📅 Reservas
+								</a>
+							)}
+							{restaurantLinks.menu && (
+								<a href={restaurantLinks.menu} target="_blank" rel="noopener noreferrer" class="restaurant-link">
+									📋 Carta
+								</a>
+							)}
+							{restaurantLinks.instagram && (
+								<a href={restaurantLinks.instagram} target="_blank" rel="noopener noreferrer" class="restaurant-link">
+									📸 Instagram
+								</a>
+							)}
+							{restaurantLinks.googleMaps && (
+								<a href={restaurantLinks.googleMaps} target="_blank" rel="noopener noreferrer" class="restaurant-link">
+									🗺️ Google Maps
+								</a>
+							)}
+						</nav>
+					)}
+
+					{/* Compartir en redes */}
+					<ShareButtons
+						url={Astro.url.href}
+						title={`${title} — Mesa para MiLu`}
+						description={description}
+					/>
+
 				</div>
 			</article>
 		</main>

@@ -1,0 +1,121 @@
+---
+/**
+ * InstagramEmbed — Displays an embedded Instagram post + trending badge.
+ *
+ * Uses the oEmbed format (no API token needed for the embed itself).
+ * Queries /api/instagram-views for impressions if instagramPostId is provided.
+ *
+ * Props:
+ *   instagramPostId — The numeric ID of the Instagram media (from frontmatter)
+ */
+interface Props {
+  instagramPostId?: string;
+}
+
+const { instagramPostId } = Astro.props;
+---
+
+{instagramPostId && (
+  <div class="instagram-section">
+    <h3>📸 En Instagram</h3>
+
+    {/* oEmbed iframe — Instagram post embed */}
+    <div class="instagram-embed" id={`ig-embed-${instagramPostId}`}>
+      <blockquote
+        class="instagram-media"
+        data-instgrm-permalink={`https://www.instagram.com/p/${instagramPostId}/`}
+        data-instgrm-version="14"
+        style="max-width:540px; margin:0 auto;"
+      >
+        <a href={`https://www.instagram.com/p/${instagramPostId}/`} target="_blank" rel="noopener noreferrer">
+          Ver esta publicación en Instagram
+        </a>
+      </blockquote>
+    </div>
+
+    {/* Views & trending badge — populated by client-side JS */}
+    <div class="instagram-stats" id={`ig-stats-${instagramPostId}`} style="display:none;">
+      <span class="ig-views" id={`ig-views-${instagramPostId}`}></span>
+      <span class="ig-trending-badge" id={`ig-trending-${instagramPostId}`} style="display:none;">
+        🔥 Tendencia
+      </span>
+    </div>
+  </div>
+)}
+
+{instagramPostId && (
+  <script is:inline define:vars={{ instagramPostId }}>
+    // Load Instagram embed script
+    (function() {
+      if (!document.getElementById('instagram-embed-script')) {
+        const s = document.createElement('script');
+        s.id = 'instagram-embed-script';
+        s.async = true;
+        s.defer = true;
+        s.src = 'https://www.instagram.com/embed.js';
+        document.body.appendChild(s);
+      } else if (window.instgrm) {
+        window.instgrm.Embeds.process();
+      }
+
+      // Fetch views from our API
+      fetch(`/api/instagram-views?postId=${instagramPostId}`)
+        .then(r => r.json())
+        .then(data => {
+          const statsEl = document.getElementById(`ig-stats-${instagramPostId}`);
+          const viewsEl = document.getElementById(`ig-views-${instagramPostId}`);
+          const trendingEl = document.getElementById(`ig-trending-${instagramPostId}`);
+
+          if (data.configured && data.impressions > 0) {
+            statsEl.style.display = '';
+            viewsEl.textContent = `👁️ ${data.impressions.toLocaleString('es-ES')} visualizaciones`;
+
+            if (data.isTrending) {
+              trendingEl.style.display = '';
+            }
+          }
+        })
+        .catch(() => {
+          // Silently fail — Instagram integration is optional
+        });
+    })();
+  </script>
+)}
+
+<style>
+  .instagram-section {
+    margin: 2rem 0;
+    padding: 1.5rem;
+    background: rgba(var(--accent-rgb), 0.05);
+    border-radius: 12px;
+    border: 1px solid rgba(var(--accent-rgb), 0.1);
+  }
+  .instagram-section h3 {
+    margin: 0 0 1rem 0;
+    font-size: 1.2rem;
+  }
+  .instagram-embed {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1rem;
+  }
+  .instagram-stats {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    font-size: 0.9rem;
+    color: rgb(var(--gray));
+  }
+  .ig-views {
+    font-weight: 500;
+  }
+  .ig-trending-badge {
+    font-size: 0.8rem;
+    font-weight: 600;
+    padding: 0.2rem 0.6rem;
+    border-radius: 999px;
+    background: rgba(255, 69, 0, 0.85);
+    color: #fff;
+  }
+</style>

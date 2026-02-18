@@ -1,12 +1,16 @@
 ---
+import Newsletter from './Newsletter.astro';
 const today = new Date();
 ---
 
 <footer>
-	&copy; {today.getFullYear()} Mesa para MiLu. Todos los derechos reservados.
+	<!-- <Newsletter compact /> -->
+	<div class="footer-copy">
+		&copy; {today.getFullYear()} Mesa para MiLu. Todos los derechos reservados.
+	</div>
 	<div class="social-links">
-		<a href="https://www.instagram.com/miguelkh94/" target="_blank">
-				<span class="sr-only">Siguemos en Instagram</span>
+		<a href="https://www.instagram.com/miguelkh94/" target="_blank" rel="noopener noreferrer">
+				<span class="sr-only">Síguenos en Instagram</span>
 				<svg viewBox="0 0 22 22" aria-hidden="true" width="34" height="34">
 					<path 
 						fill="currentColor"
@@ -14,7 +18,7 @@ const today = new Date();
 					</path>
 				</svg>
 			</a>
-			<a href="https://x.com/luciaa_bp" target="_blank">
+			<a href="https://x.com/luciaa_bp" target="_blank" rel="noopener noreferrer">
 				<span class="sr-only">En X</span>
 				<svg viewBox="0 0 16 16" aria-hidden="true" width="32" height="32"
 					><path
@@ -23,7 +27,7 @@ const today = new Date();
 					></path></svg
 				>
 			</a>
-			<a href="https://github.com/Khondax" target="_blank">
+			<a href="https://github.com/Khondax" target="_blank" rel="noopener noreferrer">
 				<span class="sr-only">Github</span>
 				<svg viewBox="0 0 16 16" aria-hidden="true" width="34" height="34"
 					><path
@@ -37,9 +41,10 @@ const today = new Date();
 <style>
 	footer {
 		padding: 2em 1em 6em 1em;
-		background: linear-gradient(var(--gray-gradient)) no-repeat;
+		background: rgb(var(--surface));
 		color: rgb(var(--gray));
 		text-align: center;
+		transition: background 0.3s ease;
 	}
 	.social-links {
 		display: flex;

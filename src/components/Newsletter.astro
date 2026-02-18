@@ -1,0 +1,135 @@
+---
+/**
+ * Newsletter — Formulario de suscripción via Buttondown.
+ *
+ * Cuando se configure la cuenta Buttondown, solo necesitas:
+ *   1. Crear una cuenta en https://buttondown.com
+ *   2. Reemplazar TU_USUARIO abajo con tu username de Buttondown
+ *
+ * El componente funciona sin JS — pure HTML form → Buttondown endpoint.
+ */
+interface Props {
+  /** Texto del encabezado. Default: newsletter title */
+  heading?: string;
+  /** Subtítulo descriptivo */
+  subtitle?: string;
+  /** Si es true, muestra un diseño compacto (para footer) */
+  compact?: boolean;
+}
+
+const {
+  heading = '📬 No te pierdas ninguna reseña',
+  subtitle = 'Recibe las mejores reseñas y descubrimientos directamente en tu email.',
+  compact = false,
+} = Astro.props;
+
+// TODO: Replace with your Buttondown username once account is created
+const BUTTONDOWN_USER = 'mesaparamilu';
+---
+
+<section class:list={['newsletter', { 'newsletter-compact': compact }]}>
+  {!compact && <h3 class="newsletter-heading">{heading}</h3>}
+  <p class="newsletter-subtitle">{compact ? heading : subtitle}</p>
+  <form
+    action={`https://buttondown.com/api/emails/embed-subscribe/${BUTTONDOWN_USER}`}
+    method="post"
+    target="_blank"
+    class="newsletter-form"
+    novalidate
+  >
+    <label for="newsletter-email" class="sr-only">Tu email</label>
+    <input
+      type="email"
+      name="email"
+      id="newsletter-email"
+      placeholder="tu@email.com"
+      required
+      autocomplete="email"
+      class="newsletter-input"
+    />
+    <button type="submit" class="newsletter-btn">
+      Suscribirse
+    </button>
+  </form>
+  <p class="newsletter-disclaimer">
+    Sin spam. Cancela cuando quieras. Usamos <a href="https://buttondown.com" target="_blank" rel="noopener noreferrer">Buttondown</a>.
+  </p>
+</section>
+
+<style>
+  .newsletter {
+    margin: 2.5rem 0;
+    padding: 2rem;
+    background: rgba(var(--accent-rgb), 0.06);
+    border: 1px solid rgba(var(--accent-rgb), 0.12);
+    border-radius: 12px;
+    text-align: center;
+  }
+  .newsletter-compact {
+    margin: 1rem 0;
+    padding: 1.25rem;
+  }
+  .newsletter-heading {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.4rem;
+    color: rgb(var(--black));
+  }
+  .newsletter-subtitle {
+    margin: 0 0 1rem 0;
+    font-size: 0.95rem;
+    color: rgb(var(--gray));
+  }
+  .newsletter-compact .newsletter-subtitle {
+    margin-bottom: 0.75rem;
+    font-weight: 600;
+    color: rgb(var(--gray-dark));
+  }
+  .newsletter-form {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    max-width: 480px;
+    margin: 0 auto;
+  }
+  .newsletter-input {
+    flex: 1;
+    min-width: 200px;
+    padding: 0.6rem 1rem;
+    border: 1px solid rgba(var(--gray), 0.3);
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-family: inherit;
+    background: rgb(var(--bg));
+    color: rgb(var(--gray-dark));
+    transition: border-color 0.2s;
+  }
+  .newsletter-input:focus {
+    outline: none;
+    border-color: var(--accent);
+  }
+  .newsletter-btn {
+    padding: 0.6rem 1.5rem;
+    border: none;
+    border-radius: 8px;
+    background: var(--accent);
+    color: #fff;
+    font-size: 0.9rem;
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+    transition: opacity 0.2s;
+    white-space: nowrap;
+  }
+  .newsletter-btn:hover {
+    opacity: 0.85;
+  }
+  .newsletter-disclaimer {
+    margin: 0.75rem 0 0 0;
+    font-size: 0.75rem;
+    color: rgb(var(--gray));
+  }
+  .newsletter-disclaimer a {
+    color: var(--accent);
+  }
+</style>

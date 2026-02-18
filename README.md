@@ -1,11 +1,112 @@
 # Tareas pendientes ✅❌
-- ✅❌ Retocar la landing page, poner las 10 últimas reseñas destacadas?
-- ❌ Índice con buscador y mapa? Añadir parámetros a cada reseña
-- ❌ Mejorar estilos y "sobre nosotros", añadir info sobre nosotros pero yo no se si quiero mi perfil
-      en redes (aunque se pueda alcanzar)
-- ❌ Integración con redes sociales?
-- ❌ Despliegue automático en vercel/otros? con github actions
-- ❌ Añadir métricas de uso/clicks
+1. ✅ Retocar la landing page, poner las 10 últimas reseñas destacadas.
+2. ✅ Índice con buscador y mapa. Añadir parámetros a cada reseña.
+3. ✅ Mejorar estilos y "sobre nosotros", añadir info sobre nosotros pero enlazar un perfil independiente (aunque se puedan alcanzar los nuestros).
+4. ✅ Integración con redes sociales.
+5. ✅ Despliegue automático en Vercel/otros.
+6. ✅ Añadir métricas de uso/clicks.
+
+
+FUTUROS PASOS:
+Para desplegar:
+Conecta el repo en vercel.com → Import Project
+Cambia site: 'https://example.com' en astro.config.mjs por tu dominio real
+(Opcional) Configura INSTAGRAM_ACCESS_TOKEN en Vercel → Settings → Environment Variables
+(Opcional) Crea cuenta en Buttondown y verifica el username en Newsletter.astro
+
+---
+
+### Ideas ampliadas para la web
+
+1. Filtros avanzados: buscar por tipo de cocina, rango de precio, ubicación o ambiente.
+2. Mapa interactivo: mostrar todos los restaurantes reseñados con pins y acceso directo a cada reseña.
+3. Sección de “Favoritos” (designados manualmente) y “Más visitados/Tendencia”:
+	 - Favoritos: campo `favorite: true` en el frontmatter del MDX.
+	 - Tendencia: se puede marcar manualmente (`trending: true`) o automáticamente si el post de Instagram asociado supera 1000 visualizaciones.
+	 - Para automatización, cada reseña puede tener un campo `instagramPostId` en el frontmatter.
+	 - Ejemplo de frontmatter:
+		 ```mdx
+		 ---
+		 title: "Restaurante Ejemplo"
+		 favorite: true
+		 instagramPostId: "12345678901234567"
+		 ---
+		 ```
+	 - En la web, una función serverless consulta la API de Instagram y muestra la insignia “Tendencia” si corresponde.
+	 - Ejemplo de integración en Astro:
+		 ```astro
+		 ---
+		 // CardReview.astro
+		 const { instagramPostId } = Astro.props;
+		 const [views, setViews] = Astro.useState(0);
+		 const [isTrending, setIsTrending] = Astro.useState(false);
+
+		 Astro.useEffect(async () => {
+			 if (instagramPostId) {
+				 const res = await fetch(`/api/instagram-views?postId=${instagramPostId}`);
+				 const data = await res.json();
+				 setViews(data.impressions);
+				 setIsTrending(data.impressions > 1000);
+			 }
+		 }, []);
+		 ---
+		 <article>
+			 {/* ...otros datos... */}
+			 {isTrending && <span class="badge">Tendencia</span>}
+			 <p>Visualizaciones en Instagram: {views}</p>
+		 </article>
+		 ```
+4. Valoraciones visuales: iconos o gráficos para comida, servicio, ambiente y calidad-precio.
+5. Reseñas solo del autor: todas las reseñas se crean en MDX, no se permite envío de reseñas por lectores.
+6. Integración con Instagram Stories: embeber historias o reels destacados.
+7. Enlaces rápidos: acceso a web, reservas, carta online o redes sociales del restaurante.
+8. Sugerencias aleatorias: botón “sorpréndeme” que muestra una reseña al azar.
+		- El botón permite primero elegir una localidad (por ejemplo, mediante un select con todas las localidades disponibles extraídas de los MDX).
+		- Al seleccionar una localidad, se filtran las reseñas por el campo `locality` y se elige una al azar entre las de esa zona.
+		- Ejemplo de flujo:
+			1. El usuario pulsa “sorpréndeme”.
+			2. Se muestra un desplegable con las localidades disponibles.
+			3. Al elegir una, se selecciona aleatoriamente una reseña de esa localidad y se muestra o redirige a su página.
+		- Ejemplo de código (Astro + JS):
+			```astro
+			---
+			import { getCollection } from 'astro:content';
+			const reviews = await getCollection('reviews');
+			const localidades = [...new Set(reviews.map(r => r.data.locality))];
+			---
+			<select id="locality-select">
+				<option value="">Elige una localidad</option>
+				{localidades.map(loc => <option value={loc}>{loc}</option>)}
+			</select>
+			<button id="sorprendeme">Sorpréndeme</button>
+			<script type="module">
+				const reviews = JSON.parse('{JSON.stringify(reviews)}');
+				document.getElementById('sorprendeme').onclick = () => {
+					const loc = document.getElementById('locality-select').value;
+					if (!loc) return alert('Selecciona una localidad');
+					const filtradas = reviews.filter(r => r.data.locality === loc);
+					if (!filtradas.length) return alert('No hay reseñas en esa localidad');
+					const random = filtradas[Math.floor(Math.random() * filtradas.length)];
+					window.location.href = `/reviews/${random.slug}/`;
+				};
+			</script>
+			```
+		- Así el usuario puede descubrir restaurantes cercanos de forma divertida y personalizada.
+9. Sección de anécdotas: curiosidades o experiencias divertidas en los restaurantes.
+10. Newsletter: opción para recibir novedades o mejores reseñas por email.
+	 - Puedes implementar un formulario simple para que los usuarios dejen su email (por ejemplo, usando un servicio externo como Mailchimp, Buttondown, Brevo, TinyLetter, etc.).
+	 - El formulario solo necesita enviar el email a la plataforma elegida, sin almacenar datos en tu web.
+	 - Ejemplo de integración con Mailchimp (HTML):
+		 ```html
+		 <form action="https://tulista.usX.list-manage.com/subscribe/post?u=XXXX&amp;id=YYYY" method="post" target="_blank" novalidate>
+			 <input type="email" name="EMAIL" placeholder="Tu email" required />
+			 <button type="submit">Suscribirse</button>
+		 </form>
+		 ```
+	 - Puedes personalizar el diseño y el mensaje de confirmación.
+	 - Ventajas: no necesitas backend propio, cumples RGPD y puedes gestionar campañas fácilmente desde la plataforma elegida.
+11. Accesibilidad: contraste, textos alternativos, navegación sencilla.
+12. Modo oscuro/claro: cambio de tema visual según preferencia del usuario.
 
 
 ## 🚀 Estructura del proyecto
@@ -14,13 +115,25 @@ Dentro del proyecto de Astro se encuentran las siguientes carpetas y ficheros:
 
 ```text
 ├── public/
+│   └── fonts/
 ├── src/
-│   ├── components/
-│   ├── content/
-│   ├── layouts/
-│   └── pages/
+│   ├── components/       # BaseHead, Header, Footer, CardReview, Newsletter, ShareButtons, ThemeToggle, InstagramEmbed…
+│   ├── content/
+│   │   ├── recipes/      # Colección de recetas (Markdown)
+│   │   └── reviews/      # Colección de reseñas (MDX)
+│   ├── layouts/          # ReviewPost.astro
+│   ├── pages/
+│   │   ├── api/          # Endpoints serverless (Instagram views)
+│   │   ├── recipes/      # Listado + detalle de recetas
+│   │   ├── reviews/      # Listado + detalle de reseñas
+│   │   ├── buscar.astro  # Buscador con filtros + mapa + sorpréndeme
+│   │   └── index.astro   # Landing page
+│   ├── styles/           # global.css (temas claro/oscuro)
+│   └── types/            # Tipos TypeScript
+├── .env.example          # Variables de entorno documentadas
+├── .github/workflows/    # CI (build + test + type-check)
 ├── astro.config.mjs
-├── README.md
+├── vitest.config.ts
 ├── package.json
 └── tsconfig.json
 ```
@@ -45,8 +158,11 @@ All commands are run from the root of the project, from a terminal:
 | `npm run dev`             | Inicia el servidor local de desarrollo en `localhost:4321`   |
 | `npm run build`           | Compila la versión de producción en `./dist/`                |
 | `npm run preview`         | Vista previa de tu build, antes del despliegue               |
+| `npm run test`            | Ejecuta tests en modo watch (Vitest)                         |
+| `npm run test:run`        | Ejecuta tests una sola vez                                   |
+| `npm run test:coverage`   | Tests con reporte de cobertura                               |
+| `npm run check`           | Type-check con `astro check`                                 |
 | `npm run astro ...`       | Ejecuta comandos de Astro como `astro add...`, `astro check` |
-| `npm run astro -- --help` | Obtiene ayuda de los comandos de Astro                       |
 
 
 ## Créditos

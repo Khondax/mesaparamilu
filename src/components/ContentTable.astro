@@ -1,51 +1,16 @@
 ---
-import { type Review } from '../types/review';
 import { getCollection } from 'astro:content';
 import CardReview from './CardReview.astro';
 
-const collectionReviews = (await getCollection('reviews')).sort(
+const reviews = (await getCollection('reviews')).sort(
 	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
-) as unknown as Review[];
-
-// console.log(collectionReviews)
-
-// function myFunction() {
-//   // Declare variables
-//   var input, filter, table, tr, td, i, txtValue;
-//   input = document.getElementById("myInput");
-//   filter = input.value.toUpperCase();
-//   table = document.getElementById("myTable");
-//   tr = table.getElementsByTagName("tr");
-
-//   // Loop through all table rows, and hide those who don't match the search query
-//   for (i = 0; i < tr.length; i++) {
-//     td = tr[i].getElementsByTagName("td")[0];
-//     if (td) {
-//       txtValue = td.textContent || td.innerText;
-//       if (txtValue.toUpperCase().indexOf(filter) > -1) {
-//         tr[i].style.display = "";
-//       } else {
-//         tr[i].style.display = "none";
-//       }
-//     }
-//   }
-// }
+);
 ---
 
 <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
   {
-		collectionReviews.map(review => (
-			<CardReview 
-				id={review.id}
-				title={review.data.title}
-				description={review.data.description}
-				pubDate={review.data.pubDate}
-				visitDate={review.data.visitDate}
-				image={review.data.image}
-				averagePrice={review.data.averagePrice}
-				categoryArray={review.data.categoryArray}
-				important={review.data.important}
-			/>
+		reviews.map((review) => (
+			<CardReview id={review.id} {...review.data} />
 		))
 	}
 </div>

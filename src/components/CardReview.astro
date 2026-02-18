@@ -1,35 +1,188 @@
 ---
-interface Props {
-  id: string
-  title: string
-  description: string
-  pubDate: string
-  visitDate?: string
-  image?: string
-  averagePrice?: number
-  categoryArray?: string[]
-  important?: boolean
+import type { ReviewData } from '../types/review';
+
+interface Props extends ReviewData {
+  id: string;
 }
 
-const { id, title, description, pubDate, visitDate, image, averagePrice, categoryArray, important } = Astro.props
+const {
+  id,
+  title,
+  description,
+  image,
+  locality,
+  averagePrice,
+  categoryArray,
+  favorite,
+  trending,
+  rating,
+} = Astro.props;
 
+/** Calcula la media de las 4 dimensiones del rating */
+function averageRating(r: ReviewData['rating']): string {
+  if (!r) return '—';
+  const avg = (r.food + r.service + r.ambiance + r.value) / 4;
+  return avg.toFixed(1);
+}
 ---
 
 <a
-  href={`/reviews/${id}`}
-  class="rounded-lg border shadow-md bg-gray-800 border-gray-700
-  hover:scale-105 hover:bg-gray-700 hover:border-gray-500 transition flex
-  flex-col"
+  href={`/reviews/${id}/`}
+  class="card"
 >
+  {/* Badges */}
+  <div class="badges">
+    {favorite && <span class="badge badge-fav">⭐ Favorito</span>}
+    {trending && <span class="badge badge-trend">🔥 Tendencia</span>}
+  </div>
 
-  <picture class="flex justify-center p-4">
-    <img class="mb-5 rounded-lg" src={image} alt={`Restaurante ${title}`} />
+  {/* Imagen */}
+  <picture class="card-image">
+    <img src={image} alt={`Restaurante ${title}`} loading="lazy" />
   </picture>
 
-  <header class="p-4 flex-grow">
-    <h2 class="my-2 text-2xl font-bold tracking-tight text-white">
-      Restaurante {title}
-    </h2>
-  </header>
+  {/* Contenido */}
+  <div class="card-body">
+    <h3 class="card-title">{title}</h3>
 
+    {locality && <p class="card-locality">📍 {locality}</p>}
+
+    <p class="card-description">{description}</p>
+
+    {/* Categorías */}
+    {categoryArray && categoryArray.length > 0 && (
+      <div class="card-tags">
+        {categoryArray.map((cat) => (
+          <span class="tag">{cat}</span>
+        ))}
+      </div>
+    )}
+
+    {/* Pie: precio y rating */}
+    <div class="card-footer">
+      {averagePrice && <span class="card-price">~{averagePrice}€/persona</span>}
+      {rating && <span class="card-rating">⭐ {averageRating(rating)}</span>}
+    </div>
+  </div>
 </a>
+
+<style>
+  .card {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    border-radius: 12px;
+    overflow: hidden;
+    background: rgb(var(--surface));
+    box-shadow: var(--box-shadow);
+    text-decoration: none;
+    color: rgb(var(--gray-dark));
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.3s ease;
+  }
+  .card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  }
+
+  .badges {
+    position: absolute;
+    top: 0.75rem;
+    left: 0.75rem;
+    display: flex;
+    gap: 0.4rem;
+    z-index: 2;
+  }
+  .badge {
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.2rem 0.6rem;
+    border-radius: 999px;
+    backdrop-filter: blur(4px);
+  }
+  .badge-fav {
+    background: rgba(255, 215, 0, 0.85);
+    color: #333;
+  }
+  .badge-trend {
+    background: rgba(255, 69, 0, 0.85);
+    color: #fff;
+  }
+
+  .card-image {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+  }
+  .card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+  }
+  .card:hover .card-image img {
+    transform: scale(1.05);
+  }
+
+  .card-body {
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    flex-grow: 1;
+  }
+
+  .card-title {
+    margin: 0;
+    font-size: 1.25rem;
+    line-height: 1.3;
+    color: rgb(var(--black));
+  }
+
+  .card-locality {
+    margin: 0;
+    font-size: 0.85rem;
+    color: rgb(var(--gray));
+  }
+
+  .card-description {
+    margin: 0;
+    font-size: 0.9rem;
+    color: rgb(var(--gray));
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .card-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem;
+  }
+  .tag {
+    font-size: 0.7rem;
+    padding: 0.15rem 0.5rem;
+    background: rgba(var(--accent-rgb), 0.15);
+    color: var(--accent);
+    border-radius: 999px;
+    font-weight: 500;
+    text-transform: capitalize;
+  }
+
+  .card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: auto;
+    padding-top: 0.5rem;
+    border-top: 1px solid rgba(var(--gray-light), 0.5);
+    font-size: 0.85rem;
+    font-weight: 600;
+  }
+  .card-price {
+    color: rgb(var(--gray-dark));
+  }
+  .card-rating {
+    color: var(--accent);
+  }
+</style>

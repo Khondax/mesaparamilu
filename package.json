@@ -7,14 +7,25 @@
     "dev-expose": "astro dev --host",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "test": "vitest",
+    "test:run": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "check": "astro check"
   },
   "dependencies": {
     "@astrojs/mdx": "^4.2.6",
     "@astrojs/rss": "^4.0.11",
     "@astrojs/sitemap": "^3.4.0",
+    "@astrojs/vercel": "^9.0.4",
     "@tailwindcss/vite": "^4.1.12",
     "astro": "^5.7.14",
     "tailwindcss": "^4.1.12"
+  },
+  "devDependencies": {
+    "@testing-library/dom": "^10.4.1",
+    "gray-matter": "^4.0.3",
+    "happy-dom": "^20.6.1",
+    "vitest": "^4.0.18"
   }
 }

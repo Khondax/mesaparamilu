@@ -1,33 +1,12 @@
-export type Review = {
-    id:         string;
-    data:       Data;
-    body:       string;
-    filePath:   string;
-    digest:     string;
-    rendered:   Rendered;
-    collection: string;
-}
+/**
+ * Tipos de Review derivados de la colección de contenido de Astro.
+ * No mantener tipos manuales — usar siempre los inferidos del schema
+ * o los proporcionados por CollectionEntry.
+ */
+import type { CollectionEntry } from 'astro:content';
 
-export type Data = {
-    title:          string;
-    description:    string;
-    pubDate:        string;
-    visitDate?:     string;
-    image:          string;
-    averagePrice?:  number;
-    categoryArray?: string[];
-    important?:     boolean;
-}
+/** Datos del frontmatter de una review (inferido de la colección) */
+export type ReviewData = CollectionEntry<'reviews'>['data'];
 
-export type Rendered = {
-    html:     string;
-    metadata: Metadata;
-}
-
-export type Metadata = {
-    headings:         any[];
-    localImagePaths:  any[];
-    remoteImagePaths: any[];
-    frontmatter:      Data;
-    imagePaths:       any[];
-}
+/** Entry completa de una review (id, data, body, render, etc.) */
+export type ReviewEntry = CollectionEntry<'reviews'>;

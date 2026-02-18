@@ -63,7 +63,7 @@ const posts = (await getCollection('recipes')).sort(
 			}
 			ul li a:hover h4,
 			ul li a:hover .date {
-				color: rgb(var(--accent));
+				color: var(--accent);
 			}
 			ul a:hover img {
 				box-shadow: var(--box-shadow);
@@ -87,7 +87,7 @@ const posts = (await getCollection('recipes')).sort(
 	</head>
 	<body>
 		<Header />
-		<main>
+		<main id="main-content">
 			<section>
 				<ul>
 					{
