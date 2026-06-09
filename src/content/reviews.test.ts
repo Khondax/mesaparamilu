@@ -13,10 +13,10 @@ import matter from 'gray-matter';
 
 // Replicate the review schema (mirrors content.config.ts)
 const ratingSchema = z.object({
-	food: z.number().min(1).max(5),
-	service: z.number().min(1).max(5),
-	ambiance: z.number().min(1).max(5),
-	value: z.number().min(1).max(5),
+	food: z.number().min(1).max(10),
+	service: z.number().min(1).max(10),
+	ambiance: z.number().min(1).max(10),
+	value: z.number().min(1).max(10),
 });
 
 const coordinatesSchema = z.object({
@@ -84,12 +84,12 @@ describe('Reviews Collection Schema', () => {
 				}
 			});
 
-			it('rating tiene valores en rango 1-5 si existe', () => {
+			it('rating tiene valores en rango 1-10 si existe', () => {
 				if (frontmatter.rating && typeof frontmatter.rating === 'object') {
 					const rating = frontmatter.rating as Record<string, number>;
 					for (const [key, val] of Object.entries(rating)) {
 						expect(val, `rating.${key}`).toBeGreaterThanOrEqual(1);
-						expect(val, `rating.${key}`).toBeLessThanOrEqual(5);
+						expect(val, `rating.${key}`).toBeLessThanOrEqual(10);
 					}
 				}
 			});

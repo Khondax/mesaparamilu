@@ -28,12 +28,12 @@ const {
 	instagramPostId,
 } = Astro.props;
 
-/** Renderiza estrellas visuales para una puntuación 1-5 */
+/** Renderiza estrellas visuales para una puntuación 1-10 */
 function renderStars(score: number): string {
-	const full = Math.floor(score);
-	const half = score % 1 >= 0.5 ? 1 : 0;
-	const empty = 5 - full - half;
-	return '★'.repeat(full) + (half ? '½' : '') + '☆'.repeat(empty);
+	// const half = score % 2 >= 1 ? 1 : 0;
+	// const empty = 10 - score - half;
+	// return '★'.repeat(score) + (half ? '½' : '') + '☆'.repeat(empty);
+	return `${score}★`
 }
 ---
 
@@ -147,7 +147,7 @@ function renderStars(score: number): string {
 			}
 			.rating-item {
 				display: flex;
-				justify-content: space-between;
+				justify-content: space-evenly;
 				align-items: center;
 				font-size: 0.9rem;
 			}
@@ -157,6 +157,7 @@ function renderStars(score: number): string {
 			}
 			.rating-stars {
 				color: var(--accent);
+				align-items: left;
 				letter-spacing: 2px;
 			}
 

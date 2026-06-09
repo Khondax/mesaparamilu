@@ -133,6 +133,18 @@ Recomendaciones:
 
 - Incluir siempre campos SEO y de publicación obligatorios.
 - Revisar accesibilidad de imágenes y embeds.
+- Mantener una estructura editorial consistente entre reseñas: introducción, local, propuesta gastronómica, platos, servicio y conclusión.
+- Usar la plantilla base en `src/content/templates/restaurant-review-template.md` como punto de partida antes de crear nuevas reseñas.
+
+### `src/content/templates/`
+
+Contiene plantillas editoriales reutilizables para crear contenido nuevo sin afectar directamente a las colecciones publicadas.
+
+Recomendaciones:
+
+- Guardar aquí las bases de nuevas reseñas, artículos o formatos repetibles.
+- Mantener ejemplos de frontmatter alineados con `content.config.ts`.
+- Incluir snippets listos para copiar de imágenes, secciones y buenas prácticas de redacción.
 
 ### `src/layouts/`
 

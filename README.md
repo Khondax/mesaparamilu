@@ -5,6 +5,13 @@
 4. ✅ Integración con redes sociales.
 5. ✅ Despliegue automático en Vercel/otros.
 6. ✅ Añadir métricas de uso/clicks.
+7. ✅ Cambiar el nombre de MesaParaMilu? quizá algo más pegadizo?... algo más corto en general es mejor.... ¡¡ARS CULINARIA!! ("arte culinario" o "gastronomía") Variante: Ignis Culinaria ("el fuego de la cocina" o "fuego culinario")
+8. ❌ Crear una estructura de .md, tipo plantilla, con buenas prácticas y código insertable (para imágenes), sobre la que crear cada reseña de un restaurante. Sobre como rellenar los metadatos, introducción al restaurante, hablar del local, cada plato, servicio, etc etc.
+9. ❌ Currar en la interfaz (Stitch?), es un proyecto 100% frontend, no necesita lógica prácticamente, pero si cosas bonitas, transiciones...
+10. ❌ Mejorar el filtrado de restaurantes y añadir más categorías (montar categorías dinámicas? así cada vez que se añade una al listado general los restaurantes que la contengan con referenciables).
+11. ❌ .
+12. ❌ .
+13. ❌ Poner ArsCulinaria en marcha.
 
 
 FUTUROS PASOS:

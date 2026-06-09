@@ -1,12 +1,12 @@
 import { glob } from 'astro/loaders';
 import { defineCollection, z } from 'astro:content';
 
-/** Sub-schema: ratings por dimensión (1-5) */
+/** Sub-schema: ratings por dimensión (1-10) */
 const ratingSchema = z.object({
-	food: z.number().min(1).max(5),
-	service: z.number().min(1).max(5),
-	ambiance: z.number().min(1).max(5),
-	value: z.number().min(1).max(5),
+	food: z.number().min(1).max(10),
+	service: z.number().min(1).max(10),
+	ambiance: z.number().min(1).max(10),
+	value: z.number().min(1).max(10),
 }).optional();
 
 /** Sub-schema: enlaces del restaurante */
