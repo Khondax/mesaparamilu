@@ -1,322 +1,253 @@
 # Reglas de Desarrollo para Astro
 
-Este documento contiene las directrices, buenas prácticas y estándares de testing para el desarrollo en este proyecto Astro.
+Este documento define las directrices de desarrollo del proyecto, alineadas con las skills instaladas y con la estructura real del repositorio.
 
-## Estructura del Proyecto
+# Comportamiento
 
-```
-src/
-├── components/     # Componentes reutilizables (.astro)
-├── content/        # Colecciones de contenido (Markdown/MDX)
-├── layouts/        # Layouts base para páginas
-├── pages/          # Rutas del sitio (file-based routing)
-├── styles/         # Estilos globales
-└── types/          # Tipos TypeScript
-public/             # Assets estáticos (fuentes, imágenes)
-```
+Behavioral guidelines to reduce common LLM coding mistakes.
 
----
+## 1. Think Before Coding
 
-## Buenas Prácticas de Desarrollo
+Don't assume. Don't hide confusion. Surface tradeoffs.
 
-### 1. Componentes Astro
+Before implementing:
+- State your assumptions explicitly. If uncertain, ask.
+- If multiple interpretations exist, present them - don't pick silently.
+- If a simpler approach exists, say so. Push back when warranted.
+- If something is unclear, stop. Name what's confusing. Ask.
 
-- **Separación de responsabilidades**: Mantén la lógica en el frontmatter (`---`) y el markup en el template.
-- **Props tipadas**: Siempre define las props con TypeScript.
+## 2. Simplicity First
 
-```astro
----
-interface Props {
-  title: string;
-  description?: string;
-  date: Date;
-}
+Minimum code that solves the problem. Nothing speculative.
 
-const { title, description, date } = Astro.props;
----
+- No features beyond what was asked.
+- No abstractions for single-use code.
+- No "flexibility" or "configurability" that wasn't requested.
+- No error handling for impossible scenarios.
+- If you write 200 lines and it could be 50, rewrite it.
 
-<article>
-  <h1>{title}</h1>
-  {description && <p>{description}</p>}
-</article>
-```
+Ask yourself: "Would a senior engineer say this is overcomplicated?" If yes, simplify.
 
-- **Nombrado**: Usa PascalCase para componentes (`CardReview.astro`, `BaseHead.astro`).
-- **Slots**: Utiliza slots para composición flexible.
+## 3. Surgical Changes
 
-```astro
----
-// Layout.astro
----
-<html>
-  <body>
-    <slot name="header" />
-    <main>
-      <slot />
-    </main>
-    <slot name="footer" />
-  </body>
-</html>
-```
+Touch only what you must. Clean up only your own mess.
 
-### 2. Content Collections
+When editing existing code:
+- Don't "improve" adjacent code, comments, or formatting.
+- Don't refactor things that aren't broken.
+- Match existing style, even if you'd do it differently.
+- If you notice unrelated dead code, mention it - don't delete it.
 
-- **Schemas validados**: Define schemas con Zod en `content.config.ts` para validar el frontmatter.
-- **Organización**: Agrupa contenido relacionado en colecciones separadas (`recipes/`, `reviews/`).
-- **Frontmatter consistente**: Mantén estructura uniforme en todos los archivos de una colección.
+When your changes create orphans:
+- Remove imports/variables/functions that YOUR changes made unused.
+- Don't remove pre-existing dead code unless asked.
 
-```typescript
-// content.config.ts
-import { defineCollection, z } from 'astro:content';
+The test: Every changed line should trace directly to the user's request.
 
-const reviews = defineCollection({
-  type: 'content',
-  schema: z.object({
-    title: z.string(),
-    description: z.string(),
-    pubDate: z.coerce.date(),
-    rating: z.number().min(1).max(5),
-    heroImage: z.string().optional(),
-  }),
-});
-```
+## 4. Goal-Driven Execution
 
-### 3. Páginas y Rutas
+Define success criteria. Loop until verified.
 
-- **Rutas dinámicas**: Usa `[...slug].astro` para rutas con parámetros.
-- **getStaticPaths**: Siempre retorna `params` y `props` para rutas dinámicas.
+Transform tasks into verifiable goals:
+- "Add validation" → "Write tests for invalid inputs, then make them pass"
+- "Fix the bug" → "Write a test that reproduces it, then make it pass"
+- "Refactor X" → "Ensure tests pass before and after"
 
-```astro
----
-export async function getStaticPaths() {
-  const posts = await getCollection('reviews');
-  return posts.map((post) => ({
-    params: { slug: post.slug },
-    props: post,
-  }));
-}
----
-```
-
-- **Prefetch**: Usa `data-astro-prefetch` para mejorar la navegación.
-
-### 4. Estilos
-
-- **Scoped styles**: Los estilos en componentes Astro son scoped por defecto.
-- **Variables CSS**: Define variables globales en `styles/global.css`.
-- **Mobile-first**: Diseña primero para móvil, luego escala.
-
-```astro
-<style>
-  /* Scoped al componente */
-  .card {
-    padding: var(--spacing-md);
-    border-radius: var(--border-radius);
-  }
-</style>
-```
-
-### 5. Performance
-
-- **Imágenes optimizadas**: Usa el componente `<Image />` de `astro:assets`.
-- **Carga diferida**: Aplica `loading="lazy"` a imágenes below-the-fold.
-- **Islands Architecture**: Hidrata solo los componentes interactivos necesarios.
-
-```astro
----
-import { Image } from 'astro:assets';
-import heroImage from '../assets/hero.jpg';
----
-
-<Image src={heroImage} alt="Hero" loading="eager" />
-```
-
-### 6. SEO y Accesibilidad
-
-- **Meta tags**: Incluye siempre `title`, `description`, y Open Graph tags.
-- **Semántica HTML**: Usa elementos semánticos (`<article>`, `<nav>`, `<main>`).
-- **Alt text**: Todas las imágenes deben tener texto alternativo descriptivo.
-- **Heading hierarchy**: Mantén jerarquía lógica de headings (h1 → h2 → h3).
-
-### 7. TypeScript
-
-- **Strict mode**: Mantén `strict: true` en `tsconfig.json`.
-- **Tipos explícitos**: Define interfaces para props y datos.
-- **Evita `any`**: Usa tipos específicos o `unknown` si es necesario.
-
-```typescript
-// types/review.ts
-export interface Review {
-  id: string;
-  title: string;
-  rating: number;
-  content: string;
-  publishedAt: Date;
-}
-```
+For multi-step tasks, state a brief plan:
+1. [Step] → verify: [check]
+2. [Step] → verify: [check]
+3. [Step] → verify: [check]
+Strong success criteria let you loop independently. Weak criteria ("make it work") require constant clarification.
 
 ---
 
-## Testing
+## Skills Instaladas en el Proyecto
 
-### Configuración de Vitest
+Skills detectadas en `skills-lock.json`:
 
-Instala las dependencias necesarias:
+- `accessibility` (addyosmani/web-quality-skills)
+- `astro` (astrolicious/agent-skills)
+- `deploy-to-vercel` (vercel-labs/agent-skills)
+- `frontend-design` (anthropics/skills)
+- `nodejs-backend-patterns` (wshobson/agents)
+- `nodejs-best-practices` (sickn33/antigravity-awesome-skills)
+- `seo` (addyosmani/web-quality-skills)
+- `tailwind-css-patterns` (giuseppe-trisciuoglio/developer-kit)
+- `typescript-advanced-types` (wshobson/agents)
+- `vitest` (antfu/skills)
 
-```bash
-npm install -D vitest @testing-library/dom happy-dom
-```
+### Cuándo usar cada skill
 
-Configura Vitest en `vitest.config.ts`:
+- UI y diseño visual: prioriza `frontend-design`; si usas utilidades CSS, combina con `tailwind-css-patterns`.
+- Desarrollo Astro: usa `astro` para rutas dinámicas, islands, markdown/MDX y assets.
+- API y lógica de servidor: usa `nodejs-backend-patterns` y `nodejs-best-practices` en endpoints de `src/pages/api`.
+- Tipado: usa `typescript-advanced-types` para contratos, utilidades y tipos genéricos complejos.
+- Calidad web: usa `accessibility` y `seo` como parte de la revisión previa a release.
+- Pruebas: usa `vitest` para tests unitarios y validación de contenido.
+- Deploy: usa `deploy-to-vercel` para despliegues preview y producción.
 
-```typescript
-import { getViteConfig } from 'astro/config';
+---
 
-export default getViteConfig({
-  test: {
-    include: ['src/**/*.{test,spec}.{js,ts}'],
-    environment: 'happy-dom',
-  },
-});
-```
+## Documentación de Carpetas en /src
 
-Añade el script en `package.json`:
+Todas las carpetas bajo `src/` deben tener propósito claro, responsabilidad única y convenciones consistentes.
 
-```json
-{
-  "scripts": {
-    "test": "vitest",
-    "test:run": "vitest run",
-    "test:coverage": "vitest run --coverage"
-  }
-}
-```
+### `src/components/`
 
-### Tests Unitarios
+Contiene componentes reutilizables de UI en Astro (`.astro`) como cabecera, pie, tarjetas, embeds y utilidades de render.
 
-Testea funciones de utilidad y lógica de negocio:
+Incluye ejemplos actuales: `BaseHead.astro`, `CardReview.astro`, `ContentTable.astro`, `Footer.astro`, `Header.astro`, `InstagramEmbed.astro`, `Newsletter.astro`, `ShareButtons.astro`, `ThemeToggle.astro`.
 
-```typescript
-// src/utils/formatDate.test.ts
-import { describe, it, expect } from 'vitest';
-import { formatDate } from './formatDate';
+Recomendaciones:
 
-describe('formatDate', () => {
-  it('formatea fecha correctamente', () => {
-    const date = new Date('2024-01-15');
-    expect(formatDate(date)).toBe('15 de enero de 2024');
-  });
+- Mantener componentes pequeños, con una responsabilidad principal.
+- Tipar siempre `Astro.props`.
+- Evitar lógica de negocio compleja dentro del marcado.
 
-  it('maneja fechas inválidas', () => {
-    expect(() => formatDate(null)).toThrow();
-  });
-});
-```
+### `src/content/`
 
-### Tests de Content Collections
+Almacena contenido editorial y pruebas de integridad de colecciones.
 
-Valida que el contenido cumple con los schemas:
+Incluye ejemplos actuales: `reviews.test.ts` y subcarpetas `recipes/`, `reviews/`.
 
-```typescript
-// src/content/reviews.test.ts
-import { describe, it, expect } from 'vitest';
-import { getCollection } from 'astro:content';
+Recomendaciones:
 
-describe('Reviews Collection', () => {
-  it('todas las reviews tienen campos requeridos', async () => {
-    const reviews = await getCollection('reviews');
-    
-    reviews.forEach((review) => {
-      expect(review.data.title).toBeDefined();
-      expect(review.data.pubDate).toBeInstanceOf(Date);
-    });
-  });
+- Frontmatter consistente entre archivos de una misma colección.
+- Validación de esquemas en `content.config.ts`.
+- Evitar mezclar código de UI dentro del contenido.
 
-  it('ratings están en rango válido', async () => {
-    const reviews = await getCollection('reviews');
-    
-    reviews.forEach((review) => {
-      if (review.data.rating) {
-        expect(review.data.rating).toBeGreaterThanOrEqual(1);
-        expect(review.data.rating).toBeLessThanOrEqual(5);
-      }
-    });
-  });
-});
-```
+### `src/content/recipes/`
 
-### Tests E2E con Playwright
+Contiene recetas en formato Markdown.
 
-Instala Playwright:
+Recomendaciones:
 
-```bash
-npm install -D @playwright/test
-npx playwright install
-```
+- Mantener metadatos homogéneos.
+- Usar slugs semánticos y estables.
 
-Configura `playwright.config.ts`:
+### `src/content/reviews/`
 
-```typescript
-import { defineConfig } from '@playwright/test';
+Contiene reseñas en formato MDX/Markdown.
 
-export default defineConfig({
-  testDir: './e2e',
-  webServer: {
-    command: 'npm run preview',
-    port: 4321,
-    reuseExistingServer: !process.env.CI,
-  },
-  use: {
-    baseURL: 'http://localhost:4321',
-  },
-});
-```
+Recomendaciones:
 
-Ejemplo de test E2E:
+- Incluir siempre campos SEO y de publicación obligatorios.
+- Revisar accesibilidad de imágenes y embeds.
 
-```typescript
-// e2e/navigation.spec.ts
-import { test, expect } from '@playwright/test';
+### `src/layouts/`
 
-test.describe('Navegación', () => {
-  test('página principal carga correctamente', async ({ page }) => {
-    await page.goto('/');
-    await expect(page).toHaveTitle(/Mesa para Milu/);
-  });
+Layouts reutilizables para páginas de contenido (por ejemplo, posts/reviews).
 
-  test('navega a reviews', async ({ page }) => {
-    await page.goto('/');
-    await page.click('text=Reviews');
-    await expect(page).toHaveURL('/reviews/');
-  });
+Recomendaciones:
 
-  test('review individual muestra contenido', async ({ page }) => {
-    await page.goto('/reviews/');
-    await page.click('article a >> nth=0');
-    await expect(page.locator('article h1')).toBeVisible();
-  });
-});
-```
+- Centralizar estructura compartida para evitar duplicación.
+- Mantener interfaz de props simple y explícita.
 
-### Tests de Accesibilidad
+### `src/pages/`
 
-```typescript
-// e2e/a11y.spec.ts
-import { test, expect } from '@playwright/test';
-import AxeBuilder from '@axe-core/playwright';
+Define el enrutado del sitio con file-based routing.
 
-test.describe('Accesibilidad', () => {
-  test('página principal sin violaciones críticas', async ({ page }) => {
-    await page.goto('/');
-    
-    const results = await new AxeBuilder({ page })
-      .withTags(['wcag2a', 'wcag2aa'])
-      .analyze();
-    
-    expect(results.violations).toEqual([]);
-  });
-});
-```
+Contiene páginas estáticas, rutas dinámicas y subcarpetas funcionales.
+
+Recomendaciones:
+
+- Mantener en páginas la lógica mínima de orquestación.
+- Mover lógica reutilizable a componentes o utilidades.
+
+### `src/pages/api/`
+
+Endpoints server-side para integraciones y datos (por ejemplo, métricas externas).
+
+Recomendaciones:
+
+- Validar entrada/salida y devolver códigos HTTP correctos.
+- Gestionar errores con respuestas controladas.
+- No exponer secretos en el código.
+
+### `src/pages/recipes/`
+
+Rutas de recetas (listado y detalle dinámico).
+
+Recomendaciones:
+
+- Asegurar `getStaticPaths` determinista y tipado.
+- Definir fallback visual para datos opcionales.
+
+### `src/pages/reviews/`
+
+Rutas de reseñas (listado y detalle dinámico).
+
+Recomendaciones:
+
+- Reutilizar componentes de tarjeta y meta para consistencia.
+- Cuidar SEO por página: título, descripción y canonical.
+
+### `src/styles/`
+
+Estilos globales y tokens de diseño.
+
+Recomendaciones:
+
+- Definir variables CSS para color, spacing y tipografía.
+- Evitar reglas globales demasiado invasivas.
+
+### `src/types/`
+
+Tipos de dominio e interfaces TypeScript compartidas.
+
+Recomendaciones:
+
+- Evitar `any`; preferir tipos explícitos o `unknown`.
+- Mantener tipos alineados con el modelo de datos real.
+
+---
+
+## Buenas Prácticas de Programación
+
+### Política de Documentación por Cambios Relevantes
+
+- Todo cambio relevante en el código debe incluir actualización de documentación en el mismo PR/commit.
+- La documentación debe seguir los esquemas ya definidos en este documento: estructura por carpeta en `src/`, buenas prácticas por dominio (Astro, TypeScript, API, SEO/accesibilidad, testing) y checklist pre-commit.
+- Si se crea o modifica una ruta, componente, layout, colección o endpoint, debe actualizarse la sección correspondiente en `agents.md`.
+- Si cambia el modelo de datos, contratos o validaciones, deben actualizarse tipos (`src/types/`) y documentación de reglas afectadas.
+- Si se incorpora una nueva convención, añadirla en la sección de buenas prácticas aplicable y en checklist si impacta calidad o release.
+
+### Astro
+
+- Mantener separación clara entre frontmatter y template.
+- Preferir componentes presentacionales reutilizables.
+- Hidratar solo lo necesario (islands) para mejorar rendimiento.
+
+### TypeScript
+
+- Mantener `strict: true`.
+- Tipar props, respuestas de APIs y utilidades.
+- Evitar tipos implícitos en funciones públicas.
+
+### Contenido y Datos
+
+- Definir schemas con Zod para cada colección.
+- Estandarizar frontmatter y validar fechas/campos opcionales.
+- Evitar duplicidad de datos entre markdown y código.
+
+### API y Backend
+
+- Validar request params y payloads.
+- Manejar errores con estructura de respuesta consistente.
+- Añadir timeouts y control de fallos en llamadas externas.
+
+### SEO y Accesibilidad
+
+- Incluir metadatos base y Open Graph en todas las páginas indexables.
+- Mantener jerarquía correcta de headings (h1-h2-h3).
+- Asegurar `alt` descriptivo en imágenes.
+- Verificar navegación por teclado y contraste.
+
+### Testing
+
+- Escribir tests unitarios para utilidades y validaciones.
+- Testear colecciones (`src/content`) para detectar frontmatter inválido.
+- Ejecutar pruebas antes de cada merge.
 
 ---
 
@@ -324,39 +255,37 @@ test.describe('Accesibilidad', () => {
 
 ```bash
 # Desarrollo
-npm run dev           # Servidor de desarrollo
-npm run build         # Build de producción
-npm run preview       # Preview del build
+npm run dev
+npm run build
+npm run preview
 
 # Testing
-npm run test          # Tests en modo watch
-npm run test:run      # Tests una sola vez
-npm run test:coverage # Tests con cobertura
+npm run test
+npm run test:run
+npm run test:coverage
 
-# Linting
-npm run lint          # Ejecutar ESLint
-npm run format        # Formatear con Prettier
+# Calidad
+npm run lint
+npm run format
 ```
 
 ---
 
 ## Checklist Pre-Commit
 
-- [ ] Todos los tests pasan
-- [ ] Sin errores de TypeScript
-- [ ] Código formateado (Prettier)
-- [ ] Sin warnings de ESLint
-- [ ] Imágenes optimizadas
-- [ ] Meta tags actualizados
-- [ ] Accesibilidad verificada
-- [ ] Responsive design probado
+- [ ] Tests pasando
+- [ ] Sin errores TypeScript
+- [ ] Sin warnings críticos de lint
+- [ ] Formato aplicado
+- [ ] Metadatos SEO revisados
+- [ ] Accesibilidad básica verificada
+- [ ] Validación de contenido (colecciones) completada
 
 ---
 
 ## Recursos
 
-- [Documentación oficial de Astro](https://docs.astro.build)
-- [Astro Content Collections](https://docs.astro.build/en/guides/content-collections/)
-- [Vitest](https://vitest.dev/)
-- [Playwright](https://playwright.dev/)
-- [Testing Library](https://testing-library.com/)
+- Astro Docs: https://docs.astro.build
+- Astro Content Collections: https://docs.astro.build/en/guides/content-collections/
+- Vitest: https://vitest.dev/
+- Playwright: https://playwright.dev/
