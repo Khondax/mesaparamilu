@@ -5,7 +5,6 @@ import Footer from '../../components/Footer.astro';
 import { SITE_TITLE } from '../../consts';
 import { getCollection } from 'astro:content';
 import { categorySlug } from '../../utils/slug';
-import FormattedDate from '../../components/FormattedDate.astro';
 
 export async function getStaticPaths() {
   const reviews = await getCollection('reviews');
@@ -30,108 +29,94 @@ const { categoryName, posts } = Astro.props;
 <!doctype html>
 <html lang="es">
   <head>
-    <BaseHead title={`${categoryName} — ${SITE_TITLE}`} description={`Reviews en la categoría ${categoryName}`} />
-    <style>
-      main {
-        width: 960px;
-      }
-      ul {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 2rem;
-        list-style-type: none;
-        margin: 0;
-        padding: 0;
-      }
-      ul li {
-        width: calc(50% - 1rem);
-      }
-      ul li * {
-        text-decoration: none;
-        transition: 0.2s ease;
-      }
-      ul li:first-child {
-        width: 100%;
-        margin-bottom: 1rem;
-        text-align: center;
-      }
-      ul li:first-child img {
-        width: 100%;
-      }
-      ul li:first-child .title {
-        font-size: 2.369rem;
-      }
-      ul li img {
-        margin-bottom: 0.5rem;
-        border-radius: 12px;
-      }
-      ul li a {
-        display: block;
-      }
-      .title {
-        margin: 0;
-        color: rgb(var(--black));
-        line-height: 1;
-      }
-      .date {
-        margin: 0;
-        color: rgb(var(--gray));
-      }
-      ul li a:hover h4,
-      ul li a:hover .date {
-        color: rgb(var(--accent));
-      }
-      ul a:hover img {
-        box-shadow: var(--box-shadow);
-      }
-      @media (max-width: 1080px) {
-        ul {
-          gap: 0.5em;
-        }
-        ul li {
-          width: 100%;
-          text-align: center;
-        }
-        ul li:first-child {
-          margin-bottom: 0;
-        }
-        ul li:first-child .title {
-          font-size: 1.563em;
-        }
-      }
-      .category-header {
-        text-align: center;
-        margin: 2rem 0;
-      }
-      .category-header h1 {
-        color: rgb(var(--black));
-        margin: 0;
-      }
-    </style>
+    <BaseHead title={`${categoryName} — ${SITE_TITLE}`} description={`Reseñas en la categoría ${categoryName}`} />
   </head>
-  <body>
+  <body class="bg-surface-bright text-on-surface min-h-screen flex flex-col antialiased">
     <Header />
-    <main>
-      <section>
-        <div class="category-header">
-          <h1>Categoría: {categoryName}</h1>
+    <main id="main-content" class="flex-grow w-full max-w-7xl mx-auto px-5 md:px-16 py-16">
+
+      <!-- Page Header -->
+      <div class="mb-16 border-b border-outline pb-8 flex flex-col md:flex-row justify-between items-end gap-8">
+        <div>
+          <h1
+            class="text-[clamp(2.5rem,5vw,4rem)] font-bold text-primary mb-2"
+            style="font-family:'Playfair Display',serif; letter-spacing:-0.02em;"
+          >
+            Categoría: {categoryName}
+          </h1>
+          <p class="text-[18px] text-on-surface-variant max-w-2xl leading-relaxed" style="font-family:'Plus Jakarta Sans',sans-serif;">
+            Todas las reseñas dentro de la categoría {categoryName}.
+          </p>
         </div>
-        <ul>
-          {
-            posts.map((post) => (
-              <li>
-                <a href={`/reviews/${post.id}/`}>
-                  <img width={1080} height={360} src={post.data.image} alt="" />
-                  <h4 class="title">{post.data.title}</h4>
-                  <p class="date">
-                    <FormattedDate date={post.data.pubDate} />
-                  </p>
-                </a>
-              </li>
-            ))
-          }
-        </ul>
-      </section>
+        <p class="text-[14px] text-on-surface-variant uppercase tracking-widest shrink-0" style="font-family:'Plus Jakarta Sans',sans-serif;">
+          {posts.length} {posts.length === 1 ? 'reseña' : 'reseñas'}
+        </p>
+      </div>
+
+      <!-- Reviews List -->
+      <div class="flex flex-col gap-8">
+        {posts.map((post) => (
+          <a
+            href={`/reviews/${post.id}/`}
+            class="group flex flex-col md:flex-row bg-surface-bright border border-[#2b2f3a] hover:bg-surface-container-low transition-colors duration-300"
+            style="font-family:'Plus Jakarta Sans',sans-serif;"
+          >
+            <!-- Image (Left) -->
+            <div class="w-full md:w-2/5 md:border-r border-[#2b2f3a] relative aspect-[4/3] md:aspect-auto overflow-hidden">
+              {post.data.image ? (
+                <img
+                  src={post.data.image}
+                  alt={post.data.title}
+                  class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  loading="lazy"
+                />
+              ) : (
+                <div class="w-full h-full bg-surface-container-high min-h-[200px] flex items-center justify-center">
+                  <span class="material-symbols-outlined text-[64px] text-on-surface-variant">restaurant</span>
+                </div>
+              )}
+              <!-- Rating Badge -->
+              {post.data.rating && (
+                <div class="absolute top-4 left-4 bg-on-tertiary-container text-white px-3 py-2 border border-[#2b2f3a] shadow-[2px_2px_0px_0px_#2b2f3a] text-[14px] font-bold flex items-center gap-2 uppercase tracking-widest">
+                  <span class="material-symbols-outlined text-[16px]" style="font-variation-settings:'FILL' 1;">star</span>
+                  {((post.data.rating.food + post.data.rating.service + post.data.rating.ambiance + post.data.rating.value) / 4).toFixed(1)} / 10
+                </div>
+              )}
+            </div>
+
+            <!-- Content (Right) -->
+            <div class="w-full md:w-3/5 p-6 md:p-8 flex flex-col justify-center">
+              <div class="flex flex-wrap gap-3 mb-4 text-[12px] font-semibold uppercase tracking-widest text-on-surface-variant" style="font-family:'Plus Jakarta Sans',sans-serif;">
+                {post.data.locality && <span class="border-b border-[#2b2f3a] pb-1">{post.data.locality}</span>}
+                {post.data.categoryArray?.map((cat: string) => (
+                  <span>{cat}</span>
+                ))}
+              </div>
+
+              <h2
+                class="text-[24px] font-semibold text-primary-container group-hover:text-secondary transition-colors mb-3 leading-tight"
+                style="font-family:'Playfair Display',serif;"
+              >
+                {post.data.title}
+              </h2>
+
+              <p class="text-[16px] text-on-surface-variant line-clamp-3 leading-relaxed mb-4">
+                {post.data.description}
+              </p>
+
+              <div class="flex items-center justify-between mt-auto">
+                {post.data.averagePrice && (
+                  <span class="text-[12px] text-on-surface-variant uppercase tracking-widest">~{post.data.averagePrice}€/pax</span>
+                )}
+                <span class="text-[14px] font-bold text-secondary uppercase tracking-widest group-hover:text-primary transition-colors">
+                  Leer reseña →
+                </span>
+              </div>
+            </div>
+          </a>
+        ))}
+      </div>
+
     </main>
     <Footer />
   </body>
