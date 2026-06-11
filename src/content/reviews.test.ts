@@ -1,55 +1,16 @@
 import { describe, it, expect } from 'vitest';
-import { z } from 'astro/zod';
 import * as fs from 'node:fs';
 import * as path from 'node:path';
 import matter from 'gray-matter';
+import { reviewSchema } from './review-schema';
 
 /**
  * Schema validation tests — validate that review frontmatter
  * conforms to the expected Zod schema WITHOUT needing astro:content.
  *
  * Uses gray-matter to parse YAML frontmatter from files.
+ * The schema is the shared single source of truth (review-schema.ts).
  */
-
-// Replicate the review schema (mirrors content.config.ts)
-const ratingSchema = z.object({
-	food: z.number().min(1).max(10),
-	service: z.number().min(1).max(10),
-	ambiance: z.number().min(1).max(10),
-	value: z.number().min(1).max(10),
-});
-
-const coordinatesSchema = z.object({
-	lat: z.number().min(-90).max(90),
-	lng: z.number().min(-180).max(180),
-});
-
-const reviewSchema = z.object({
-	title: z.string(),
-	description: z.string(),
-	address: z.string(),
-	locality: z.string(),
-	pubDate: z.coerce.date(),
-	updatedDate: z.coerce.date().optional(),
-	visitDate: z.coerce.date().optional(),
-	image: z.string().optional(),
-	averagePrice: z.number().positive().optional(),
-	categoryArray: z.array(z.string()).optional(),
-	important: z.boolean().optional(),
-	favorite: z.boolean().default(false),
-	trending: z.boolean().default(false),
-	instagramPostId: z.string().optional(),
-	rating: ratingSchema.optional(),
-	restaurantLinks: z.object({
-		website: z.string().url().optional(),
-		reservations: z.string().url().optional(),
-		menu: z.string().url().optional(),
-		instagram: z.string().url().optional(),
-		googleMaps: z.string().url().optional(),
-	}).optional(),
-	coordinates: coordinatesSchema.optional(),
-	anecdote: z.string().optional(),
-});
 
 // Load all review files
 const reviewsDir = path.resolve(__dirname, 'reviews');
