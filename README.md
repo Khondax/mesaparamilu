@@ -1,3 +1,27 @@
+# Recursos empleados para agentes
+## Habilidades:
+### Rendimiento:
+- `karpathy-guidelines` (multica-ai/andrej-karpathy-skills)
+### Buenas prácticas y patrones de programación:
+- `nodejs-backend-patterns` (wshobson/agents)
+- `nodejs-best-practices` (sickn33/antigravity-awesome-skills)
+- `tailwind-css-patterns` (giuseppe-trisciuoglio/developer-kit)
+- `typescript-advanced-types` (wshobson/agents)
+- `vitest` (antfu/skills)
+- `seo` (addyosmani/web-quality-skills)
+- `deploy-to-vercel` (vercel-labs/agent-skills)
+### Diseño:
+- `accessibility` (addyosmani/web-quality-skills)
+- `astro` (astrolicious/agent-skills)
+- `frontend-design` (anthropics/skills)
+
+## MCPs:
+- Stitch -> Para diseño del frontal
+
+## Herramientas:
+- Codegraph -> Para crear una base de conocimientos indexados y reducir el uso de tokens
+- Improve -> Para elaborar planes de mejora (Shadcn/improve)
+
 # Tareas pendientes ✅❌
 1. ✅ Retocar la landing page, poner las 10 últimas reseñas destacadas.
 2. ✅ Índice con buscador y mapa. Añadir parámetros a cada reseña.
@@ -6,8 +30,8 @@
 5. ✅ Despliegue automático en Vercel/otros.
 6. ✅ Añadir métricas de uso/clicks.
 7. ✅ Cambiar el nombre de MesaParaMilu? quizá algo más pegadizo?... algo más corto en general es mejor.... ¡¡ARS CULINARIA!! ("arte culinario" o "gastronomía") Variante: Ignis Culinaria ("el fuego de la cocina" o "fuego culinario")
-8. ❌ Crear una estructura de .md, tipo plantilla, con buenas prácticas y código insertable (para imágenes), sobre la que crear cada reseña de un restaurante. Sobre como rellenar los metadatos, introducción al restaurante, hablar del local, cada plato, servicio, etc etc.
-9. ❌ Currar en la interfaz (Stitch?), es un proyecto 100% frontend, no necesita lógica prácticamente, pero si cosas bonitas, transiciones...
+8. ✅1/2 Crear una estructura de .md, tipo plantilla, con buenas prácticas y código insertable (para imágenes), sobre la que crear cada reseña de un restaurante. Sobre como rellenar los metadatos, introducción al restaurante, hablar del local, cada plato, servicio, etc etc.
+9. ✅1/2 Currar en la interfaz (Stitch?), es un proyecto 100% frontend, no necesita lógica prácticamente, pero si cosas bonitas, transiciones...
 10. ❌ Mejorar el filtrado de restaurantes y añadir más categorías (montar categorías dinámicas? así cada vez que se añade una al listado general los restaurantes que la contengan con referenciables).
 11. ❌ .
 12. ❌ .

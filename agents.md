@@ -69,6 +69,7 @@ Skills detectadas en `skills-lock.json`:
 - `astro` (astrolicious/agent-skills)
 - `deploy-to-vercel` (vercel-labs/agent-skills)
 - `frontend-design` (anthropics/skills)
+- `karpathy-guidelines` (multica-ai/andrej-karpathy-skills)
 - `nodejs-backend-patterns` (wshobson/agents)
 - `nodejs-best-practices` (sickn33/antigravity-awesome-skills)
 - `seo` (addyosmani/web-quality-skills)
@@ -81,6 +82,7 @@ Skills detectadas en `skills-lock.json`:
 - UI y diseño visual: prioriza `frontend-design`; si usas utilidades CSS, combina con `tailwind-css-patterns`.
 - Desarrollo Astro: usa `astro` para rutas dinámicas, islands, markdown/MDX y assets.
 - API y lógica de servidor: usa `nodejs-backend-patterns` y `nodejs-best-practices` en endpoints de `src/pages/api`.
+- Calidad de ejecución del agente: usa `karpathy-guidelines` para evitar sobreingeniería, hacer cambios quirúrgicos y definir criterios de verificación.
 - Tipado: usa `typescript-advanced-types` para contratos, utilidades y tipos genéricos complejos.
 - Calidad web: usa `accessibility` y `seo` como parte de la revisión previa a release.
 - Pruebas: usa `vitest` para tests unitarios y validación de contenido.
