@@ -110,55 +110,6 @@ import { SITE_TITLE } from '../consts';
         </div>
       </section>
 
-      <!-- Contact Section -->
-      <section class="px-5 md:px-16 py-16 max-w-[800px] mx-auto mt-8 mb-16 bg-surface-bright border border-outline shadow-[4px_4px_0px_0px_#2b2f3a]">
-        <div class="text-center mb-8">
-          <h2
-            class="text-[clamp(2rem,4vw,3rem)] font-bold text-primary mb-2"
-            style="font-family:'Playfair Display',serif; letter-spacing:-0.01em;"
-          >
-            Escríbenos
-          </h2>
-          <p class="text-[16px] text-on-surface-variant">
-            Para sugerencias, recomendaciones o simplemente saludar.
-          </p>
-        </div>
-        <form class="flex flex-col gap-8" name="contact" method="POST" action="#">
-          <div class="flex flex-col md:flex-row gap-6">
-            <div class="flex-1">
-              <label for="name" class="block text-[12px] font-bold uppercase tracking-widest text-on-surface-variant mb-2">Nombre</label>
-              <input
-                id="name" name="name" type="text" placeholder="Tu nombre"
-                class="w-full bg-transparent border-0 border-b border-secondary text-primary text-[18px] focus:ring-0 focus:border-on-tertiary-container focus:bg-[#fce5cd] transition-colors py-2 px-0 outline-none"
-              />
-            </div>
-            <div class="flex-1">
-              <label for="email" class="block text-[12px] font-bold uppercase tracking-widest text-on-surface-variant mb-2">Email</label>
-              <input
-                id="email" name="email" type="email" placeholder="tu@email.com"
-                class="w-full bg-transparent border-0 border-b border-secondary text-primary text-[18px] focus:ring-0 focus:border-on-tertiary-container focus:bg-[#fce5cd] transition-colors py-2 px-0 outline-none"
-              />
-            </div>
-          </div>
-          <div>
-            <label for="message" class="block text-[12px] font-bold uppercase tracking-widest text-on-surface-variant mb-2">Mensaje</label>
-            <textarea
-              id="message" name="message" rows="4" placeholder="Cuéntanos..."
-              class="w-full bg-transparent border-0 border-b border-secondary text-primary text-[18px] focus:ring-0 focus:border-on-tertiary-container focus:bg-[#fce5cd] transition-colors py-2 px-0 resize-none outline-none"
-            ></textarea>
-          </div>
-          <div class="flex justify-end pt-4">
-            <button
-              type="submit"
-              class="px-8 py-4 bg-on-tertiary-container text-white text-[14px] font-bold uppercase tracking-widest border border-primary shadow-[4px_4px_0px_0px_#001a2b] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_0px_#001a2b] transition-all active:scale-[0.98]"
-              style="font-family:'Plus Jakarta Sans',sans-serif;"
-            >
-              Enviar mensaje
-            </button>
-          </div>
-        </form>
-      </section>
-
     </main>
     <Footer />
   </body>
