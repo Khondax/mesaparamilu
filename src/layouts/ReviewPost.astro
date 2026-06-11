@@ -32,6 +32,8 @@ function ratingAvg(r: Props['rating']): string {
   if (!r) return '';
   return ((r.food + r.service + r.ambiance + r.value) / 4).toFixed(1);
 }
+
+const shareUrl = new URL(Astro.url.pathname, Astro.site).href;
 ---
 
 <html lang="es" class="scroll-smooth">
@@ -122,7 +124,7 @@ function ratingAvg(r: Props['rating']): string {
 
             <!-- Share Buttons -->
             <div class="mt-8 pt-8 border-t border-outline">
-              <ShareButtons />
+              <ShareButtons url={shareUrl} title={title} description={description} />
             </div>
           </article>
 
@@ -227,8 +229,8 @@ function ratingAvg(r: Props['rating']): string {
                       Reservar
                     </a>
                   )}
-                  {restaurantLinks.maps && (
-                    <a href={restaurantLinks.maps} target="_blank" rel="noopener noreferrer"
+                  {restaurantLinks.googleMaps && (
+                    <a href={restaurantLinks.googleMaps} target="_blank" rel="noopener noreferrer"
                       class="flex items-center gap-2 px-4 py-2 border border-[#2b2f3a] text-[14px] font-bold uppercase tracking-widest text-primary hover:bg-surface-container transition-colors">
                       <span class="material-symbols-outlined text-[16px]">location_on</span>
                       Ver en mapa
