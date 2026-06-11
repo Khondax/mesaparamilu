@@ -1,0 +1,95 @@
+---
+import BaseHead from '../../components/BaseHead.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import { SITE_TITLE } from '../../consts';
+import { getCollection } from 'astro:content';
+import { categorySlug } from '../../utils/slug';
+
+const reviews = await getCollection('reviews');
+const categories = [...new Set(reviews.flatMap((r) => r.data.categoryArray ?? []))].sort();
+
+// Count reviews per category
+const categoryCounts = new Map();
+for (const review of reviews) {
+  for (const cat of review.data.categoryArray ?? []) {
+    categoryCounts.set(cat, (categoryCounts.get(cat) || 0) + 1);
+  }
+}
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <BaseHead title={`Categorías — ${SITE_TITLE}`} description="Todas las categorías de reviews" />
+    <style>
+      main {
+        width: 960px;
+      }
+      .category-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 1.5rem;
+        margin: 2rem 0;
+      }
+      .category-card {
+        padding: 1.5rem;
+        background: rgb(var(--gray-light));
+        border-radius: 8px;
+        text-decoration: none;
+        transition: 0.2s ease;
+        border: 2px solid transparent;
+      }
+      .category-card:hover {
+        border-color: rgb(var(--accent));
+        transform: translateY(-2px);
+      }
+      .category-card h3 {
+        margin: 0 0 0.5rem 0;
+        color: rgb(var(--black));
+        font-size: 1.5rem;
+      }
+      .category-card .count {
+        color: rgb(var(--gray));
+        font-size: 0.9rem;
+      }
+      .page-header {
+        text-align: center;
+        margin: 2rem 0;
+      }
+      .page-header h1 {
+        color: rgb(var(--black));
+        margin: 0;
+      }
+      @media (max-width: 1080px) {
+        main {
+          width: calc(100% - 2em);
+        }
+        .category-list {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <Header />
+    <main>
+      <div class="page-header">
+        <h1>Categorías</h1>
+      </div>
+      <div class="category-list">
+        {
+          categories.map((cat) => (
+            <a href={`/categorias/${categorySlug(cat)}/`} class="category-card">
+              <h3>{cat}</h3>
+              <p class="count">
+                {categoryCounts.get(cat)} {categoryCounts.get(cat) === 1 ? 'review' : 'reviews'}
+              </p>
+            </a>
+          ))
+        }
+      </div>
+    </main>
+    <Footer />
+  </body>
+</html>
