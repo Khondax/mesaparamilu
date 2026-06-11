@@ -6,6 +6,7 @@ import Footer from '../components/Footer.astro';
 import FormattedDate from '../components/FormattedDate.astro';
 import InstagramEmbed from '../components/InstagramEmbed.astro';
 import ShareButtons from '../components/ShareButtons.astro';
+import { categorySlug } from '../utils/slug';
 
 type Props = CollectionEntry<'reviews'>['data'];
 
@@ -48,7 +49,12 @@ function ratingAvg(r: Props['rating']): string {
           <div class="md:col-span-8 md:col-start-3 text-center">
             {(categoryArray && categoryArray.length > 0) && (
               <span class="inline-block border-b border-outline pb-1 mb-4 text-[12px] font-semibold uppercase tracking-widest text-on-surface-variant">
-                {categoryArray.join(' • ')}{locality && ` • ${locality}`}
+                {categoryArray.map((cat, idx) => (
+                  <>
+                    <a href={`/categorias/${categorySlug(cat)}/`} class="hover:text-secondary transition-colors">{cat}</a>
+                    {idx < categoryArray.length - 1 && ' • '}
+                  </>
+                ))}{locality && ` • ${locality}`}
               </span>
             )}
             <h1
