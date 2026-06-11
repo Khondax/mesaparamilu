@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+
+<html class="scroll-smooth" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Review Detail - GASTRONOME</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&amp;family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "surface-bright": "#faf8ff",
+                        "inverse-on-surface": "#edf0ff",
+                        "tertiary": "#330a00",
+                        "on-secondary-fixed": "#001c38",
+                        "surface-container-low": "#f1f3ff",
+                        "secondary": "#3d608c",
+                        "secondary-fixed": "#d3e4ff",
+                        "outline-variant": "#c2c7cd",
+                        "primary-container": "#003049",
+                        "on-tertiary-fixed": "#390c00",
+                        "surface-container-lowest": "#ffffff",
+                        "on-tertiary-container": "#f86630",
+                        "surface-container-high": "#e5e7f6",
+                        "surface-container": "#eaedfc",
+                        "on-primary-fixed-variant": "#244a64",
+                        "primary-fixed-dim": "#a5cbea",
+                        "on-secondary-container": "#345883",
+                        "on-secondary-fixed-variant": "#234872",
+                        "on-primary-container": "#7398b6",
+                        "on-tertiary-fixed-variant": "#832600",
+                        "error": "#ba1a1a",
+                        "surface-tint": "#3d627d",
+                        "secondary-container": "#acceff",
+                        "inverse-surface": "#2c303b",
+                        "on-primary-fixed": "#001e2f",
+                        "on-primary": "#ffffff",
+                        "inverse-primary": "#a5cbea",
+                        "tertiary-fixed-dim": "#ffb59d",
+                        "tertiary-container": "#571600",
+                        "background": "#faf8ff",
+                        "on-background": "#171b26",
+                        "on-surface-variant": "#42474d",
+                        "on-error": "#ffffff",
+                        "primary-fixed": "#cae6ff",
+                        "outline": "#72787e",
+                        "surface": "#faf8ff",
+                        "error-container": "#ffdad6",
+                        "primary": "#001a2b",
+                        "surface-dim": "#d6d9e8",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary": "#ffffff",
+                        "tertiary-fixed": "#ffdbd0",
+                        "surface-variant": "#dfe2f1",
+                        "on-surface": "#171b26",
+                        "on-error-container": "#93000a",
+                        "secondary-fixed-dim": "#a6c9fa",
+                        "surface-container-highest": "#dfe2f1"
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    spacing: {
+                        "margin-desktop": "64px",
+                        "gutter": "24px",
+                        "stack-sm": "16px",
+                        "stack-md": "32px",
+                        "margin-mobile": "20px",
+                        "unit": "8px",
+                        "stack-lg": "64px"
+                    },
+                    fontFamily: {
+                        "display-lg": ["Playfair Display"],
+                        "headline-md": ["Playfair Display"],
+                        "display-md": ["Playfair Display"],
+                        "body-lg": ["Plus Jakarta Sans"],
+                        "body-md": ["Plus Jakarta Sans"],
+                        "headline-lg-mobile": ["Playfair Display"],
+                        "label-lg": ["Plus Jakarta Sans"],
+                        "label-sm": ["Plus Jakarta Sans"],
+                        "headline-lg": ["Playfair Display"]
+                    },
+                    fontSize: {
+                        "display-lg": ["64px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "headline-md": ["24px", { "lineHeight": "1.4", "fontWeight": "600" }],
+                        "display-md": ["48px", { "lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+                        "body-lg": ["18px", { "lineHeight": "1.7", "fontWeight": "400" }],
+                        "body-md": ["16px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "headline-lg-mobile": ["28px", { "lineHeight": "1.3", "fontWeight": "600" }],
+                        "label-lg": ["14px", { "lineHeight": "1.2", "letterSpacing": "0.1em", "fontWeight": "700" }],
+                        "label-sm": ["12px", { "lineHeight": "1.2", "fontWeight": "600" }],
+                        "headline-lg": ["32px", { "lineHeight": "1.3", "fontWeight": "600" }]
+                    }
+                }
+            }
+        };
+    </script>
+<style>
+        .drop-cap::first-letter {
+            font-family: 'Playfair Display', serif;
+            font-size: 5rem;
+            line-height: 1;
+            float: left;
+            margin-right: 1rem;
+            margin-top: -0.25rem;
+            color: #001a2b; /* primary */
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body-md antialiased selection:bg-primary-container selection:text-on-primary-container">
+<!-- TopNavBar -->
+<header class="docked full-width top-0 border-b border-outline dark:border-outline-variant flat no shadows flex justify-between items-center w-full px-margin-desktop py-gutter max-w-full mx-auto bg-surface-bright dark:bg-surface z-50 sticky top-0">
+<a class="font-display-md text-display-md tracking-tighter text-primary dark:text-on-surface hover:opacity-80 transition-opacity" href="/">
+            GASTRONOME
+        </a>
+<nav class="hidden md:flex gap-gutter items-center">
+<a class="text-on-tertiary-container dark:text-on-tertiary-container border-b-2 border-on-tertiary-container pb-1 font-label-lg text-label-lg uppercase tracking-widest hover:text-on-tertiary-container dark:hover:text-on-tertiary-container transition-colors duration-300" href="/reviews">Reviews</a>
+<a class="text-on-surface-variant dark:text-outline-variant font-label-lg text-label-lg uppercase tracking-widest hover:text-on-tertiary-container dark:hover:text-on-tertiary-container transition-colors duration-300" href="/recipes">Recipes</a>
+<a class="text-on-surface-variant dark:text-outline-variant font-label-lg text-label-lg uppercase tracking-widest hover:text-on-tertiary-container dark:hover:text-on-tertiary-container transition-colors duration-300" href="/philosophy">Philosophy</a>
+<a class="text-on-surface-variant dark:text-outline-variant font-label-lg text-label-lg uppercase tracking-widest hover:text-on-tertiary-container dark:hover:text-on-tertiary-container transition-colors duration-300" href="/archives">Archives</a>
+</nav>
+<div class="flex items-center gap-stack-sm">
+<button class="md:hidden text-primary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">menu</span>
+</button>
+<div class="hidden md:flex items-center gap-unit">
+<button class="text-primary hover:text-on-tertiary-container transition-colors">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">search</span>
+</button>
+<button class="bg-primary text-on-primary font-label-sm text-label-sm uppercase tracking-widest px-6 py-3 border border-primary hover:scale-[1.02] shadow-[4px_4px_0px_0px_#f86630] transition-all duration-300 active:scale-[0.98]">
+                    Subscribe
+                </button>
+</div>
+</div>
+</header>
+<main class="w-full">
+<!-- Hero Section -->
+<section class="w-full bg-surface-container-low pt-stack-lg pb-stack-lg border-b border-outline px-margin-mobile md:px-margin-desktop">
+<div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-gutter items-center">
+<div class="md:col-span-8 md:col-start-3 text-center">
+<span class="inline-block border-b border-outline pb-1 mb-stack-sm font-label-sm text-label-sm uppercase tracking-widest text-on-surface-variant">Fine Dining • New York</span>
+<h1 class="font-display-lg text-display-lg text-primary mb-stack-sm">The Subdued Brilliance of Le Bernardin's Autumn Menu</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mx-auto">Eric Ripert continues his masterclass in restraint, proving once again that true culinary confidence whispers rather than shouts.</p>
+</div>
+</div>
+</section>
+<!-- Feature Image -->
+<section class="w-full px-margin-mobile md:px-margin-desktop py-stack-md">
+<div class="max-w-7xl mx-auto">
+<div class="w-full h-[614px] border border-outline relative shadow-[4px_4px_0px_0px_#001c38] overflow-hidden">
+<img alt="A meticulously plated seafood dish at a high-end restaurant, featuring a perfectly seared scallop atop a vibrant green puree, garnished with delicate microgreens and a translucent, intricately shaped tuile. The lighting is soft and directional, typical of a fine dining establishment, creating deep shadows that emphasize the textures of the food. The plate is stark white, resting on a crisp linen tablecloth, embodying a minimalist, premium culinary aesthetic." class="w-full h-full object-cover" data-alt="A meticulously plated seafood dish at a high-end restaurant, featuring a perfectly seared scallop atop a vibrant green puree, garnished with delicate microgreens and a translucent, intricately shaped tuile. The lighting is soft and directional, typical of a fine dining establishment, creating deep shadows that emphasize the textures of the food. The plate is stark white, resting on a crisp linen tablecloth, embodying a minimalist, premium culinary aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCLo4WSXR17f69SvXkLOEp52RPQfHP7QqlyplX-uPCOOrGc32Ktoe9dujLvt6X59JMGrpkj1CbpNK0qho6yoPjGsrllfHBMIxPHr0YjsySQU70szzMnpmZ4UXjeuEgYb_qqxzE_REDtWNBbnn9RjjMrSkeaj2_hYiPLZnw-YgSHCscRjDQHZwVmMyA3j0jB_zQttMKbngKrJA9gxtGonGer4NbBeAKvRSHRSKEu02Qgvh_N59m4a2gS4luJ-F3oUGN-zPyAA8_kBqs"/>
+</div>
+<p class="font-label-sm text-label-sm text-on-surface-variant mt-unit text-right">Photography by Thomas Keller / Gastronome</p>
+</div>
+</section>
+<!-- Content Grid -->
+<section class="w-full px-margin-mobile md:px-margin-desktop pb-stack-lg">
+<div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-margin-desktop">
+<!-- Main Column (70%) -->
+<article class="md:col-span-8">
+<div class="font-body-lg text-body-lg text-on-surface drop-cap mb-stack-md">
+                        There is a specific kind of silence that descends upon a dining room when the first course is universally recognized as flawless. It is not the hushed reverence of a cathedral, but rather the focused, almost conspiratorial quiet of individuals simultaneously realizing they are in the presence of something extraordinary. This was the atmosphere at Le Bernardin on a recent Tuesday evening, as the Autumn tasting menu began its methodical, exquisite unfolding.
+                    </div>
+<p class="font-body-md text-body-md text-on-surface-variant mb-stack-md">
+                        For decades, the philosophy here has been steadfast: the fish is the star. Yet, in an era where culinary trends careen from maximalist foraging to austere minimalism, maintaining that focus without feeling anachronistic requires a deft hand. The current iteration of the menu feels particularly resonant—a masterclass in subtle calibration where every ingredient serves to elevate, never to obscure.
+                    </p>
+<h2 class="font-headline-lg text-headline-lg text-primary mb-stack-sm mt-stack-lg border-b border-outline pb-unit">The Venue</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mb-stack-md">
+                        The dining room remains an exercise in understated luxury. The teak paneling and towering floral arrangements offer a timeless backdrop, entirely insulated from the frenetic energy of midtown Manhattan just outside its doors. It is a space designed for focus, where the lighting is calibrated precisely to make both the diners and the dishes look their absolute best.
+                    </p>
+<h2 class="font-headline-lg text-headline-lg text-primary mb-stack-sm mt-stack-lg border-b border-outline pb-unit">The Dishes</h2>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-gutter mb-stack-md">
+<div class="border border-outline p-unit shadow-[2px_2px_0px_0px_#001c38] group cursor-pointer">
+<div class="aspect-[4/5] overflow-hidden border border-outline mb-unit">
+<img alt="A close-up shot of a minimalist raw fish appetizer, specifically a precisely cut piece of tuna or hamachi, glistening slightly under soft, warm lighting. It is adorned with a single, tiny dollop of bright orange roe and a microscopic sprig of dill. The presentation is starkly elegant, resting on an off-white, matte ceramic plate. The overall aesthetic is clean, sophisticated, and highlights the raw quality of the ingredients." class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A close-up shot of a minimalist raw fish appetizer, specifically a precisely cut piece of tuna or hamachi, glistening slightly under soft, warm lighting. It is adorned with a single, tiny dollop of bright orange roe and a microscopic sprig of dill. The presentation is starkly elegant, resting on an off-white, matte ceramic plate. The overall aesthetic is clean, sophisticated, and highlights the raw quality of the ingredients." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAYXL_XMqRRM4pMvAim8WJKIYWqnXSpobz-OL10pqRBS50EI5qlT2OJQjanA8qzb4pIHwGrGjdvoiV-Ua3V9NwckLczHPXBUQQQrgGKcoJv3GbJ10pWm3QpA62JM3-XawPWfnI5S38rIRK5EgH_KaxJBrQcs6_WOKix17an-xSVPXpnsRZj_0YY-RhNH-rm9sB3DZwlGJEB6H3nbeWKnuY3CyD0xIbprgGuWLp2TkHtYd5ktiiz_8AbLrDgJahiaKfrMUryQF0L2o8"/>
+</div>
+<h3 class="font-headline-md text-headline-md text-primary mb-1">Yellowfin Tuna</h3>
+<p class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest mb-2">Carpaccio, Iberico Ham "Chutney", Sea Beans</p>
+<p class="font-body-md text-body-md text-on-surface">The interplay between the pristine ocean flavor of the tuna and the rich, complex salinity of the Iberico ham is nothing short of revelatory.</p>
+</div>
+<div class="border border-outline p-unit shadow-[2px_2px_0px_0px_#001c38] group cursor-pointer mt-0 md:mt-stack-md">
+<div class="aspect-[4/5] overflow-hidden border border-outline mb-unit">
+<img alt="A perfectly cooked piece of white fish, perhaps halibut or cod, sitting in a shallow pool of a vibrant, deep yellow saffron broth. The fish is flawlessly opaque with a gentle sear on top. Accompanying it are precisely turned baby vegetables, including a tiny carrot and a sphere of zucchini. The scene is lit to enhance the contrasting colors of the pale fish, the bright broth, and the dark, textured stoneware bowl. The style is high-end editorial food photography." class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A perfectly cooked piece of white fish, perhaps halibut or cod, sitting in a shallow pool of a vibrant, deep yellow saffron broth. The fish is flawlessly opaque with a gentle sear on top. Accompanying it are precisely turned baby vegetables, including a tiny carrot and a sphere of zucchini. The scene is lit to enhance the contrasting colors of the pale fish, the bright broth, and the dark, textured stoneware bowl. The style is high-end editorial food photography." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAq4ZvGGJhTTndjGstMt42ucHKxJPKnp_H_mYy1quE30fShOXikf2_VcRnq6d_IK5GKTig3UoLh52fZZTCRosoZF_oABnumen5CMOK8r3gt09oPiC24cKX8FbD9y17cJO9dhOthkyWjIIyNPZa5xWR7dw5yrmunPF1jdP8N05e57Lc7jUGRtVtOeppmPzkv5aneq5F2KpwXmhcDi09n1QkM0LezfY_7JO6NXiT8ZgItVknUOwqNLC0WNQh8VWBB8XkVQhzoFk-toCo"/>
+</div>
+<h3 class="font-headline-md text-headline-md text-primary mb-1">Halibut</h3>
+<p class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest mb-2">Poached, Matsutake Mushroom, Saffron Broth</p>
+<p class="font-body-md text-body-md text-on-surface">A broth so ethereal it almost defies description, supporting the gentle, flaky texture of the halibut perfectly.</p>
+</div>
+</div>
+<h2 class="font-headline-lg text-headline-lg text-primary mb-stack-sm mt-stack-lg border-b border-outline pb-unit">Service</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mb-stack-md">
+                        The balletic choreography of the floor staff remains unmatched in the city. Water glasses are refilled invisibly; crumbs vanish as if by magic. Yet, despite the formidable formality of the setting, the interactions possess a genuine warmth—a hallmark of true hospitality that prevents the experience from feeling sterile.
+                    </p>
+<!-- The Verdict Box -->
+<div class="mt-stack-lg p-stack-md bg-surface-container border border-on-tertiary-container shadow-[4px_4px_0px_0px_#f86630] relative">
+<div class="absolute -top-4 left-6 bg-surface-container px-2 border border-on-tertiary-container">
+<span class="font-label-lg text-label-lg uppercase tracking-widest text-on-tertiary-container">The Verdict</span>
+</div>
+<p class="font-body-lg text-body-lg text-primary italic mb-stack-sm">
+                            "Le Bernardin does not chase trends; it distills perfection. An essential pilgrimage for anyone serious about the culinary arts."
+                        </p>
+<div class="flex items-center gap-gutter border-t border-outline-variant pt-unit">
+<div class="bg-on-tertiary-container text-on-primary font-headline-lg text-headline-lg px-4 py-2 border border-primary">
+                                9.8
+                            </div>
+<span class="font-label-lg text-label-lg uppercase tracking-widest text-on-surface-variant">Exceptional</span>
+</div>
+</div>
+</article>
+<!-- Sidebar (30%) -->
+<aside class="md:col-span-4 relative">
+<div class="sticky top-stack-lg border border-outline bg-surface-bright p-gutter shadow-[4px_4px_0px_0px_#001c38]">
+<h3 class="font-headline-md text-headline-md text-primary border-b border-outline pb-unit mb-stack-sm">Dossier</h3>
+<dl class="space-y-4 mb-stack-md font-body-md text-body-md">
+<div>
+<dt class="font-label-sm text-label-sm uppercase tracking-widest text-on-surface-variant mb-1">Establishment</dt>
+<dd class="text-primary font-semibold">Le Bernardin</dd>
+</div>
+<div>
+<dt class="font-label-sm text-label-sm uppercase tracking-widest text-on-surface-variant mb-1">Location</dt>
+<dd class="text-on-surface">155 W 51st St, New York, NY</dd>
+</div>
+<div>
+<dt class="font-label-sm text-label-sm uppercase tracking-widest text-on-surface-variant mb-1">Price</dt>
+<dd class="flex gap-1 text-primary">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">attach_money</span>
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">attach_money</span>
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">attach_money</span>
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">attach_money</span>
+</dd>
+</div>
+<div>
+<dt class="font-label-sm text-label-sm uppercase tracking-widest text-on-surface-variant mb-1">Website</dt>
+<dd><a class="text-secondary hover:underline underline-offset-4 decoration-1" href="#">le-bernardin.com</a></dd>
+</div>
+</dl>
+<h4 class="font-label-lg text-label-lg uppercase tracking-widest text-primary border-b border-outline pb-unit mb-stack-sm">Ratings</h4>
+<div class="space-y-4 mb-stack-md">
+<div>
+<div class="flex justify-between font-label-sm text-label-sm text-on-surface mb-1">
+<span>Food</span>
+<span>10/10</span>
+</div>
+<div class="w-full h-1 bg-surface-variant border border-outline-variant overflow-hidden">
+<div class="h-full bg-secondary w-full"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between font-label-sm text-label-sm text-on-surface mb-1">
+<span>Service</span>
+<span>9.5/10</span>
+</div>
+<div class="w-full h-1 bg-surface-variant border border-outline-variant overflow-hidden">
+<div class="h-full bg-secondary w-[95%]"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between font-label-sm text-label-sm text-on-surface mb-1">
+<span>Vibe</span>
+<span>9.0/10</span>
+</div>
+<div class="w-full h-1 bg-surface-variant border border-outline-variant overflow-hidden">
+<div class="h-full bg-secondary w-[90%]"></div>
+</div>
+</div>
+</div>
+<div class="border-t border-outline pt-stack-sm flex gap-unit justify-center">
+<button aria-label="Share on X" class="w-10 h-10 border border-outline flex items-center justify-center text-on-surface-variant hover:text-primary hover:bg-surface-container transition-colors">
+<svg aria-hidden="true" class="w-4 h-4" fill="currentColor" viewbox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.008 5.964H5.078z"></path></svg>
+</button>
+<button aria-label="Share via Email" class="w-10 h-10 border border-outline flex items-center justify-center text-on-surface-variant hover:text-primary hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-base" style="font-variation-settings: 'FILL' 0;">mail</span>
+</button>
+<button aria-label="Copy Link" class="w-10 h-10 border border-outline flex items-center justify-center text-on-surface-variant hover:text-primary hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-base" style="font-variation-settings: 'FILL' 0;">link</span>
+</button>
+</div>
+</div>
+</aside>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="full-width bottom border-t border-outline dark:border-outline-variant flat no shadows grid grid-cols-1 md:grid-cols-2 w-full px-margin-desktop py-stack-lg gap-gutter bg-surface-container dark:bg-inverse-surface">
+<div>
+<div class="font-display-lg text-display-lg text-primary dark:text-inverse-on-surface mb-stack-sm">
+                GASTRONOME
+            </div>
+<p class="font-body-md text-body-md text-on-surface dark:text-inverse-on-surface">
+                © 2024 GASTRONOME EDITORIAL. ALL RIGHTS RESERVED.
+            </p>
+</div>
+<div class="flex flex-col md:items-end justify-center gap-unit">
+<nav class="flex flex-wrap gap-gutter font-body-md text-body-md">
+<a class="text-on-surface-variant dark:text-outline-variant hover:text-primary dark:hover:text-primary-fixed-dim transition-colors" href="/masthead">Masthead</a>
+<a class="text-on-surface-variant dark:text-outline-variant hover:text-primary dark:hover:text-primary-fixed-dim transition-colors" href="/privacy">Privacy</a>
+<a class="text-on-surface-variant dark:text-outline-variant hover:text-primary dark:hover:text-primary-fixed-dim transition-colors" href="/terms">Terms</a>
+<a class="text-on-surface-variant dark:text-outline-variant hover:text-primary dark:hover:text-primary-fixed-dim transition-colors" href="/contact">Contact</a>
+<a class="text-on-surface-variant dark:text-outline-variant hover:text-primary dark:hover:text-primary-fixed-dim transition-colors" href="/newsletter">Newsletter</a>
+</nav>
+</div>
+</footer>
+</body></html>

@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+
+<html class="scroll-smooth" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Recipe Detail - Gastronome</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&amp;family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-bright": "#faf8ff",
+                        "inverse-on-surface": "#edf0ff",
+                        "tertiary": "#330a00",
+                        "on-secondary-fixed": "#001c38",
+                        "surface-container-low": "#f1f3ff",
+                        "secondary": "#3d608c",
+                        "secondary-fixed": "#d3e4ff",
+                        "outline-variant": "#c2c7cd",
+                        "primary-container": "#003049",
+                        "on-tertiary-fixed": "#390c00",
+                        "surface-container-lowest": "#ffffff",
+                        "on-tertiary-container": "#f86630",
+                        "surface-container-high": "#e5e7f6",
+                        "surface-container": "#eaedfc",
+                        "on-primary-fixed-variant": "#244a64",
+                        "primary-fixed-dim": "#a5cbea",
+                        "on-secondary-container": "#345883",
+                        "on-secondary-fixed-variant": "#234872",
+                        "on-primary-container": "#7398b6",
+                        "on-tertiary-fixed-variant": "#832600",
+                        "error": "#ba1a1a",
+                        "surface-tint": "#3d627d",
+                        "secondary-container": "#acceff",
+                        "inverse-surface": "#2c303b",
+                        "on-primary-fixed": "#001e2f",
+                        "on-primary": "#ffffff",
+                        "inverse-primary": "#a5cbea",
+                        "tertiary-fixed-dim": "#ffb59d",
+                        "tertiary-container": "#571600",
+                        "background": "#faf8ff",
+                        "on-background": "#171b26",
+                        "on-surface-variant": "#42474d",
+                        "on-error": "#ffffff",
+                        "primary-fixed": "#cae6ff",
+                        "outline": "#72787e",
+                        "surface": "#faf8ff",
+                        "error-container": "#ffdad6",
+                        "primary": "#001a2b",
+                        "surface-dim": "#d6d9e8",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary": "#ffffff",
+                        "tertiary-fixed": "#ffdbd0",
+                        "surface-variant": "#dfe2f1",
+                        "on-surface": "#171b26",
+                        "on-error-container": "#93000a",
+                        "secondary-fixed-dim": "#a6c9fa",
+                        "surface-container-highest": "#dfe2f1"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-desktop": "64px",
+                        "gutter": "24px",
+                        "stack-sm": "16px",
+                        "stack-md": "32px",
+                        "margin-mobile": "20px",
+                        "unit": "8px",
+                        "stack-lg": "64px"
+                    },
+                    "fontFamily": {
+                        "display-lg": ["Playfair Display"],
+                        "headline-md": ["Playfair Display"],
+                        "display-md": ["Playfair Display"],
+                        "body-lg": ["Plus Jakarta Sans"],
+                        "body-md": ["Plus Jakarta Sans"],
+                        "headline-lg-mobile": ["Playfair Display"],
+                        "label-lg": ["Plus Jakarta Sans"],
+                        "label-sm": ["Plus Jakarta Sans"],
+                        "headline-lg": ["Playfair Display"]
+                    },
+                    "fontSize": {
+                        "display-lg": ["64px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "headline-md": ["24px", { "lineHeight": "1.4", "fontWeight": "600" }],
+                        "display-md": ["48px", { "lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+                        "body-lg": ["18px", { "lineHeight": "1.7", "fontWeight": "400" }],
+                        "body-md": ["16px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "headline-lg-mobile": ["28px", { "lineHeight": "1.3", "fontWeight": "600" }],
+                        "label-lg": ["14px", { "lineHeight": "1.2", "letterSpacing": "0.1em", "fontWeight": "700" }],
+                        "label-sm": ["12px", { "lineHeight": "1.2", "fontWeight": "600" }],
+                        "headline-lg": ["32px", { "lineHeight": "1.3", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .fill-icon {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .btn-shadow {
+            box-shadow: 4px 4px 0px 0px rgba(0,26,43,1); /* primary color */
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .btn-shadow:hover {
+            transform: translate(2px, 2px);
+            box-shadow: 2px 2px 0px 0px rgba(0,26,43,1);
+        }
+        .btn-shadow:active {
+            transform: translate(4px, 4px);
+            box-shadow: 0px 0px 0px 0px rgba(0,26,43,1);
+        }
+        .checkbox-custom:checked + div {
+            background-color: #001a2b; /* primary */
+            border-color: #001a2b;
+        }
+        .checkbox-custom:checked + div svg {
+            display: block;
+        }
+        .ingredient-item.checked span.text-content {
+            text-decoration: line-through;
+            color: #72787e; /* outline */
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md antialiased selection:bg-on-tertiary-container selection:text-white">
+<!-- TopNavBar -->
+<nav class="docked full-width top-0 border-b border-outline dark:border-outline-variant flat no shadows flex justify-between items-center w-full px-margin-desktop py-gutter max-w-full mx-auto bg-surface-bright dark:bg-surface z-50">
+<div class="flex items-center gap-8">
+<a class="font-display-md text-display-md tracking-tighter text-primary dark:text-on-surface" href="/">GASTRONOME</a>
+<div class="hidden md:flex items-center gap-6">
+<a class="font-label-lg text-label-lg uppercase tracking-widest text-on-surface-variant dark:text-outline-variant hover:text-on-tertiary-container dark:hover:text-on-tertiary-container transition-colors duration-300" href="/reviews">Reviews</a>
+<a class="font-label-lg text-label-lg uppercase tracking-widest text-on-tertiary-container dark:text-on-tertiary-container border-b-2 border-on-tertiary-container pb-1 hover:text-on-tertiary-container dark:hover:text-on-tertiary-container transition-colors duration-300" href="/recipes">Recipes</a>
+<a class="font-label-lg text-label-lg uppercase tracking-widest text-on-surface-variant dark:text-outline-variant hover:text-on-tertiary-container dark:hover:text-on-tertiary-container transition-colors duration-300" href="/philosophy">Philosophy</a>
+<a class="font-label-lg text-label-lg uppercase tracking-widest text-on-surface-variant dark:text-outline-variant hover:text-on-tertiary-container dark:hover:text-on-tertiary-container transition-colors duration-300" href="/archives">Archives</a>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button aria-label="Search" class="p-2 hover:text-on-tertiary-container transition-colors duration-300">
+<span class="material-symbols-outlined" data-icon="search">search</span>
+</button>
+<button class="hidden md:inline-block bg-primary text-on-primary font-label-lg text-label-lg uppercase tracking-widest px-6 py-3 border border-primary btn-shadow active:scale-[0.98] transition-transform">
+                Subscribe
+            </button>
+</div>
+</nav>
+<main class="max-w-[1440px] mx-auto pb-stack-lg">
+<!-- Hero Section -->
+<header class="px-margin-mobile md:px-margin-desktop pt-stack-md pb-stack-sm md:pt-stack-lg md:pb-stack-md">
+<div class="flex flex-col gap-unit items-start mb-stack-sm">
+<span class="font-label-sm text-label-sm uppercase tracking-widest text-on-surface-variant border-b border-on-surface-variant pb-1">Dinner / Pasta</span>
+<h1 class="font-display-lg text-display-lg md:text-[88px] leading-none text-primary max-w-4xl mt-4">
+                    Slow-Roasted Tomato &amp; Garlic Confit Rigatoni
+                </h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mt-4">
+                    A masterclass in patience. Cherry tomatoes blistered and collapsed in a pool of olive oil, yielding a sauce that is deeply savory, slightly sweet, and fiercely rustic.
+                </p>
+</div>
+<!-- Quick Metadata Bar -->
+<div class="flex flex-wrap items-center gap-6 py-4 border-y border-outline mb-stack-md">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-outline" data-icon="schedule">schedule</span>
+<div>
+<span class="block font-label-sm text-label-sm uppercase text-outline">Prep Time</span>
+<span class="font-body-md text-body-md font-medium">15 mins</span>
+</div>
+</div>
+<div class="w-px h-8 bg-outline hidden md:block"></div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-outline" data-icon="local_fire_department">local_fire_department</span>
+<div>
+<span class="block font-label-sm text-label-sm uppercase text-outline">Cook Time</span>
+<span class="font-body-md text-body-md font-medium">2 hours</span>
+</div>
+</div>
+<div class="w-px h-8 bg-outline hidden md:block"></div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-outline" data-icon="restaurant">restaurant</span>
+<div>
+<span class="block font-label-sm text-label-sm uppercase text-outline">Difficulty</span>
+<span class="font-body-md text-body-md font-medium">Approachable</span>
+</div>
+</div>
+<div class="w-px h-8 bg-outline hidden md:block"></div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-outline" data-icon="monitor_weight">monitor_weight</span>
+<div>
+<span class="block font-label-sm text-label-sm uppercase text-outline">Yield</span>
+<span class="font-body-md text-body-md font-medium">4 Servings</span>
+</div>
+</div>
+</div>
+<!-- Hero Image -->
+<div class="w-full h-[614px] min-h-[400px] border border-primary relative overflow-hidden bg-surface-variant">
+<img alt="A high-end editorial shot of rigatoni pasta glistening with olive oil and slow-roasted cherry tomatoes. The scene is lit with natural, dramatic side lighting creating deep shadows and highlighting the texture of the pasta and garlic cloves. Styled on a rustic ceramic plate on a dark slate table." class="w-full h-full object-cover" data-alt="A high-end editorial shot of rigatoni pasta glistening with olive oil and slow-roasted cherry tomatoes. The scene is lit with natural, dramatic side lighting creating deep shadows and highlighting the texture of the pasta and garlic cloves. Styled on a rustic ceramic plate on a dark slate table." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDWoJd_PVB7mPjMzyTU3Jcld4_Z3bHcru3SyhfRU5r0xQMolp-JKszpxTuO1OkSL338hLtgkhAZ-mQMQUBO2srKXoMmLDXuXcb9Xovyt1KK44SQ7f4j9KWBQnhY5sx92R1cIgTCffigHsXhLR_bzjazfvR9coQD5ufNC-V35s9nyLZ5459fjQRpi5OSrpfwxzN9ilTJ2Oy8aGkA8NUbuQGYtDLehg_4xqT3n7yS1s0WWn0LP-pwcmn3JtY_l2uVMY71338j8MXtJEU"/>
+</div>
+</header>
+<!-- Main Recipe Content: 2-Column Layout -->
+<div class="px-margin-mobile md:px-margin-desktop grid grid-cols-1 lg:grid-cols-12 gap-gutter md:gap-16">
+<!-- Left Column: Ingredients (Soft Linen Background) -->
+<aside class="lg:col-span-4 bg-[#fce5cd]/20 border border-outline p-6 md:p-8 self-start sticky top-32">
+<h2 class="font-headline-md text-headline-md text-primary mb-stack-sm pb-4 border-b border-primary">Ingredients</h2>
+<div class="space-y-6">
+<div>
+<h3 class="font-label-lg text-label-lg uppercase tracking-widest text-secondary mb-4">The Confit</h3>
+<ul class="space-y-4">
+<label class="ingredient-item flex items-start gap-3 cursor-pointer group">
+<div class="relative flex items-start pt-1">
+<input class="checkbox-custom opacity-0 absolute h-0 w-0" type="checkbox"/>
+<div class="w-5 h-5 border border-primary rounded-sm flex items-center justify-center transition-colors bg-white group-hover:border-on-tertiary-container">
+<svg class="hidden w-3 h-3 text-white pointer-events-none" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"></path></svg>
+</div>
+</div>
+<span class="text-content font-body-md text-body-md text-on-surface transition-colors">2 lbs cherry or grape tomatoes, mixed colors</span>
+</label>
+<label class="ingredient-item flex items-start gap-3 cursor-pointer group">
+<div class="relative flex items-start pt-1">
+<input class="checkbox-custom opacity-0 absolute h-0 w-0" type="checkbox"/>
+<div class="w-5 h-5 border border-primary rounded-sm flex items-center justify-center transition-colors bg-white group-hover:border-on-tertiary-container">
+<svg class="hidden w-3 h-3 text-white pointer-events-none" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"></path></svg>
+</div>
+</div>
+<span class="text-content font-body-md text-body-md text-on-surface transition-colors">1 whole head of garlic, cloves separated and peeled</span>
+</label>
+<label class="ingredient-item flex items-start gap-3 cursor-pointer group">
+<div class="relative flex items-start pt-1">
+<input class="checkbox-custom opacity-0 absolute h-0 w-0" type="checkbox"/>
+<div class="w-5 h-5 border border-primary rounded-sm flex items-center justify-center transition-colors bg-white group-hover:border-on-tertiary-container">
+<svg class="hidden w-3 h-3 text-white pointer-events-none" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"></path></svg>
+</div>
+</div>
+<span class="text-content font-body-md text-body-md text-on-surface transition-colors">1.5 cups extra virgin olive oil (high quality)</span>
+</label>
+</ul>
+</div>
+<div>
+<h3 class="font-label-lg text-label-lg uppercase tracking-widest text-secondary mb-4">The Pasta</h3>
+<ul class="space-y-4">
+<label class="ingredient-item flex items-start gap-3 cursor-pointer group">
+<div class="relative flex items-start pt-1">
+<input class="checkbox-custom opacity-0 absolute h-0 w-0" type="checkbox"/>
+<div class="w-5 h-5 border border-primary rounded-sm flex items-center justify-center transition-colors bg-white group-hover:border-on-tertiary-container">
+<svg class="hidden w-3 h-3 text-white pointer-events-none" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"></path></svg>
+</div>
+</div>
+<span class="text-content font-body-md text-body-md text-on-surface transition-colors">1 lb bronze-die rigatoni or paccheri</span>
+</label>
+<label class="ingredient-item flex items-start gap-3 cursor-pointer group">
+<div class="relative flex items-start pt-1">
+<input class="checkbox-custom opacity-0 absolute h-0 w-0" type="checkbox"/>
+<div class="w-5 h-5 border border-primary rounded-sm flex items-center justify-center transition-colors bg-white group-hover:border-on-tertiary-container">
+<svg class="hidden w-3 h-3 text-white pointer-events-none" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"></path></svg>
+</div>
+</div>
+<span class="text-content font-body-md text-body-md text-on-surface transition-colors">Parmigiano-Reggiano, for grating</span>
+</label>
+</ul>
+</div>
+</div>
+</aside>
+<!-- Right Column: Steps -->
+<section class="lg:col-span-8 md:pl-8">
+<div class="space-y-stack-md">
+<!-- Step 1 -->
+<div class="relative group">
+<div class="absolute -left-12 md:-left-20 top-0 font-display-lg text-[120px] leading-none text-on-tertiary-container opacity-20 font-bold group-hover:opacity-100 transition-opacity duration-500">1</div>
+<div class="pl-4 md:pl-8 border-l border-outline group-hover:border-on-tertiary-container transition-colors duration-500">
+<h3 class="font-headline-md text-headline-md text-primary mb-4">Prepare the Confit</h3>
+<p class="font-body-lg text-body-lg text-on-surface-variant leading-relaxed">
+                                Preheat your oven to 275°F (135°C). In a wide, shallow baking dish, arrange the cherry tomatoes and peeled garlic cloves in a single layer. Tuck in the sprigs of thyme and red pepper flakes. Season generously with kosher salt and black pepper. Pour the extra virgin olive oil over the mixture until the tomatoes are about halfway submerged.
+                            </p>
+</div>
+</div>
+<!-- Step 2 -->
+<div class="relative group">
+<div class="absolute -left-12 md:-left-20 top-0 font-display-lg text-[120px] leading-none text-on-tertiary-container opacity-20 font-bold group-hover:opacity-100 transition-opacity duration-500">2</div>
+<div class="pl-4 md:pl-8 border-l border-outline group-hover:border-on-tertiary-container transition-colors duration-500">
+<h3 class="font-headline-md text-headline-md text-primary mb-4">The Slow Roast</h3>
+<p class="font-body-lg text-body-lg text-on-surface-variant leading-relaxed mb-6">
+                                Transfer the baking dish to the middle rack of the oven. Roast undisturbed for 2 to 2.5 hours. You are looking for the tomatoes to completely collapse, wrinkling and releasing their juices into the oil, while the garlic cloves become soft enough to mash with a fork and turn a deep golden brown.
+                            </p>
+<!-- Step Image -->
+<div class="w-full aspect-[4/3] border border-outline bg-surface-variant overflow-hidden">
+<img alt="A close-up shot of cherry tomatoes and whole garlic cloves roasting in a shallow pool of olive oil in a dark roasting pan. The oil is bubbling slightly, and the tomatoes are blistered and starting to burst. Warm, golden lighting enhances the savory mood." class="w-full h-full object-cover" data-alt="A close-up shot of cherry tomatoes and whole garlic cloves roasting in a shallow pool of olive oil in a dark roasting pan. The oil is bubbling slightly, and the tomatoes are blistered and starting to burst. Warm, golden lighting enhances the savory mood." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC1aGmpCrL6e5iwmvm9mOA--QOERsWGuGmVYjo7FiALTg52c5HxZBrQumZb2RTYlMHQT-NKXhaPHHm1tnXwe9rRZZY5_OhvUVOooJzoVOw-CcMJ_OQ-q9S4dmXTIl6MKahUNaSUYg64z4p2agiKv7Fl4khlgKVZKhY__YemlR56FVNiAfSU4UViChn2lAgMK7vAUXSfSt1hULp2qH4qQmDk1blq9HsFZNIhBhGVqHKbr3ekRnYYnIPAkAKE68FyP5OA6HjCjVNRPBs"/>
+</div>
+</div>
+</div>
+<!-- Step 3 -->
+<div class="relative group">
+<div class="absolute -left-12 md:-left-20 top-0 font-display-lg text-[120px] leading-none text-on-tertiary-container opacity-20 font-bold group-hover:opacity-100 transition-opacity duration-500">3</div>
+<div class="pl-4 md:pl-8 border-l border-outline group-hover:border-on-tertiary-container transition-colors duration-500">
+<h3 class="font-headline-md text-headline-md text-primary mb-4">Cook the Pasta</h3>
+<p class="font-body-lg text-body-lg text-on-surface-variant leading-relaxed">
+                                About 20 minutes before the confit is finished, bring a large pot of heavily salted water (it should taste like the sea) to a rolling boil. Add the rigatoni and cook according to the package directions until exactly al dente. Do not overcook. Reserve 1 cup of the starchy pasta cooking water before draining.
+                            </p>
+</div>
+</div>
+</div>
+</section>
+</div>
+</main>
+<!-- Footer -->
+<footer class="grid grid-cols-1 md:grid-cols-2 w-full px-margin-desktop py-stack-lg gap-gutter bg-surface-container dark:bg-inverse-surface border-t border-outline dark:border-outline-variant flat no shadows full-width bottom">
+<div class="flex flex-col justify-between h-full">
+<span class="font-display-lg text-display-lg text-primary dark:text-inverse-on-surface">GASTRONOME</span>
+<p class="font-body-md text-body-md text-on-surface dark:text-inverse-on-surface mt-auto pt-8">
+                © 2024 GASTRONOME EDITORIAL. ALL RIGHTS RESERVED.
+            </p>
+</div>
+<div class="flex flex-col justify-end items-start md:items-end gap-4">
+<a class="font-body-md text-body-md text-on-surface-variant dark:text-outline-variant hover:text-primary dark:hover:text-primary-fixed-dim transition-colors Standard link hover with 1px underline" href="/masthead">Masthead</a>
+<a class="font-body-md text-body-md text-on-surface-variant dark:text-outline-variant hover:text-primary dark:hover:text-primary-fixed-dim transition-colors Standard link hover with 1px underline" href="/privacy">Privacy</a>
+<a class="font-body-md text-body-md text-on-surface-variant dark:text-outline-variant hover:text-primary dark:hover:text-primary-fixed-dim transition-colors Standard link hover with 1px underline" href="/terms">Terms</a>
+<a class="font-body-md text-body-md text-on-surface-variant dark:text-outline-variant hover:text-primary dark:hover:text-primary-fixed-dim transition-colors Standard link hover with 1px underline" href="/contact">Contact</a>
+<a class="font-body-md text-body-md text-on-surface-variant dark:text-outline-variant hover:text-primary dark:hover:text-primary-fixed-dim transition-colors Standard link hover with 1px underline" href="/newsletter">Newsletter</a>
+</div>
+</footer>
+<script>
+        // Interactive Checklist Logic
+        document.querySelectorAll('.ingredient-item input[type="checkbox"]').forEach(checkbox => {
+            checkbox.addEventListener('change', function() {
+                const label = this.closest('label');
+                if (this.checked) {
+                    label.classList.add('checked');
+                } else {
+                    label.classList.remove('checked');
+                }
+            });
+        });
+    </script>
+</body></html>

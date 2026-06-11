@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Gastronome - Editorial</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&amp;family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-bright": "#faf8ff",
+                        "inverse-on-surface": "#edf0ff",
+                        "tertiary": "#330a00",
+                        "on-secondary-fixed": "#001c38",
+                        "surface-container-low": "#f1f3ff",
+                        "secondary": "#3d608c",
+                        "secondary-fixed": "#d3e4ff",
+                        "outline-variant": "#c2c7cd",
+                        "primary-container": "#003049",
+                        "on-tertiary-fixed": "#390c00",
+                        "surface-container-lowest": "#ffffff",
+                        "on-tertiary-container": "#f86630",
+                        "surface-container-high": "#e5e7f6",
+                        "surface-container": "#eaedfc",
+                        "on-primary-fixed-variant": "#244a64",
+                        "primary-fixed-dim": "#a5cbea",
+                        "on-secondary-container": "#345883",
+                        "on-secondary-fixed-variant": "#234872",
+                        "on-primary-container": "#7398b6",
+                        "on-tertiary-fixed-variant": "#832600",
+                        "error": "#ba1a1a",
+                        "surface-tint": "#3d627d",
+                        "secondary-container": "#acceff",
+                        "inverse-surface": "#2c303b",
+                        "on-primary-fixed": "#001e2f",
+                        "on-primary": "#ffffff",
+                        "inverse-primary": "#a5cbea",
+                        "tertiary-fixed-dim": "#ffb59d",
+                        "tertiary-container": "#571600",
+                        "background": "#faf8ff",
+                        "on-background": "#171b26",
+                        "on-surface-variant": "#42474d",
+                        "on-error": "#ffffff",
+                        "primary-fixed": "#cae6ff",
+                        "outline": "#72787e",
+                        "surface": "#faf8ff",
+                        "error-container": "#ffdad6",
+                        "primary": "#001a2b",
+                        "surface-dim": "#d6d9e8",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary": "#ffffff",
+                        "tertiary-fixed": "#ffdbd0",
+                        "surface-variant": "#dfe2f1",
+                        "on-surface": "#171b26",
+                        "on-error-container": "#93000a",
+                        "secondary-fixed-dim": "#a6c9fa",
+                        "surface-container-highest": "#dfe2f1"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-desktop": "64px",
+                        "gutter": "24px",
+                        "stack-sm": "16px",
+                        "stack-md": "32px",
+                        "margin-mobile": "20px",
+                        "unit": "8px",
+                        "stack-lg": "64px"
+                    },
+                    "fontFamily": {
+                        "display-lg": ["Playfair Display"],
+                        "headline-md": ["Playfair Display"],
+                        "display-md": ["Playfair Display"],
+                        "body-lg": ["Plus Jakarta Sans"],
+                        "body-md": ["Plus Jakarta Sans"],
+                        "headline-lg-mobile": ["Playfair Display"],
+                        "label-lg": ["Plus Jakarta Sans"],
+                        "label-sm": ["Plus Jakarta Sans"],
+                        "headline-lg": ["Playfair Display"]
+                    },
+                    "fontSize": {
+                        "display-lg": ["64px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "headline-md": ["24px", {"lineHeight": "1.4", "fontWeight": "600"}],
+                        "display-md": ["48px", {"lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                        "body-lg": ["18px", {"lineHeight": "1.7", "fontWeight": "400"}],
+                        "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "headline-lg-mobile": ["28px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                        "label-lg": ["14px", {"lineHeight": "1.2", "letterSpacing": "0.1em", "fontWeight": "700"}],
+                        "label-sm": ["12px", {"lineHeight": "1.2", "fontWeight": "600"}],
+                        "headline-lg": ["32px", {"lineHeight": "1.3", "fontWeight": "600"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .fill-icon {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-[#f1ece2] text-on-surface min-h-screen flex flex-col antialiased">
+<!-- TopNavBar from JSON -->
+<nav class="flex justify-between items-center w-full px-margin-desktop py-gutter max-w-full mx-auto bg-surface-bright dark:bg-surface z-50 border-b border-outline dark:border-outline-variant full-width top-0">
+<div class="flex items-center">
+<span class="font-display-md text-display-md tracking-tighter text-primary dark:text-on-surface">GASTRONOME</span>
+</div>
+<div class="hidden md:flex items-center space-x-gutter">
+<a class="font-label-lg text-label-lg uppercase tracking-widest text-on-tertiary-container dark:text-on-tertiary-container border-b-2 border-on-tertiary-container pb-1" href="#">Reviews</a>
+<a class="font-label-lg text-label-lg uppercase tracking-widest text-on-surface-variant dark:text-outline-variant hover:text-on-tertiary-container dark:hover:text-on-tertiary-container transition-colors duration-300" href="#">Recipes</a>
+<a class="font-label-lg text-label-lg uppercase tracking-widest text-on-surface-variant dark:text-outline-variant hover:text-on-tertiary-container dark:hover:text-on-tertiary-container transition-colors duration-300" href="#">Philosophy</a>
+<a class="font-label-lg text-label-lg uppercase tracking-widest text-on-surface-variant dark:text-outline-variant hover:text-on-tertiary-container dark:hover:text-on-tertiary-container transition-colors duration-300" href="#">Archives</a>
+</div>
+<div class="flex items-center space-x-unit">
+<button class="p-2 text-primary dark:text-on-surface">
+<span class="material-symbols-outlined">search</span>
+</button>
+<button class="bg-[#ff6b35] text-on-primary font-label-lg text-label-lg uppercase tracking-widest px-6 py-3 border border-[#2b2f3a] shadow-[4px_4px_0px_0px_#2b2f3a] hover:scale-[1.02] hover:shadow-[2px_2px_0px_0px_#2b2f3a] transition-all duration-200">
+                Subscribe
+            </button>
+</div>
+</nav>
+<main class="flex-grow">
+<!-- Hero Section -->
+<section class="px-margin-desktop py-stack-lg grid grid-cols-1 md:grid-cols-12 gap-gutter items-center min-h-[716px]">
+<div class="md:col-span-5 flex flex-col gap-stack-md pr-gutter">
+<h1 class="font-display-lg text-display-lg text-primary-container leading-tight">
+                    The Art of <br/>
+<span class="italic text-secondary">Slow Dining</span>
+</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-md">
+                    Curated reviews and editorial insights for those who appreciate the tactile heritage of culinary craftsmanship.
+                </p>
+<div class="relative w-full max-w-sm mt-stack-sm">
+<input class="w-full bg-surface-container-lowest border border-[#2b2f3a] focus:bg-[#fce5cd] focus:ring-0 focus:border-[#2b2f3a] px-4 py-3 font-body-md text-body-md shadow-[4px_4px_0px_0px_rgba(43,47,58,0.1)] transition-colors duration-200" placeholder="Search by city, chef, or cuisine..." type="text"/>
+<button class="absolute right-2 top-1/2 -translate-y-1/2 text-primary">
+<span class="material-symbols-outlined">arrow_forward</span>
+</button>
+</div>
+</div>
+<div class="md:col-span-7 h-full w-full relative group">
+<div class="absolute inset-0 bg-primary-container translate-x-4 translate-y-4 rounded-sm border border-[#2b2f3a]"></div>
+<div class="relative h-full w-full border border-[#2b2f3a] rounded-sm overflow-hidden bg-surface-container-lowest">
+<img alt="Elegant restaurant interior" class="w-full h-full object-cover grayscale-[20%] group-hover:scale-105 transition-transform duration-700" data-alt="A sophisticated, high-end restaurant interior shot in natural daylight. Minimalist wooden tables are set with pristine white linen, fine crystal glasses, and polished silverware. The lighting is bright and airy, creating a modern, luxurious light-mode aesthetic. A subtle deep space blue accent chair provides contrast against the soft linen background. The mood is calm, authoritative, and deeply rooted in fine dining heritage." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAsFWXtmXkaeDp1N2-IjMsYnqGIsAKlTUctLxbmuO-m4ttCai1rcp9XkPHYUgDuRNd0BoknkJMaqMOm8jl5IKi4WOK3tf9PT9zuf9rBtUen-PMo7_38DbUo_stYfJloDJCL__TgGE0FGl3MExl7E2dK1Pekoyxg-WrMYaaxNcMpV0YWknIKBdKFgNE_-u_hci9L1osam3qrAjcmHZHF0i_rVU207Ye51iWN7RAslluAZzJJddP-9y-jcdYLQWvgFLMYOJQDG9tVisY"/>
+</div>
+</div>
+</section>
+<!-- Featured Reviews -->
+<section class="px-margin-desktop py-stack-lg bg-surface-container-lowest border-y border-[#2b2f3a]">
+<div class="flex justify-between items-end mb-stack-md">
+<h2 class="font-headline-lg text-headline-lg text-primary-container">Latest Critiques</h2>
+<a class="font-label-lg text-label-lg uppercase tracking-widest text-secondary hover:text-primary transition-colors border-b border-secondary pb-1" href="#">View All</a>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-gutter">
+<!-- Card 1 -->
+<article class="flex flex-col group cursor-pointer border border-[#2b2f3a] bg-[#f1ece2] hover:shadow-[4px_4px_0px_0px_#2b2f3a] hover:-translate-y-1 transition-all duration-300">
+<div class="aspect-[4/3] w-full overflow-hidden border-b border-[#2b2f3a] relative">
+<div class="absolute top-4 left-4 bg-[#ff6b35] text-[#003049] font-label-lg text-label-lg px-3 py-1 border border-[#2b2f3a] z-10 shadow-[2px_2px_0px_0px_#003049]">
+                            9.5/10
+                        </div>
+<img alt="Gourmet dish plating" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A top-down view of a meticulously plated gourmet dish on a textured ceramic plate. The food features delicate garnishes, a vibrant sauce swipe, and precise culinary technique. The lighting is soft and directional, highlighting the textures of the ingredients. The background is a clean, neutral surface, adhering to a minimalist editorial style. The image evokes precision, artistry, and elevated gastronomy." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBgF18FVGTstjS8jbpvD7-QCd3mUyWClXq3gY-HFj2ia8oLWQJWcmH4q-GZdD6cKfLgNlE4QG9uW-uRQDbfoV2Fo8UxCW5peqfK-8fv55HSjHXmk9fEIH1aTw4uqf58JIicIAf1YLdYebOoyZ-J6Ur9W_AKSXEzFWN_KikawvxkDOsLXWBgDQjpxP25PyHX5AXftSrqpLRr3kfgd9Mz5oh9vAbXucIkccC1CzRsMJRBjLRUxPVFjTjp3e6bY6Zj1iGAuU0YbXKsvf8"/>
+</div>
+<div class="p-stack-sm flex flex-col gap-unit flex-grow">
+<span class="font-label-sm text-label-sm uppercase tracking-widest text-secondary">French Contemporary</span>
+<h3 class="font-headline-md text-headline-md text-primary-container group-hover:text-secondary transition-colors">Le Nouveau Terroir</h3>
+<p class="font-body-md text-body-md text-on-surface-variant line-clamp-3">A masterful reinterpretation of classic Burgundian techniques, stripping away the heavy sauces to reveal the true essence of the seasonal harvest.</p>
+</div>
+</article>
+<!-- Card 2 -->
+<article class="flex flex-col group cursor-pointer border border-[#2b2f3a] bg-[#f1ece2] hover:shadow-[4px_4px_0px_0px_#2b2f3a] hover:-translate-y-1 transition-all duration-300">
+<div class="aspect-[4/3] w-full overflow-hidden border-b border-[#2b2f3a] relative">
+<div class="absolute top-4 left-4 bg-[#ff6b35] text-[#003049] font-label-lg text-label-lg px-3 py-1 border border-[#2b2f3a] z-10 shadow-[2px_2px_0px_0px_#003049]">
+                            8.8/10
+                        </div>
+<img alt="Minimalist interior" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A sleek, minimalist sushi bar interior featuring pale wood counters and stark white walls. A single chef is partially visible in the background, focused on preparation. The lighting is bright, even, and natural, creating a serene, almost clinical purity. Deep black structural lines provide sharp contrast in the architecture. The atmosphere is quiet, focused, and deeply respectful of culinary tradition." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBIOFhDhaVysG2kgcShALQ4ukOq4lSjMPw_scVSSBPGnQbIf4aGGqHj-Yp1wkeEvADKJvlKTLOwYgYqtv8KokgAZL-PDyN1nTucT2F0ZnsuS2OXTrlaYQ3A9l432Rmh_zf02sZ5EUlKS5pC6kY5IjK9ZcPrk__43SF2shjP588ABQMIdHwlAFml_UP1PcvtZi5IcUn7LBj8SSbad4e3D4v2QjsVWsFG2cUYzxRO2vO8PTYxlsFMIRBJ8rQyN7I5m45vZ8HQMR1dC4o"/>
+</div>
+<div class="p-stack-sm flex flex-col gap-unit flex-grow">
+<span class="font-label-sm text-label-sm uppercase tracking-widest text-secondary">Omakase</span>
+<h3 class="font-headline-md text-headline-md text-primary-container group-hover:text-secondary transition-colors">Kiyomi's Silence</h3>
+<p class="font-body-md text-body-md text-on-surface-variant line-clamp-3">In an era of loud flavors, Kiyomi dares to whisper. A profound exploration of texture and temperature that demands your complete attention.</p>
+</div>
+</article>
+<!-- Card 3 -->
+<article class="flex flex-col group cursor-pointer border border-[#2b2f3a] bg-[#f1ece2] hover:shadow-[4px_4px_0px_0px_#2b2f3a] hover:-translate-y-1 transition-all duration-300">
+<div class="aspect-[4/3] w-full overflow-hidden border-b border-[#2b2f3a] relative">
+<div class="absolute top-4 left-4 bg-surface-variant text-[#003049] font-label-lg text-label-lg px-3 py-1 border border-[#2b2f3a] z-10 shadow-[2px_2px_0px_0px_#003049]">
+                            Unscored
+                        </div>
+<img alt="Rustic bread and wine" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A close-up shot of rustic sourdough bread beside a glass of deep red wine on an aged wooden table. The scene is illuminated by moody, diffused natural light filtering through a window, casting long, soft shadows. The color palette features rich earthy tones contrasting with a pristine white cloth napkin. The style is raw, textural, and highly editorial, focusing on the honest simplicity of the ingredients." src="https://lh3.googleusercontent.com/aida-public/AB6AXuANsRNX10hXpKpc1niPGM1xpvBnWjPIsLbJmT89ppmRW4nFp-E315LoA_MpEl6gw004KD-5mgBHo6sScqsMwJ2s5-H04Pp6ni_ZSqnjfLO5hgw-nqxy1a7KWvE5obaiAbRklKAsfpdMh13uPnqOMWE_U7lFgLSTRmM6nUFdt4jhKnbP6yZo8nqQDaP8DMYDrVusJodPyHnQeGgOOlAj8HER2P1Sy9p7_i_0LZaCcR5EP1NHff3dGqNzruyNK_XuUbegKmJdiN2ddtE"/>
+</div>
+<div class="p-stack-sm flex flex-col gap-unit flex-grow">
+<span class="font-label-sm text-label-sm uppercase tracking-widest text-secondary">Editorial</span>
+<h3 class="font-headline-md text-headline-md text-primary-container group-hover:text-secondary transition-colors">The Death of the Menu</h3>
+<p class="font-body-md text-body-md text-on-surface-variant line-clamp-3">Why top chefs are abandoning choice in favor of narrative-driven dining experiences, and what it means for the future of the restaurant industry.</p>
+</div>
+</article>
+</div>
+</section>
+</main>
+<!-- Footer from JSON -->
+<footer class="grid grid-cols-1 md:grid-cols-2 w-full px-margin-desktop py-stack-lg gap-gutter bg-surface-container dark:bg-inverse-surface border-t border-outline dark:border-outline-variant full-width bottom">
+<div class="flex flex-col justify-between">
+<span class="font-display-lg text-display-lg text-primary dark:text-inverse-on-surface mb-stack-md">GASTRONOME</span>
+<p class="font-body-md text-body-md text-on-surface dark:text-inverse-on-surface">© 2024 GASTRONOME EDITORIAL. ALL RIGHTS RESERVED.</p>
+</div>
+<div class="flex flex-col items-start md:items-end justify-between">
+<div class="flex flex-wrap gap-gutter mb-stack-md justify-end w-full">
+<a class="font-body-md text-body-md text-on-surface-variant dark:text-outline-variant hover:text-primary dark:hover:text-primary-fixed-dim transition-colors" href="#">Masthead</a>
+<a class="font-body-md text-body-md text-on-surface-variant dark:text-outline-variant hover:text-primary dark:hover:text-primary-fixed-dim transition-colors" href="#">Privacy</a>
+<a class="font-body-md text-body-md text-on-surface-variant dark:text-outline-variant hover:text-primary dark:hover:text-primary-fixed-dim transition-colors" href="#">Terms</a>
+<a class="font-body-md text-body-md text-on-surface-variant dark:text-outline-variant hover:text-primary dark:hover:text-primary-fixed-dim transition-colors" href="#">Contact</a>
+<a class="font-body-md text-body-md text-on-surface-variant dark:text-outline-variant hover:text-primary dark:hover:text-primary-fixed-dim transition-colors" href="#">Newsletter</a>
+</div>
+<div class="w-full md:max-w-sm border border-[#2b2f3a] bg-surface-bright flex">
+<input class="flex-grow bg-transparent border-none focus:ring-0 px-4 py-2 font-body-md text-body-md" placeholder="Join the dispatch..." type="email"/>
+<button class="bg-[#003049] text-surface-bright px-4 py-2 border-l border-[#2b2f3a] hover:bg-secondary transition-colors">
+<span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+</div>
+</footer>
+</body></html>

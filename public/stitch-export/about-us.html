@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>About Us | GASTRONOME</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&amp;family=Plus+Jakarta+Sans:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-bright": "#faf8ff",
+                        "inverse-on-surface": "#edf0ff",
+                        "tertiary": "#330a00",
+                        "on-secondary-fixed": "#001c38",
+                        "surface-container-low": "#f1f3ff",
+                        "secondary": "#3d608c",
+                        "secondary-fixed": "#d3e4ff",
+                        "outline-variant": "#c2c7cd",
+                        "primary-container": "#003049",
+                        "on-tertiary-fixed": "#390c00",
+                        "surface-container-lowest": "#ffffff",
+                        "on-tertiary-container": "#f86630",
+                        "surface-container-high": "#e5e7f6",
+                        "surface-container": "#eaedfc",
+                        "on-primary-fixed-variant": "#244a64",
+                        "primary-fixed-dim": "#a5cbea",
+                        "on-secondary-container": "#345883",
+                        "on-secondary-fixed-variant": "#234872",
+                        "on-primary-container": "#7398b6",
+                        "on-tertiary-fixed-variant": "#832600",
+                        "error": "#ba1a1a",
+                        "surface-tint": "#3d627d",
+                        "secondary-container": "#acceff",
+                        "inverse-surface": "#2c303b",
+                        "on-primary-fixed": "#001e2f",
+                        "on-primary": "#ffffff",
+                        "inverse-primary": "#a5cbea",
+                        "tertiary-fixed-dim": "#ffb59d",
+                        "tertiary-container": "#571600",
+                        "background": "#faf8ff",
+                        "on-background": "#171b26",
+                        "on-surface-variant": "#42474d",
+                        "on-error": "#ffffff",
+                        "primary-fixed": "#cae6ff",
+                        "outline": "#72787e",
+                        "surface": "#faf8ff",
+                        "error-container": "#ffdad6",
+                        "primary": "#001a2b",
+                        "surface-dim": "#d6d9e8",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary": "#ffffff",
+                        "tertiary-fixed": "#ffdbd0",
+                        "surface-variant": "#dfe2f1",
+                        "on-surface": "#171b26",
+                        "on-error-container": "#93000a",
+                        "secondary-fixed-dim": "#a6c9fa",
+                        "surface-container-highest": "#dfe2f1"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-desktop": "64px",
+                        "gutter": "24px",
+                        "stack-sm": "16px",
+                        "stack-md": "32px",
+                        "margin-mobile": "20px",
+                        "unit": "8px",
+                        "stack-lg": "64px"
+                    },
+                    "fontFamily": {
+                        "display-lg": ["Playfair Display"],
+                        "headline-md": ["Playfair Display"],
+                        "display-md": ["Playfair Display"],
+                        "body-lg": ["Plus Jakarta Sans"],
+                        "body-md": ["Plus Jakarta Sans"],
+                        "headline-lg-mobile": ["Playfair Display"],
+                        "label-lg": ["Plus Jakarta Sans"],
+                        "label-sm": ["Plus Jakarta Sans"],
+                        "headline-lg": ["Playfair Display"]
+                    },
+                    "fontSize": {
+                        "display-lg": ["64px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "headline-md": ["24px", { "lineHeight": "1.4", "fontWeight": "600" }],
+                        "display-md": ["48px", { "lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+                        "body-lg": ["18px", { "lineHeight": "1.7", "fontWeight": "400" }],
+                        "body-md": ["16px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "headline-lg-mobile": ["28px", { "lineHeight": "1.3", "fontWeight": "600" }],
+                        "label-lg": ["14px", { "lineHeight": "1.2", "letterSpacing": "0.1em", "fontWeight": "700" }],
+                        "label-sm": ["12px", { "lineHeight": "1.2", "fontWeight": "600" }],
+                        "headline-lg": ["32px", { "lineHeight": "1.3", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            background-color: theme('colors.surface');
+            color: theme('colors.on-surface');
+        }
+        .editorial-text {
+            column-count: 2;
+            column-gap: theme('spacing.margin-desktop');
+        }
+        @media (max-width: 768px) {
+            .editorial-text {
+                column-count: 1;
+            }
+        }
+    </style>
+</head>
+<body class="antialiased min-h-screen flex flex-col selection:bg-on-tertiary-container selection:text-white">
+<!-- TopNavBar -->
+<nav class="bg-surface-bright dark:bg-surface border-b border-outline dark:border-outline-variant w-full sticky top-0 z-50">
+<div class="flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop py-gutter max-w-[1440px] mx-auto">
+<a class="font-display-md text-display-md tracking-tighter text-primary dark:text-on-surface" href="#">GASTRONOME</a>
+<div class="hidden md:flex items-center gap-gutter font-label-lg text-label-lg uppercase tracking-widest">
+<a class="text-on-surface-variant dark:text-outline-variant hover:text-on-tertiary-container dark:hover:text-on-tertiary-container transition-colors duration-300" href="#">Reviews</a>
+<a class="text-on-surface-variant dark:text-outline-variant hover:text-on-tertiary-container dark:hover:text-on-tertiary-container transition-colors duration-300" href="#">Recipes</a>
+<a class="text-on-tertiary-container dark:text-on-tertiary-container border-b-2 border-on-tertiary-container pb-1 hover:text-on-tertiary-container transition-colors duration-300 active:scale-[0.98]" href="#">Philosophy</a>
+<a class="text-on-surface-variant dark:text-outline-variant hover:text-on-tertiary-container dark:hover:text-on-tertiary-container transition-colors duration-300" href="#">Archives</a>
+</div>
+<div class="flex items-center gap-gutter">
+<button class="hidden md:block px-6 py-3 bg-on-tertiary-container text-white font-label-lg text-label-lg uppercase tracking-widest border border-on-surface shadow-[4px_4px_0px_0px_#001a2b] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_0px_#001a2b] transition-all active:scale-[0.98]">
+                    Subscribe
+                </button>
+<button class="md:hidden text-primary">
+<span class="material-symbols-outlined" data-icon="menu">menu</span>
+</button>
+</div>
+</div>
+</nav>
+<main class="flex-grow">
+<!-- Hero Editorial Section -->
+<section class="px-margin-mobile md:px-margin-desktop py-stack-lg md:py-32 max-w-[1440px] mx-auto flex flex-col items-center text-center">
+<span class="font-label-lg text-label-lg uppercase tracking-widest text-on-surface-variant mb-stack-sm block">Our Mission</span>
+<h1 class="font-display-lg text-headline-lg-mobile md:text-display-lg max-w-4xl text-primary mb-stack-md leading-tight">
+                Cultivating the discerning palate through uncompromising culinary journalism.
+            </h1>
+<div class="w-24 h-px bg-outline mb-stack-md"></div>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mx-auto leading-relaxed">
+                Gastronome is born from a reverence for the tactile, the deliberate, and the exceptional. We bypass the ephemeral trends of digital food culture to document the enduring artistry of gastronomy.
+            </p>
+</section>
+<!-- Asymmetric Image Feature -->
+<section class="px-margin-mobile md:px-margin-desktop py-stack-lg max-w-[1440px] mx-auto">
+<div class="grid grid-cols-1 md:grid-cols-12 gap-gutter items-center">
+<div class="md:col-span-7 relative h-[600px] border border-outline">
+<img alt="Chef plating a dish" class="w-full h-full object-cover grayscale-[20%] sepia-[10%]" data-alt="A close-up, high-fashion editorial photograph of a chef meticulously plating a minimalist, haute cuisine dish. The setting is a bright, pristine professional kitchen with soft, diffused natural light filtering in. The aesthetic relies on crisp whites, deep slate blacks, and vibrant pops of color from the microgreens on the plate. The mood is focused, serene, and intensely professional, evoking a luxury culinary magazine." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAYdFe8uJVLpj-JGBR89mMnfvJ4pw3D3q6uPin7apN6X7YUXGUCQkx3Bo0blykFkWtuYkeqhXsRw77pqtqcNorKmCRcgrMJ4tbDNsqHWkHhBbv3EE0zT6I45H1BP24dD7cY8V9CI8k42vW5sO38yjPXLLIxYRi3OWEC5CEf4VRxfn6JD1nb1-pWQL9yzE9XEtXklNwPqqY7jC11ZzDe0esSZYkRfnNJnRsGcJ4uxHmQunRe4ZEAizmNO_kI8crHFm4ckyy0PJCFDog"/>
+<div class="absolute inset-0 bg-surface-tint mix-blend-overlay opacity-20"></div>
+</div>
+<div class="md:col-span-4 md:col-start-9 flex flex-col justify-center space-y-stack-sm pt-stack-md md:pt-0">
+<h2 class="font-headline-md text-headline-md text-primary border-b border-outline pb-unit">The Philosophy</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">
+                        We believe that dining is not merely sustenance, but a narrative art form. Every review, recipe, and essay published in Gastronome is subjected to rigorous editorial standards, ensuring our readers receive insights of unmatched depth and integrity. We favor the slow burn of a well-crafted piece over the immediate gratification of a star rating.
+                    </p>
+</div>
+</div>
+</section>
+<!-- Contact Section -->
+<section class="px-margin-mobile md:px-margin-desktop py-stack-lg max-w-[800px] mx-auto mt-stack-lg mb-32 bg-surface-bright">
+<div class="text-center mb-stack-md">
+<h2 class="font-display-md text-display-md text-primary mb-unit">Correspond</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">For editorial inquiries, submissions, or bespoke partnerships.</p>
+</div>
+<form class="space-y-stack-md flex flex-col">
+<div class="flex flex-col md:flex-row gap-gutter">
+<div class="flex-1 group">
+<label class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest block mb-2" for="name">Name</label>
+<input class="w-full bg-transparent border-0 border-b border-secondary text-primary font-body-lg focus:ring-0 focus:border-on-tertiary-container focus:bg-[#fce5cd] transition-colors py-2 px-0" id="name" placeholder="Your Name" type="text"/>
+</div>
+<div class="flex-1 group">
+<label class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest block mb-2" for="email">Email</label>
+<input class="w-full bg-transparent border-0 border-b border-secondary text-primary font-body-lg focus:ring-0 focus:border-on-tertiary-container focus:bg-[#fce5cd] transition-colors py-2 px-0" id="email" placeholder="your@email.com" type="email"/>
+</div>
+</div>
+<div class="group">
+<label class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest block mb-2" for="subject">Inquiry Type</label>
+<select class="w-full bg-transparent border-0 border-b border-secondary text-primary font-body-lg focus:ring-0 focus:border-on-tertiary-container focus:bg-[#fce5cd] transition-colors py-2 px-0" id="subject">
+<option>Editorial Submission</option>
+<option>Partnership Inquiry</option>
+<option>General Correspondence</option>
+</select>
+</div>
+<div class="group">
+<label class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest block mb-2" for="message">Message</label>
+<textarea class="w-full bg-transparent border-0 border-b border-secondary text-primary font-body-lg focus:ring-0 focus:border-on-tertiary-container focus:bg-[#fce5cd] transition-colors py-2 px-0 resize-none" id="message" placeholder="Detail your inquiry..." rows="4"></textarea>
+</div>
+<div class="pt-stack-sm flex justify-end">
+<button class="px-8 py-4 bg-on-tertiary-container text-white font-label-lg text-label-lg uppercase tracking-widest border border-primary shadow-[4px_4px_0px_0px_#001a2b] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_0px_#001a2b] transition-all active:scale-[0.98]" type="submit">
+                        Dispatch Message
+                    </button>
+</div>
+</form>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-surface-container dark:bg-inverse-surface border-t border-outline dark:border-outline-variant w-full mt-auto">
+<div class="grid grid-cols-1 md:grid-cols-2 w-full px-margin-mobile md:px-margin-desktop py-stack-lg gap-gutter max-w-[1440px] mx-auto">
+<div class="flex flex-col justify-between h-full space-y-stack-md">
+<a class="font-display-lg text-display-lg text-primary dark:text-inverse-on-surface" href="#">GASTRONOME</a>
+<p class="font-body-md text-body-md text-on-surface dark:text-inverse-on-surface">
+                    © 2024 GASTRONOME EDITORIAL. ALL RIGHTS RESERVED.
+                </p>
+</div>
+<div class="flex flex-col md:items-end justify-center">
+<nav class="flex flex-col md:flex-row gap-stack-sm md:gap-gutter font-body-md text-body-md">
+<a class="text-on-surface-variant dark:text-outline-variant hover:text-primary dark:hover:text-primary-fixed-dim transition-colors hover:underline underline-offset-4" href="#">Masthead</a>
+<a class="text-on-surface-variant dark:text-outline-variant hover:text-primary dark:hover:text-primary-fixed-dim transition-colors hover:underline underline-offset-4" href="#">Privacy</a>
+<a class="text-on-surface-variant dark:text-outline-variant hover:text-primary dark:hover:text-primary-fixed-dim transition-colors hover:underline underline-offset-4" href="#">Terms</a>
+<a class="text-on-surface-variant dark:text-outline-variant hover:text-primary dark:hover:text-primary-fixed-dim transition-colors hover:underline underline-offset-4" href="#">Contact</a>
+<a class="text-on-surface-variant dark:text-outline-variant hover:text-primary dark:hover:text-primary-fixed-dim transition-colors hover:underline underline-offset-4" href="#">Newsletter</a>
+</nav>
+</div>
+</div>
+</footer>
+</body></html>

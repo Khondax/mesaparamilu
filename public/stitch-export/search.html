@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>GASTRONOME - Search</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&amp;family=Plus+Jakarta+Sans:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-bright": "#faf8ff",
+                        "inverse-on-surface": "#edf0ff",
+                        "tertiary": "#330a00",
+                        "on-secondary-fixed": "#001c38",
+                        "surface-container-low": "#f1f3ff",
+                        "secondary": "#3d608c",
+                        "secondary-fixed": "#d3e4ff",
+                        "outline-variant": "#c2c7cd",
+                        "primary-container": "#003049",
+                        "on-tertiary-fixed": "#390c00",
+                        "surface-container-lowest": "#ffffff",
+                        "on-tertiary-container": "#f86630",
+                        "surface-container-high": "#e5e7f6",
+                        "surface-container": "#eaedfc",
+                        "on-primary-fixed-variant": "#244a64",
+                        "primary-fixed-dim": "#a5cbea",
+                        "on-secondary-container": "#345883",
+                        "on-secondary-fixed-variant": "#234872",
+                        "on-primary-container": "#7398b6",
+                        "on-tertiary-fixed-variant": "#832600",
+                        "error": "#ba1a1a",
+                        "surface-tint": "#3d627d",
+                        "secondary-container": "#acceff",
+                        "inverse-surface": "#2c303b",
+                        "on-primary-fixed": "#001e2f",
+                        "on-primary": "#ffffff",
+                        "inverse-primary": "#a5cbea",
+                        "tertiary-fixed-dim": "#ffb59d",
+                        "tertiary-container": "#571600",
+                        "background": "#faf8ff",
+                        "on-background": "#171b26",
+                        "on-surface-variant": "#42474d",
+                        "on-error": "#ffffff",
+                        "primary-fixed": "#cae6ff",
+                        "outline": "#72787e",
+                        "surface": "#faf8ff",
+                        "error-container": "#ffdad6",
+                        "primary": "#001a2b",
+                        "surface-dim": "#d6d9e8",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary": "#ffffff",
+                        "tertiary-fixed": "#ffdbd0",
+                        "surface-variant": "#dfe2f1",
+                        "on-surface": "#171b26",
+                        "on-error-container": "#93000a",
+                        "secondary-fixed-dim": "#a6c9fa",
+                        "surface-container-highest": "#dfe2f1"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-desktop": "64px",
+                        "gutter": "24px",
+                        "stack-sm": "16px",
+                        "stack-md": "32px",
+                        "margin-mobile": "20px",
+                        "unit": "8px",
+                        "stack-lg": "64px"
+                    },
+                    "fontFamily": {
+                        "display-lg": ["Playfair Display"],
+                        "headline-md": ["Playfair Display"],
+                        "display-md": ["Playfair Display"],
+                        "body-lg": ["Plus Jakarta Sans"],
+                        "body-md": ["Plus Jakarta Sans"],
+                        "headline-lg-mobile": ["Playfair Display"],
+                        "label-lg": ["Plus Jakarta Sans"],
+                        "label-sm": ["Plus Jakarta Sans"],
+                        "headline-lg": ["Playfair Display"]
+                    },
+                    "fontSize": {
+                        "display-lg": ["64px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "headline-md": ["24px", {"lineHeight": "1.4", "fontWeight": "600"}],
+                        "display-md": ["48px", {"lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                        "body-lg": ["18px", {"lineHeight": "1.7", "fontWeight": "400"}],
+                        "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "headline-lg-mobile": ["28px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                        "label-lg": ["14px", {"lineHeight": "1.2", "letterSpacing": "0.1em", "fontWeight": "700"}],
+                        "label-sm": ["12px", {"lineHeight": "1.2", "fontWeight": "600"}],
+                        "headline-lg": ["32px", {"lineHeight": "1.3", "fontWeight": "600"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .flat-shadow {
+            box-shadow: 4px 4px 0px 0px rgba(0, 26, 43, 1);
+        }
+        .flat-shadow-hover:hover {
+            box-shadow: 6px 6px 0px 0px rgba(0, 26, 43, 1);
+            transform: translate(-2px, -2px) scale(1.02);
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body-md h-screen flex flex-col overflow-hidden">
+<!-- TopNavBar -->
+<nav class="docked full-width top-0 border-b border-outline dark:border-outline-variant flat no shadows">
+<div class="flex justify-between items-center w-full px-margin-desktop py-gutter max-w-full mx-auto bg-surface-bright dark:bg-surface z-50">
+<div class="font-display-md text-display-md tracking-tighter text-primary dark:text-on-surface">GASTRONOME</div>
+<!-- Navigation Links (Hidden on Mobile) -->
+<div class="hidden md:flex items-center space-x-gutter font-label-lg text-label-lg uppercase tracking-widest">
+<a class="text-on-surface-variant dark:text-outline-variant hover:text-on-tertiary-container dark:hover:text-on-tertiary-container transition-colors duration-300" href="#">Reviews</a>
+<a class="text-on-surface-variant dark:text-outline-variant hover:text-on-tertiary-container dark:hover:text-on-tertiary-container transition-colors duration-300" href="#">Recipes</a>
+<a class="text-on-surface-variant dark:text-outline-variant hover:text-on-tertiary-container dark:hover:text-on-tertiary-container transition-colors duration-300" href="#">Philosophy</a>
+<a class="text-on-surface-variant dark:text-outline-variant hover:text-on-tertiary-container dark:hover:text-on-tertiary-container transition-colors duration-300" href="#">Archives</a>
+</div>
+<!-- Actions -->
+<div class="flex items-center space-x-unit">
+<button class="p-unit border border-primary text-primary hover:bg-surface-variant transition-colors">
+<span class="material-symbols-outlined text-[24px]">search</span>
+</button>
+<button class="hidden md:block px-6 py-3 border border-primary text-on-tertiary bg-on-tertiary-container font-label-lg text-label-lg uppercase tracking-widest flat-shadow flat-shadow-hover transition-all">Subscribe</button>
+</div>
+</div>
+</nav>
+<!-- Main Content: Split Screen -->
+<main class="flex-1 flex flex-col md:flex-row overflow-hidden">
+<!-- Left Panel: Search & Results -->
+<div class="w-full md:w-1/2 lg:w-[600px] flex flex-col border-r border-outline bg-surface-bright h-full">
+<!-- Filter Header -->
+<div class="p-gutter border-b border-outline shrink-0">
+<div class="mb-stack-sm flex space-x-unit">
+<div class="relative flex-1">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline">search</span>
+<input class="w-full pl-10 pr-4 py-3 border border-primary bg-surface focus:bg-[#fce5cd] focus:outline-none focus:ring-0 font-body-md text-on-surface placeholder:text-outline-variant transition-colors" placeholder="Search destinations, chefs, or dishes..." type="text"/>
+</div>
+<button class="px-6 py-3 bg-on-tertiary-container text-on-tertiary font-label-lg text-label-lg border border-primary flat-shadow flat-shadow-hover transition-all whitespace-nowrap">Surprise Me</button>
+</div>
+<div class="flex space-x-unit overflow-x-auto hide-scrollbar pb-2">
+<button class="px-4 py-2 border border-primary bg-secondary text-on-secondary font-label-sm text-label-sm whitespace-nowrap">All Filters</button>
+<button class="px-4 py-2 border border-outline bg-surface text-on-surface hover:border-primary font-label-sm text-label-sm whitespace-nowrap">Location <span class="material-symbols-outlined text-[14px] align-middle ml-1">expand_more</span></button>
+<button class="px-4 py-2 border border-outline bg-surface text-on-surface hover:border-primary font-label-sm text-label-sm whitespace-nowrap">Cuisine <span class="material-symbols-outlined text-[14px] align-middle ml-1">expand_more</span></button>
+<button class="px-4 py-2 border border-outline bg-surface text-on-surface hover:border-primary font-label-sm text-label-sm whitespace-nowrap">Price <span class="material-symbols-outlined text-[14px] align-middle ml-1">expand_more</span></button>
+</div>
+</div>
+<!-- Scrollable Results -->
+<div class="flex-1 overflow-y-auto p-gutter space-y-stack-md hide-scrollbar">
+<!-- Result Card 1 -->
+<article class="flex flex-col sm:flex-row gap-gutter border border-primary p-unit bg-surface-container-lowest hover:bg-[#fce5cd] transition-colors group cursor-pointer">
+<div class="w-full sm:w-2/5 aspect-[4/3] sm:aspect-[3/4] overflow-hidden border border-primary relative">
+<img alt="Restaurant interior" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" data-alt="A meticulously plated high-end dining dish featuring delicate edible flowers and precise sauces on a textured ceramic plate. The lighting is bright and directional, creating a modern, minimalist light-mode aesthetic reminiscent of luxury culinary magazines. The background hints at a sophisticated dining room with dark blue accents and antique white linens." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA7yQN40tehlANThII8hJzOnKRhRhDET5HW0_xRzPpYKhR6qpBHAaANx053sh0tpbbAqRILh3SXvYwNm6w1ItiwSh4ViQ54dWk596TvGlozT4Q5HxBI667hWZ0XxN2BLC52G3JM3Pu5TNSq6vF9k3BPHuSL8_XumXWu4MOM6HhoKOBrEao6cMOhF53Fu6gp-gD7_QiseuO7HjC9r5VCF21BUz4fQTV77RW72l7XnbleJTL4cbkrPIXZjRffRLFak3lhXWabiq1Bgs0"/>
+<div class="absolute top-2 right-2 bg-on-tertiary-container text-primary font-label-lg text-label-lg px-2 py-1 border border-primary flat-shadow">9.2/10</div>
+</div>
+<div class="flex flex-col flex-1 py-unit">
+<div class="flex items-center space-x-2 mb-2">
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-widest border-b border-primary pb-0.5">Modern Nordic</span>
+<span class="text-outline-variant text-sm">•</span>
+<span class="font-label-sm text-label-sm text-outline-variant">$$$$</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-primary mb-2">Lumina</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-4 line-clamp-3">A profound exploration of foraged ingredients presented with startling clarity. The tasting menu reads like a love letter to the rugged coastline.</p>
+<div class="mt-auto flex items-center text-secondary font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[16px] mr-1">location_on</span>
+                            Copenhagen, DK
+                        </div>
+</div>
+</article>
+<!-- Result Card 2 -->
+<article class="flex flex-col sm:flex-row gap-gutter border border-primary p-unit bg-surface-container-lowest hover:bg-[#fce5cd] transition-colors group cursor-pointer">
+<div class="w-full sm:w-2/5 aspect-[4/3] sm:aspect-[3/4] overflow-hidden border border-primary relative">
+<img alt="Restaurant bar" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" data-alt="A moody, elegant restaurant bar setup with crystal glassware and a skilled bartender in the blurred background. The scene is illuminated by soft, natural daylight filtering through large windows, maintaining a clean, premium light-mode editorial feel. The color palette emphasizes crisp whites, deep navy blues, and subtle hints of warm tangerine." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDr5TW38f_eKtBKB8f0AC5yVyI8zjkU9_Nbl1n1Lzc9cYy7pYgOwp1B9sGt95Q-ogRvB0rNJjV6mlnmmakbdQUk5JLXttwS0PqfLFlZLtcbbcA_yn85NE5ONmx9cxp_0iInSHhXmX3DZ8wryefnNbGLVe3-7Q25f9HgS6RSQXPeWU4zpq48unXTj0WnWL-aZ3VyGjC7OfULM8WvrIZUUu_oq-P2E2QfPK_MwQbpHuI46Tg3Bm1fTfr7SS2VaJQ_aA97BStaGWcbvEc"/>
+<div class="absolute top-2 right-2 bg-on-tertiary-container text-primary font-label-lg text-label-lg px-2 py-1 border border-primary flat-shadow">8.8/10</div>
+</div>
+<div class="flex flex-col flex-1 py-unit">
+<div class="flex items-center space-x-2 mb-2">
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-widest border-b border-primary pb-0.5">Neo-Bistro</span>
+<span class="text-outline-variant text-sm">•</span>
+<span class="font-label-sm text-label-sm text-outline-variant">$$$</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-primary mb-2">Le Marais</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-4 line-clamp-3">Unpretentious yet fiercely technical. The natural wine selection acts as a perfect foil to the rich, butter-forward traditional techniques applied here.</p>
+<div class="mt-auto flex items-center text-secondary font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[16px] mr-1">location_on</span>
+                            Paris, FR
+                        </div>
+</div>
+</article>
+<!-- Result Card 3 -->
+<article class="flex flex-col sm:flex-row gap-gutter border border-primary p-unit bg-surface-container-lowest hover:bg-[#fce5cd] transition-colors group cursor-pointer">
+<div class="w-full sm:w-2/5 aspect-[4/3] sm:aspect-[3/4] overflow-hidden border border-primary relative">
+<img alt="Chef preparing food" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" data-alt="A close-up shot of an artisan chef meticulously preparing a delicate pastry in a bright, modern kitchen. The environment is flooded with soft white light, reflecting off stainless steel and marble surfaces, perfectly capturing the minimalist editorial light-mode style. Accents of deep indigo and warm peach are visible in the background props." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAIJGfN6zo7fpte9UaPPsdiLmcr6-0NIGVimhTyWohuC7uw6ICcHSDgeGdotCGkPUNu_TX9hf_Rcm8KAVqeWeuabb3WzXQBGQRaYLnqNsoIVyizPNO85RtfFlVkPdvLaGsrfBxQSeZ9c0YBmETnHqT5B6LW7Owcd7OmfwM8pwBcIgjtpGsg3py-xV2sm2IIwJAF4V5NjHEH-hE77UNxacUMvubrMd0QV0SzlkGUD4ZHtGQ4cSgIPmL_-bOjSDSzhJQs54i94MsRkKs"/>
+<div class="absolute top-2 right-2 bg-on-tertiary-container text-primary font-label-lg text-label-lg px-2 py-1 border border-primary flat-shadow">9.5/10</div>
+</div>
+<div class="flex flex-col flex-1 py-unit">
+<div class="flex items-center space-x-2 mb-2">
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-widest border-b border-primary pb-0.5">Omakase</span>
+<span class="text-outline-variant text-sm">•</span>
+<span class="font-label-sm text-label-sm text-outline-variant">$$$$$</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-primary mb-2">Kinpaku</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-4 line-clamp-3">A masterclass in restraint. Every cut of fish is deliberate, every grain of rice considered. The progression of flavors is nothing short of poetic.</p>
+<div class="mt-auto flex items-center text-secondary font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[16px] mr-1">location_on</span>
+                            Tokyo, JP
+                        </div>
+</div>
+</article>
+</div>
+</div>
+<!-- Right Panel: Map Placeholder -->
+<div class="hidden md:flex flex-1 bg-[#fce5cd] relative items-center justify-center border-l border-primary">
+<!-- Simulated Map Texture -->
+<div class="absolute inset-0 opacity-10 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4IiBoZWlnaHQ9IjgiPgo8cmVjdCB3aWR0aD0iOCIgaGVpZ2h0PSI4IiBmaWxsPSIjZmZmIj48L3JlY3Q+CjxwYXRoIGQ9Ik0wIDBMOCA4Wk04IDBMMCA4WiIgc3Ryb2tlPSIjMDAwIiBzdHJva2Utd2lkdGg9IjEiPjwvcGF0aD4KPC9zdmc+')]"></div>
+<div class="z-10 flex flex-col items-center text-center p-8 max-w-md border border-primary bg-surface flat-shadow">
+<span class="material-symbols-outlined text-[48px] text-secondary mb-4" style="font-variation-settings: 'FILL' 1;">map</span>
+<h2 class="font-headline-md text-headline-md text-primary mb-2">Interactive Atlas</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Select a pin to explore reviews rooted in their geographical context.</p>
+</div>
+<!-- Map Pins (Decorative) -->
+<div class="absolute top-1/4 left-1/3 w-4 h-4 bg-on-tertiary-container border border-primary rounded-full hover:scale-150 transition-transform cursor-pointer"></div>
+<div class="absolute top-1/2 left-2/3 w-4 h-4 bg-primary border border-primary rounded-full hover:scale-150 transition-transform cursor-pointer"></div>
+<div class="absolute bottom-1/3 left-1/4 w-4 h-4 bg-secondary border border-primary rounded-full hover:scale-150 transition-transform cursor-pointer"></div>
+</div>
+</main>
+</body></html>

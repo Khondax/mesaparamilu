@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Recipes - GASTRONOME</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&amp;family=Playfair+Display:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-bright": "#faf8ff",
+                        "inverse-on-surface": "#edf0ff",
+                        "tertiary": "#330a00",
+                        "on-secondary-fixed": "#001c38",
+                        "surface-container-low": "#f1f3ff",
+                        "secondary": "#3d608c",
+                        "secondary-fixed": "#d3e4ff",
+                        "outline-variant": "#c2c7cd",
+                        "primary-container": "#003049",
+                        "on-tertiary-fixed": "#390c00",
+                        "surface-container-lowest": "#ffffff",
+                        "on-tertiary-container": "#f86630",
+                        "surface-container-high": "#e5e7f6",
+                        "surface-container": "#eaedfc",
+                        "on-primary-fixed-variant": "#244a64",
+                        "primary-fixed-dim": "#a5cbea",
+                        "on-secondary-container": "#345883",
+                        "on-secondary-fixed-variant": "#234872",
+                        "on-primary-container": "#7398b6",
+                        "on-tertiary-fixed-variant": "#832600",
+                        "error": "#ba1a1a",
+                        "surface-tint": "#3d627d",
+                        "secondary-container": "#acceff",
+                        "inverse-surface": "#2c303b",
+                        "on-primary-fixed": "#001e2f",
+                        "on-primary": "#ffffff",
+                        "inverse-primary": "#a5cbea",
+                        "tertiary-fixed-dim": "#ffb59d",
+                        "tertiary-container": "#571600",
+                        "background": "#faf8ff",
+                        "on-background": "#171b26",
+                        "on-surface-variant": "#42474d",
+                        "on-error": "#ffffff",
+                        "primary-fixed": "#cae6ff",
+                        "outline": "#72787e",
+                        "surface": "#faf8ff",
+                        "error-container": "#ffdad6",
+                        "primary": "#001a2b",
+                        "surface-dim": "#d6d9e8",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary": "#ffffff",
+                        "tertiary-fixed": "#ffdbd0",
+                        "surface-variant": "#dfe2f1",
+                        "on-surface": "#171b26",
+                        "on-error-container": "#93000a",
+                        "secondary-fixed-dim": "#a6c9fa",
+                        "surface-container-highest": "#dfe2f1"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-desktop": "64px",
+                        "gutter": "24px",
+                        "stack-sm": "16px",
+                        "stack-md": "32px",
+                        "margin-mobile": "20px",
+                        "unit": "8px",
+                        "stack-lg": "64px"
+                    },
+                    "fontFamily": {
+                        "display-lg": ["Playfair Display"],
+                        "headline-md": ["Playfair Display"],
+                        "display-md": ["Playfair Display"],
+                        "body-lg": ["Plus Jakarta Sans"],
+                        "body-md": ["Plus Jakarta Sans"],
+                        "headline-lg-mobile": ["Playfair Display"],
+                        "label-lg": ["Plus Jakarta Sans"],
+                        "label-sm": ["Plus Jakarta Sans"],
+                        "headline-lg": ["Playfair Display"]
+                    },
+                    "fontSize": {
+                        "display-lg": ["64px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "headline-md": ["24px", { "lineHeight": "1.4", "fontWeight": "600" }],
+                        "display-md": ["48px", { "lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+                        "body-lg": ["18px", { "lineHeight": "1.7", "fontWeight": "400" }],
+                        "body-md": ["16px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "headline-lg-mobile": ["28px", { "lineHeight": "1.3", "fontWeight": "600" }],
+                        "label-lg": ["14px", { "lineHeight": "1.2", "letterSpacing": "0.1em", "fontWeight": "700" }],
+                        "label-sm": ["12px", { "lineHeight": "1.2", "fontWeight": "600" }],
+                        "headline-lg": ["32px", { "lineHeight": "1.3", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-outlined[data-weight="fill"] {
+            font-variation-settings: 'FILL' 1;
+        }
+        
+        .recipe-card-hover:hover .recipe-title-box {
+            transform: translateY(-4px);
+            box-shadow: 4px 4px 0px 0px rgba(0, 26, 43, 1);
+        }
+        .recipe-card-hover {
+            transition: all 0.3s ease;
+        }
+        .recipe-title-box {
+            transition: all 0.3s ease;
+        }
+    </style>
+</head>
+<body class="bg-surface-bright text-on-surface font-body-md antialiased min-h-screen flex flex-col">
+<!-- TopNavBar -->
+<nav class="docked full-width top-0 border-b border-outline dark:border-outline-variant flat no shadows flex justify-between items-center w-full px-margin-desktop py-gutter max-w-full mx-auto bg-surface-bright dark:bg-surface z-50">
+<div class="flex-1"></div>
+<div class="flex-1 flex justify-center space-x-8 hidden md:flex">
+<a class="font-label-lg text-label-lg uppercase tracking-widest text-on-surface-variant dark:text-outline-variant hover:text-on-tertiary-container dark:hover:text-on-tertiary-container transition-colors duration-300" href="#">Reviews</a>
+<a class="font-label-lg text-label-lg uppercase tracking-widest text-on-tertiary-container dark:text-on-tertiary-container border-b-2 border-on-tertiary-container pb-1 hover:text-on-tertiary-container dark:hover:text-on-tertiary-container transition-colors duration-300" href="#">Recipes</a>
+<a class="font-label-lg text-label-lg uppercase tracking-widest text-on-surface-variant dark:text-outline-variant hover:text-on-tertiary-container dark:hover:text-on-tertiary-container transition-colors duration-300" href="#">Philosophy</a>
+<a class="font-label-lg text-label-lg uppercase tracking-widest text-on-surface-variant dark:text-outline-variant hover:text-on-tertiary-container dark:hover:text-on-tertiary-container transition-colors duration-300" href="#">Archives</a>
+</div>
+<div class="flex-1 flex justify-end items-center gap-4">
+<button class="font-label-lg text-label-lg uppercase tracking-widest text-primary dark:text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined" data-icon="search">search</span>
+</button>
+<button class="font-label-lg text-label-lg uppercase tracking-widest bg-primary text-on-primary px-6 py-3 border border-primary hover:bg-on-tertiary-container transition-colors duration-300 shadow-[4px_4px_0px_0px_#f86630] active:scale-[0.98]">
+                Subscribe
+            </button>
+</div>
+</nav>
+<div class="text-center py-stack-md bg-surface-bright z-40 border-b border-outline">
+<a class="font-display-md text-display-md tracking-tighter text-primary dark:text-on-surface block" href="/">GASTRONOME</a>
+</div>
+<!-- Main Content Canvas -->
+<main class="flex-grow w-full max-w-[1600px] mx-auto px-margin-mobile md:px-margin-desktop py-stack-lg">
+<!-- Header Section -->
+<header class="mb-stack-lg flex flex-col md:flex-row justify-between items-end gap-stack-md border-b border-outline pb-stack-sm">
+<div class="max-w-2xl">
+<h1 class="font-display-lg text-display-lg text-primary mb-unit">The Archive of Recipes</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant">A curated collection of culinary explorations, ranging from slow-cooked comforts to delicate, high-end technique. Deliberate cooking for the discerning palate.</p>
+</div>
+<!-- Filters -->
+<div class="flex gap-4 overflow-x-auto pb-2 w-full md:w-auto hide-scrollbar">
+<button class="font-label-sm text-label-sm px-4 py-2 border border-primary bg-primary text-on-primary whitespace-nowrap">All Recipes</button>
+<button class="font-label-sm text-label-sm px-4 py-2 border border-outline text-on-surface-variant hover:border-primary hover:text-primary transition-colors whitespace-nowrap">Mains</button>
+<button class="font-label-sm text-label-sm px-4 py-2 border border-outline text-on-surface-variant hover:border-primary hover:text-primary transition-colors whitespace-nowrap">Starters</button>
+<button class="font-label-sm text-label-sm px-4 py-2 border border-outline text-on-surface-variant hover:border-primary hover:text-primary transition-colors whitespace-nowrap">Desserts</button>
+<button class="font-label-sm text-label-sm px-4 py-2 border border-outline text-on-surface-variant hover:border-primary hover:text-primary transition-colors whitespace-nowrap flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]" data-icon="filter_list">filter_list</span>
+                    Filters
+                </button>
+</div>
+</header>
+<!-- Dynamic Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-gutter">
+<!-- Recipe Card 1 -->
+<a class="group recipe-card-hover relative w-full aspect-square border border-outline overflow-hidden flex flex-col justify-between p-4 bg-surface-variant" href="/recipes/venison-wellington">
+<div class="absolute inset-0 z-0">
+<img alt="Venison Wellington" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="A beautifully plated Venison Wellington slice revealing perfectly medium-rare meat surrounded by a dark mushroom duxelles and flaky golden pastry. The dish sits on a minimalist matte charcoal plate. The lighting is moody and editorial, highlighting the textures of the meat and pastry against a dark background, evoking a high-end, sophisticated culinary experience. Minimalist editorial style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCR71gsRBC2QORMrWRHkvRw18mR5enruKJ8WpYjfoWoOUk10TjxpwWQqz9dvUw-tTnPkPwPNfzLJORDRQj7C5V1LCULTiES9I4fM-F5YNAOtafScPtabiHPNrGOVemjJCzDM0vmZiw4QTo9YKqZY8BJu9QngT4J5PvuMgFoP2DURcR08XuIx4AqXncBCO6rMLZ2eRnKNT4BGXF8UA-aHyJf1D8gb26hnXPUR_Yd21r4IbRg3QXmqGV-2aXc4X9_0RVYiusvIWeufrM"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20"></div>
+</div>
+<div class="relative z-10 flex justify-between items-start w-full">
+<span class="bg-surface-bright border border-outline font-label-sm text-label-sm px-3 py-1 text-primary shadow-[2px_2px_0px_0px_rgba(0,26,43,1)]">Advanced</span>
+<span class="bg-surface-bright border border-outline font-label-sm text-label-sm px-2 py-1 text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]" data-icon="schedule">schedule</span> 3 hrs
+                    </span>
+</div>
+<div class="relative z-10 mt-auto recipe-title-box bg-surface-bright border border-outline p-4">
+<h3 class="font-headline-md text-headline-md text-primary mb-1 line-clamp-2">Venison Wellington with Juniper Jus</h3>
+<p class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Mains • British</p>
+</div>
+</a>
+<!-- Recipe Card 2 -->
+<a class="group recipe-card-hover relative w-full aspect-square border border-outline overflow-hidden flex flex-col justify-between p-4 bg-surface-variant lg:col-span-2" href="/recipes/heirloom-tomato-galette">
+<div class="absolute inset-0 z-0">
+<img alt="Heirloom Tomato Galette" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="A rustic heirloom tomato galette straight out of the oven, featuring vibrant red, yellow, and purple tomato slices nestled in a free-form, buttery crust. Fresh thyme leaves are scattered on top. It rests on a piece of crinkled parchment paper on a weathered wooden table. Shot from directly above in bright, natural light, emphasizing the fresh, seasonal ingredients and artisanal baking style. Minimalist editorial approach." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDU3I5XO68XH_ZvjqwGobV_YCqIKCSGRDDugc1HY2_KKylH918ErOBD_dh9cjgLITHDndDFdVDkCEudPwjv7b4ozrK2L8xzq-yjq0_vheYq9mp1AgzDW-BBD3wmz7a6qImmCTFW0RR9E5G9MaSTGf63W0XY4_0bSrGhNlni2leHEMgdEeb9hhcsYx6z82T5HugFElRM-9WkUtVO6fztmk3jWA65I9Y1k71AhrjGArCQ5DdzwIONYkadyqv4vPHC4347M0UEwv3to44"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-black/10"></div>
+</div>
+<div class="relative z-10 flex justify-between items-start w-full">
+<span class="bg-surface-bright border border-outline font-label-sm text-label-sm px-3 py-1 text-primary shadow-[2px_2px_0px_0px_rgba(0,26,43,1)]">Intermediate</span>
+<span class="bg-surface-bright border border-outline font-label-sm text-label-sm px-2 py-1 text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]" data-icon="schedule">schedule</span> 1.5 hrs
+                    </span>
+</div>
+<div class="relative z-10 mt-auto recipe-title-box bg-surface-bright border border-outline p-4 max-w-md">
+<h3 class="font-headline-md text-headline-md text-primary mb-1 line-clamp-2">Rustic Heirloom Tomato &amp; Thyme Galette</h3>
+<p class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Starters • French</p>
+</div>
+</a>
+<!-- Recipe Card 3 -->
+<a class="group recipe-card-hover relative w-full aspect-square border border-outline overflow-hidden flex flex-col justify-between p-4 bg-surface-variant" href="/recipes/miso-black-cod">
+<div class="absolute inset-0 z-0">
+<img alt="Miso Black Cod" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="A perfectly caramelized fillet of miso-glazed black cod resting elegantly on a minimalist white ceramic plate. A single, delicate sprig of cilantro garnishes the top. The lighting is soft and directional, creating subtle highlights on the glossy glaze. The composition is highly asymmetrical, leaving ample negative space to evoke a sense of modern, high-end Japanese dining. Minimalist editorial aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDTHhN3nN0p9DkNOk3nofkkktsSHmRAI5Av-Z_G6ToyYyWyITNwYxcNX4y597PxWedpBJa5n3LlsmthafZKNqrr7pQ23lWpZwzjMO2AHZQlP-YqAabSI53ya2zsA6r-JRzZAsUnKdrY57n-YTQpRE2Cn6Q8pd4_Xh2f0dVmWZUEYTDfoTI48XftCC4QJwXqT2hXWIoRTU3Y26ObF3AMdrFu1bOad455a0nRh0t_zJXyVpoW9bfvV1VXKkuKU8a2KPhFXy-ZGLyj_ng"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20"></div>
+</div>
+<div class="relative z-10 flex justify-between items-start w-full">
+<span class="bg-surface-bright border border-outline font-label-sm text-label-sm px-3 py-1 text-primary shadow-[2px_2px_0px_0px_rgba(0,26,43,1)]">Easy</span>
+<span class="bg-surface-bright border border-outline font-label-sm text-label-sm px-2 py-1 text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]" data-icon="schedule">schedule</span> 45 mins
+                    </span>
+</div>
+<div class="relative z-10 mt-auto recipe-title-box bg-surface-bright border border-outline p-4">
+<h3 class="font-headline-md text-headline-md text-primary mb-1 line-clamp-2">Miso-Glazed Black Cod</h3>
+<p class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Mains • Japanese</p>
+</div>
+</a>
+<!-- Recipe Card 4 -->
+<a class="group recipe-card-hover relative w-full aspect-square border border-outline overflow-hidden flex flex-col justify-between p-4 bg-surface-variant" href="/recipes/saffron-risotto">
+<div class="absolute inset-0 z-0">
+<img alt="Saffron Risotto" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="A shallow bowl of vibrant, golden-yellow saffron risotto (Risotto alla Milanese). The creamy texture of the rice is evident, topped with a few delicate strands of saffron and a dusting of aged Parmigiano-Reggiano. The bowl sits on a soft linen tablecloth. The lighting is warm and inviting, highlighting the rich color of the saffron against the neutral background. Minimalist editorial approach." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCmEzD65oOft-dM5s-4vPXyXH-7HcbklvilMpXBK0kX2qeFFVc31MX4GNhNdgRD7l187xgO1z2J18YOogVrgg-xBnIanOTC8NP5pzI9JCRTt00GBQGveFvqE-2G9B-nPJsRAghBiZ91vpWCqm0ZsikquaNMKvvdVJR8c-VfDnp0UQgrkJZD3thVFyByLZ4KEm13PCg1lkhJNXYgzTO2ioyUjzHm2vEtaOakRD4i373IJ7ggwM8E3vca84qto-H2I8z1zKN5ClNP2NM"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20"></div>
+</div>
+<div class="relative z-10 flex justify-between items-start w-full">
+<span class="bg-surface-bright border border-outline font-label-sm text-label-sm px-3 py-1 text-primary shadow-[2px_2px_0px_0px_rgba(0,26,43,1)]">Intermediate</span>
+<span class="bg-surface-bright border border-outline font-label-sm text-label-sm px-2 py-1 text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]" data-icon="schedule">schedule</span> 1 hr
+                    </span>
+</div>
+<div class="relative z-10 mt-auto recipe-title-box bg-surface-bright border border-outline p-4">
+<h3 class="font-headline-md text-headline-md text-primary mb-1 line-clamp-2">Risotto alla Milanese</h3>
+<p class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Mains • Italian</p>
+</div>
+</a>
+<!-- Recipe Card 5 -->
+<a class="group recipe-card-hover relative w-full aspect-square border border-outline overflow-hidden flex flex-col justify-between p-4 bg-surface-variant xl:col-span-2" href="/recipes/poached-pear">
+<div class="absolute inset-0 z-0">
+<img alt="Red Wine Poached Pears" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="An elegant dessert of a single Bosc pear poached in deep red wine, standing upright in a shallow pool of reduced ruby syrup on a pristine white plate. A dollop of mascarpone cream sits beside it. The lighting is dramatic and moody, emphasizing the rich crimson hue of the pear and creating stark, architectural shadows. High-end, minimalist editorial food photography." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAdaNINttsPqDByBdOgW6u2wGwZ99XbKk74vfhC0HQDQka4UPqToYM01gcyGhYA8eFLxeaJhrTMndEtKo4X54ZTaOWf9me5as0-g4MYHCtW4QKTjsUKG1DkYFkUizp09h0f_Vs3SRwWeTv2zHCAHd0kyhQRn_3c0KHs2miKy_HF9RrZA98uU7VrQAiSObmSzIODFocnhC9xE8ahsYgTztK3KNzxYeFXLx3WngzDw1FL5Z3_4MZcI-mIYaT1sOct_nz6k2IyNb5I-gI"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20"></div>
+</div>
+<div class="relative z-10 flex justify-between items-start w-full">
+<span class="bg-surface-bright border border-outline font-label-sm text-label-sm px-3 py-1 text-primary shadow-[2px_2px_0px_0px_rgba(0,26,43,1)]">Easy</span>
+<span class="bg-surface-bright border border-outline font-label-sm text-label-sm px-2 py-1 text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]" data-icon="schedule">schedule</span> 2 hrs
+                    </span>
+</div>
+<div class="relative z-10 mt-auto recipe-title-box bg-surface-bright border border-outline p-4 max-w-md">
+<h3 class="font-headline-md text-headline-md text-primary mb-1 line-clamp-2">Spiced Red Wine Poached Pears</h3>
+<p class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Desserts • Classic</p>
+</div>
+</a>
+<!-- Recipe Card 6 -->
+<a class="group recipe-card-hover relative w-full aspect-square border border-outline overflow-hidden flex flex-col justify-between p-4 bg-surface-variant" href="/recipes/duck-confit">
+<div class="absolute inset-0 z-0">
+<img alt="Duck Confit" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="A beautifully crisped duck leg confit resting on a bed of puy lentils and roasted root vegetables. Served in a rustic cast-iron skillet on a dark slate surface. The lighting is low-key, capturing the glistening, rendered fat of the duck skin and the earthy tones of the lentils. The atmosphere is warm, rich, and deeply savory. Minimalist editorial aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAbz2lcNBodoFvI75BBFHMjeTy2HU1UiR64sHOrUk-WQLghw-RD_bxYoLYXvNZRAwGK769qYhf-kOz9-LcXIazU2ddpX09QkBYjmboGN9wQUTatCNAxMU4T5Xki8Lu4Ey40XIKLzOotajIMbYJmg1yspiD0nKMOg15YDVZu-oAi7H06-C7oIqiTLUg7KmNe_2jIS4dwa6_38nc1RBWKkr59kwxbs5eyv7pU5PaqH_nf2pV_Ow0X1Y__uDwW19TjQrIBm9E5lxXal3Q"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20"></div>
+</div>
+<div class="relative z-10 flex justify-between items-start w-full">
+<span class="bg-surface-bright border border-outline font-label-sm text-label-sm px-3 py-1 text-primary shadow-[2px_2px_0px_0px_rgba(0,26,43,1)]">Advanced</span>
+<span class="bg-surface-bright border border-outline font-label-sm text-label-sm px-2 py-1 text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]" data-icon="schedule">schedule</span> 24+ hrs
+                    </span>
+</div>
+<div class="relative z-10 mt-auto recipe-title-box bg-surface-bright border border-outline p-4">
+<h3 class="font-headline-md text-headline-md text-primary mb-1 line-clamp-2">Traditional Duck Confit</h3>
+<p class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Mains • French</p>
+</div>
+</a>
+</div>
+<!-- Pagination -->
+<div class="mt-stack-lg flex justify-center items-center gap-4 border-t border-outline pt-stack-sm">
+<button class="w-10 h-10 border border-outline flex items-center justify-center text-on-surface-variant hover:border-primary hover:text-primary transition-colors disabled:opacity-50" disabled="">
+<span class="material-symbols-outlined" data-icon="chevron_left">chevron_left</span>
+</button>
+<span class="font-label-lg text-label-lg px-2">Page 1 of 12</span>
+<button class="w-10 h-10 border border-outline flex items-center justify-center text-on-surface-variant hover:border-primary hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="chevron_right">chevron_right</span>
+</button>
+</div>
+</main>
+<!-- Footer -->
+<footer class="full-width bottom border-t border-outline dark:border-outline-variant flat no shadows grid grid-cols-1 md:grid-cols-2 w-full px-margin-desktop py-stack-lg gap-gutter bg-surface-container dark:bg-inverse-surface mt-auto">
+<div class="flex flex-col gap-unit">
+<h2 class="font-display-lg text-display-lg text-primary dark:text-inverse-on-surface">GASTRONOME</h2>
+<p class="font-body-md text-body-md text-on-surface dark:text-inverse-on-surface mt-4">© 2024 GASTRONOME EDITORIAL. ALL RIGHTS RESERVED.</p>
+</div>
+<div class="flex flex-col md:items-end justify-start gap-4 font-body-md text-body-md">
+<nav class="flex flex-col md:flex-row gap-6 md:gap-8">
+<a class="text-on-surface-variant dark:text-outline-variant hover:text-primary dark:hover:text-primary-fixed-dim transition-colors hover:underline underline-offset-4" href="#">Masthead</a>
+<a class="text-on-surface-variant dark:text-outline-variant hover:text-primary dark:hover:text-primary-fixed-dim transition-colors hover:underline underline-offset-4" href="#">Privacy</a>
+<a class="text-on-surface-variant dark:text-outline-variant hover:text-primary dark:hover:text-primary-fixed-dim transition-colors hover:underline underline-offset-4" href="#">Terms</a>
+<a class="text-on-surface-variant dark:text-outline-variant hover:text-primary dark:hover:text-primary-fixed-dim transition-colors hover:underline underline-offset-4" href="#">Contact</a>
+<a class="text-on-surface-variant dark:text-outline-variant hover:text-primary dark:hover:text-primary-fixed-dim transition-colors hover:underline underline-offset-4" href="#">Newsletter</a>
+</nav>
+</div>
+</footer>
+</body></html>
