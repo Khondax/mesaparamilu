@@ -16,11 +16,11 @@
 - `frontend-design` (anthropics/skills)
 
 ## MCPs:
-- Stitch -> Para diseño del frontal
+- `Stitch` -> Para diseño del frontal
 
 ## Herramientas:
-- Codegraph -> Para crear una base de conocimientos indexados y reducir el uso de tokens
-- Improve -> Para elaborar planes de mejora (Shadcn/improve)
+- `Codegraph` -> Para crear una base de conocimientos indexados y reducir el uso de tokens
+- `Improve` -> Para elaborar planes de mejora (Shadcn/improve)
 
 # Tareas pendientes ✅❌
 1. ✅ Retocar la landing page, poner las 10 últimas reseñas destacadas.
@@ -32,7 +32,7 @@
 7. ✅ Cambiar el nombre de MesaParaMilu? quizá algo más pegadizo?... algo más corto en general es mejor.... ¡¡ARS CULINARIA!! ("arte culinario" o "gastronomía") Variante: Ignis Culinaria ("el fuego de la cocina" o "fuego culinario")
 8. ✅1/2 Crear una estructura de .md, tipo plantilla, con buenas prácticas y código insertable (para imágenes), sobre la que crear cada reseña de un restaurante. Sobre como rellenar los metadatos, introducción al restaurante, hablar del local, cada plato, servicio, etc etc.
 9. ✅1/2 Currar en la interfaz (Stitch?), es un proyecto 100% frontend, no necesita lógica prácticamente, pero si cosas bonitas, transiciones...
-10. ❌ Mejorar el filtrado de restaurantes y añadir más categorías (montar categorías dinámicas? así cada vez que se añade una al listado general los restaurantes que la contengan con referenciables).
+10. ✅ Mejorar el filtrado de restaurantes y añadir más categorías (montar categorías dinámicas? así cada vez que se añade una al listado general los restaurantes que la contengan con referenciables).
 11. ❌ .
 12. ❌ .
 13. ❌ Poner ArsCulinaria en marcha.
