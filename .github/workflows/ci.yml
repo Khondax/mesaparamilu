@@ -2,9 +2,9 @@ name: CI — Ars Culinaria
 
 on:
   push:
-    branches: [main]
+    branches: [master, develop]
   pull_request:
-    branches: [main]
+    branches: [master, develop]
 
 jobs:
   build-and-test:
