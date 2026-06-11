@@ -1,0 +1,72 @@
+---
+import BaseHead from '../../components/BaseHead.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import { SITE_TITLE } from '../../consts';
+import { getCollection } from 'astro:content';
+import { categorySlug } from '../../utils/slug';
+
+const reviews = await getCollection('reviews');
+const categories = [...new Set(reviews.flatMap((r) => r.data.categoryArray ?? []))].sort();
+
+// Count reviews per category
+const categoryCounts = new Map();
+for (const review of reviews) {
+  for (const cat of review.data.categoryArray ?? []) {
+    categoryCounts.set(cat, (categoryCounts.get(cat) || 0) + 1);
+  }
+}
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <BaseHead title={`Categorías — ${SITE_TITLE}`} description="Todas las categorías de reseñas." />
+  </head>
+  <body class="bg-surface-bright text-on-surface min-h-screen flex flex-col antialiased">
+    <Header />
+    <main id="main-content" class="flex-grow w-full max-w-7xl mx-auto px-5 md:px-16 py-16">
+
+      <!-- Page Header -->
+      <div class="mb-16 border-b border-outline pb-8 flex flex-col md:flex-row justify-between items-end gap-8">
+        <div>
+          <h1
+            class="text-[clamp(2.5rem,5vw,4rem)] font-bold text-primary mb-2"
+            style="font-family:'Playfair Display',serif; letter-spacing:-0.02em;"
+          >
+            Categorías
+          </h1>
+          <p class="text-[18px] text-on-surface-variant max-w-2xl leading-relaxed" style="font-family:'Plus Jakarta Sans',sans-serif;">
+            Explora las reseñas agrupadas por tipo de cocina.
+          </p>
+        </div>
+        <p class="text-[14px] text-on-surface-variant uppercase tracking-widest shrink-0" style="font-family:'Plus Jakarta Sans',sans-serif;">
+          {categories.length} {categories.length === 1 ? 'categoría' : 'categorías'}
+        </p>
+      </div>
+
+      <!-- Categories Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {categories.map((cat) => (
+          <a
+            href={`/categorias/${categorySlug(cat)}/`}
+            class="group flex flex-col justify-between gap-3 p-6 border border-[#2b2f3a] bg-surface-bright hover:shadow-[4px_4px_0px_0px_#2b2f3a] hover:-translate-y-1 transition-all duration-300"
+            style="font-family:'Plus Jakarta Sans',sans-serif;"
+          >
+            <h2
+              class="text-[24px] font-semibold text-primary-container group-hover:text-secondary transition-colors leading-tight"
+              style="font-family:'Playfair Display',serif;"
+            >
+              {cat}
+            </h2>
+            <span class="text-[12px] text-on-surface-variant uppercase tracking-widest">
+              {categoryCounts.get(cat)} {categoryCounts.get(cat) === 1 ? 'reseña' : 'reseñas'}
+            </span>
+          </a>
+        ))}
+      </div>
+
+    </main>
+    <Footer />
+  </body>
+</html>
