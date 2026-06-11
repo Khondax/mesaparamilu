@@ -1,33 +1,166 @@
 ---
-import Layout from '../layouts/ReviewPost.astro';
+import BaseHead from '../components/BaseHead.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { SITE_TITLE } from '../consts';
 ---
 
-<Layout
-	title="¿Quieres saber algo sobre nosotros?"
-	description="Sobre nosotros"
-	pubDate={new Date('2025-08-19')}
-	updatedDate={}
-	image="/blog-placeholder-about.jpg"
->
-	<p>
-		Somos Miguel y Lucía, "MiLu" para abreviar, residimos en Gran Canaria y compartimos
-		el gusto por la cocina, viajar y los deportes, pero de esto último no hablaremos mucho 😅.
-	</p>
-	<p>
-		Siempre tratamos de dar a nuestros amigos la mejor opinión que podamos, con sinceridad y siendo
-		honestos. Hasta ahora nos organizamos con una lista de ubicaciones en Google Maps (que ya tiene
-		+440 sitios) y nuestra memoria, pero cada vez cuesta más recordarlo todo.
-	</p>
-	<p>
-		De ahí nace esta web, queremos llevar una especie de diario, organizado, sencillo y fácil de
-		seguir para tratar de llevar al día los establecimientos que vamos probando y quizá incluso que
-		amigos y familiares puedan disfrutar de restaurantes o viajes como lo hicimos nosotros.
-	</p>
-	<p>
-		No somos críticos gastronómicos ni lo pretendemos, pero nos gusta hablar de cocina y a veces
-		ponernos detrás de los fogones. Puede que algún día nos animemos con alguna receta.
-	</p>
-	<p>
-		Muchas gracias por llegar hasta aquí, esperamos ayudar y ¡que disfrutéis!
-	</p>
-</Layout>
+<!doctype html>
+<html lang="es">
+  <head>
+    <BaseHead
+      title={`Sobre nosotros — ${SITE_TITLE}`}
+      description="Somos Miguel y Lucía, dos apasionados de la gastronomía que comparten sus experiencias culinarias desde Gran Canaria."
+      image="/blog-placeholder-about.jpg"
+    />
+  </head>
+  <body class="bg-surface text-on-surface min-h-screen flex flex-col antialiased" style="font-family:'Plus Jakarta Sans',sans-serif;">
+    <Header />
+    <main class="flex-grow">
+
+      <!-- Hero Editorial Section -->
+      <section class="px-5 md:px-16 py-16 md:py-32 max-w-[1440px] mx-auto flex flex-col items-center text-center">
+        <span class="text-[14px] font-bold uppercase tracking-widest text-on-surface-variant mb-4 block">
+          Nuestra misión
+        </span>
+        <h1
+          class="text-[clamp(2rem,5vw,4rem)] font-bold max-w-4xl text-primary mb-8 leading-tight"
+          style="font-family:'Playfair Display',serif; letter-spacing:-0.02em;"
+        >
+          Compartir cada mesa con honestidad, curiosidad y buen apetito.
+        </h1>
+        <div class="w-24 h-px bg-outline mb-8"></div>
+        <p class="text-[18px] text-on-surface-variant max-w-2xl mx-auto leading-relaxed">
+          Somos Miguel y Lucía —&ldquo;MiLu&rdquo; para los amigos— y esta web es nuestro diario gastronómico: 
+          reseñas honestas, recetas ocasionales y muchas ganas de ayudarte a elegir bien dónde comer.
+        </p>
+      </section>
+
+      <!-- Asymmetric Feature Section -->
+      <section class="px-5 md:px-16 py-16 max-w-[1440px] mx-auto">
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
+          <!-- Image -->
+          <div class="md:col-span-7 relative h-[400px] md:h-[600px] border border-outline overflow-hidden">
+            <img
+              src="/blog-placeholder-about.jpg"
+              alt="Miguel y Lucía en la mesa"
+              class="w-full h-full object-cover grayscale-[20%] sepia-[10%]"
+            />
+            <div class="absolute inset-0 bg-surface-tint mix-blend-overlay opacity-20"></div>
+          </div>
+          <!-- Text -->
+          <div class="md:col-span-4 md:col-start-9 flex flex-col justify-center gap-4 pt-8 md:pt-0">
+            <h2
+              class="text-[24px] font-semibold text-primary border-b border-outline pb-2"
+              style="font-family:'Playfair Display',serif;"
+            >
+              La filosofía
+            </h2>
+            <p class="text-[16px] text-on-surface-variant leading-relaxed">
+              Residimos en Gran Canaria y compartimos el gusto por la cocina, viajar y los deportes —aunque de esto 
+              último no hablaremos mucho aquí 😅.
+            </p>
+            <p class="text-[16px] text-on-surface-variant leading-relaxed">
+              Siempre tratamos de dar la mejor opinión posible a nuestros amigos: con sinceridad y siendo honestos. 
+              Hasta ahora nos organizábamos con una lista de ubicaciones en Google Maps (+440 sitios) y nuestra memoria, 
+              pero cada vez costaba más recordarlo todo.
+            </p>
+            <p class="text-[16px] text-on-surface-variant leading-relaxed">
+              De ahí nace esta web: un diario organizado, sencillo y fácil de seguir para que amigos y familiares 
+              puedan disfrutar de restaurantes como lo hicimos nosotros.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Two-column editorial text -->
+      <section class="px-5 md:px-16 py-16 max-w-[1440px] mx-auto border-t border-outline">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-16">
+          <div class="flex flex-col gap-4">
+            <h3
+              class="text-[32px] font-semibold text-primary"
+              style="font-family:'Playfair Display',serif;"
+            >
+              No somos críticos gastronómicos
+            </h3>
+            <p class="text-[18px] text-on-surface-variant leading-relaxed">
+              Ni lo pretendemos. Pero nos gusta hablar de cocina y a veces ponernos detrás de los fogones. 
+              Puede que algún día nos animemos con alguna receta más elaborada.
+            </p>
+            <p class="text-[18px] text-on-surface-variant leading-relaxed">
+              Lo que sí somos es personas que comen fuera con frecuencia, que leen la carta con atención 
+              y que recuerdan si el servicio fue amable o si las patatas estaban frías.
+            </p>
+          </div>
+          <div class="flex flex-col gap-4">
+            <h3
+              class="text-[32px] font-semibold text-primary"
+              style="font-family:'Playfair Display',serif;"
+            >
+              ¿Por qué fiarse de nosotros?
+            </h3>
+            <p class="text-[18px] text-on-surface-variant leading-relaxed">
+              Porque pagamos siempre nuestra cuenta, porque nunca aceptamos invitaciones a cambio de reseñas 
+              y porque nuestra única motivación es ayudarte a elegir bien.
+            </p>
+            <p class="text-[18px] text-on-surface-variant leading-relaxed">
+              Muchas gracias por llegar hasta aquí. Esperamos ayudar y, sobre todo, ¡que disfrutéis!
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Contact Section -->
+      <section class="px-5 md:px-16 py-16 max-w-[800px] mx-auto mt-8 mb-16 bg-surface-bright border border-outline shadow-[4px_4px_0px_0px_#2b2f3a]">
+        <div class="text-center mb-8">
+          <h2
+            class="text-[clamp(2rem,4vw,3rem)] font-bold text-primary mb-2"
+            style="font-family:'Playfair Display',serif; letter-spacing:-0.01em;"
+          >
+            Escríbenos
+          </h2>
+          <p class="text-[16px] text-on-surface-variant">
+            Para sugerencias, recomendaciones o simplemente saludar.
+          </p>
+        </div>
+        <form class="flex flex-col gap-8" name="contact" method="POST" action="#">
+          <div class="flex flex-col md:flex-row gap-6">
+            <div class="flex-1">
+              <label for="name" class="block text-[12px] font-bold uppercase tracking-widest text-on-surface-variant mb-2">Nombre</label>
+              <input
+                id="name" name="name" type="text" placeholder="Tu nombre"
+                class="w-full bg-transparent border-0 border-b border-secondary text-primary text-[18px] focus:ring-0 focus:border-on-tertiary-container focus:bg-[#fce5cd] transition-colors py-2 px-0 outline-none"
+              />
+            </div>
+            <div class="flex-1">
+              <label for="email" class="block text-[12px] font-bold uppercase tracking-widest text-on-surface-variant mb-2">Email</label>
+              <input
+                id="email" name="email" type="email" placeholder="tu@email.com"
+                class="w-full bg-transparent border-0 border-b border-secondary text-primary text-[18px] focus:ring-0 focus:border-on-tertiary-container focus:bg-[#fce5cd] transition-colors py-2 px-0 outline-none"
+              />
+            </div>
+          </div>
+          <div>
+            <label for="message" class="block text-[12px] font-bold uppercase tracking-widest text-on-surface-variant mb-2">Mensaje</label>
+            <textarea
+              id="message" name="message" rows="4" placeholder="Cuéntanos..."
+              class="w-full bg-transparent border-0 border-b border-secondary text-primary text-[18px] focus:ring-0 focus:border-on-tertiary-container focus:bg-[#fce5cd] transition-colors py-2 px-0 resize-none outline-none"
+            ></textarea>
+          </div>
+          <div class="flex justify-end pt-4">
+            <button
+              type="submit"
+              class="px-8 py-4 bg-on-tertiary-container text-white text-[14px] font-bold uppercase tracking-widest border border-primary shadow-[4px_4px_0px_0px_#001a2b] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_0px_#001a2b] transition-all active:scale-[0.98]"
+              style="font-family:'Plus Jakarta Sans',sans-serif;"
+            >
+              Enviar mensaje
+            </button>
+          </div>
+        </form>
+      </section>
+
+    </main>
+    <Footer />
+  </body>
+</html>
+

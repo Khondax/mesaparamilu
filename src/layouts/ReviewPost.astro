@@ -1,4 +1,4 @@
----
+﻿---
 import type { CollectionEntry } from 'astro:content';
 import BaseHead from '../components/BaseHead.astro';
 import Header from '../components/Header.astro';
@@ -10,324 +10,239 @@ import ShareButtons from '../components/ShareButtons.astro';
 type Props = CollectionEntry<'reviews'>['data'];
 
 const {
-	title,
-	description,
-	pubDate,
-	updatedDate,
-	visitDate,
-	image: heroImage,
-	address,
-	locality,
-	averagePrice,
-	categoryArray,
-	favorite,
-	trending,
-	rating,
-	restaurantLinks,
-	anecdote,
-	instagramPostId,
+  title,
+  description,
+  pubDate,
+  updatedDate,
+  visitDate,
+  image: heroImage,
+  address,
+  locality,
+  averagePrice,
+  categoryArray,
+  favorite,
+  trending,
+  rating,
+  restaurantLinks,
+  anecdote,
+  instagramPostId,
 } = Astro.props;
 
-/** Renderiza estrellas visuales para una puntuación 1-10 */
-function renderStars(score: number): string {
-	// const half = score % 2 >= 1 ? 1 : 0;
-	// const empty = 10 - score - half;
-	// return '★'.repeat(score) + (half ? '½' : '') + '☆'.repeat(empty);
-	return `${score}★`
+function ratingAvg(r: Props['rating']): string {
+  if (!r) return '';
+  return ((r.food + r.service + r.ambiance + r.value) / 4).toFixed(1);
 }
 ---
 
-<html lang="es">
-	<head>
-		<BaseHead title={title} description={description} image={heroImage} />
-		<style>
-			main {
-				width: calc(100% - 2em);
-				max-width: 100%;
-				margin: 0;
-			}
-			.hero-image {
-				width: 100%;
-			}
-			.hero-image img {
-				display: block;
-				margin: 0 auto;
-				border-radius: 12px;
-				box-shadow: var(--box-shadow);
-			}
-			.prose {
-				width: 1080px;
-				max-width: calc(100% - 2em);
-				margin: auto;
-				padding: 1em;
-				color: rgb(var(--gray-dark));
-			}
-			.title-section {
-				margin-bottom: 1em;
-				padding: 1em 0;
-				text-align: center;
-				line-height: 1;
-			}
-			.title-section h1 {
-				margin: 0 0 0.5em 0;
-			}
-			.date {
-				margin-bottom: 0.5em;
-				color: rgb(var(--gray));
-			}
-			.last-updated-on {
-				font-style: italic;
-			}
+<html lang="es" class="scroll-smooth">
+  <head>
+    <BaseHead title={title} description={description} image={heroImage} />
+  </head>
+  <body class="bg-surface text-on-surface antialiased" style="font-family:'Plus Jakarta Sans',sans-serif;">
+    <Header />
+    <main class="w-full">
 
-			/* Badges */
-			.badges {
-				display: flex;
-				justify-content: center;
-				gap: 0.5rem;
-				margin-bottom: 1rem;
-			}
-			.badge {
-				font-size: 0.85rem;
-				font-weight: 600;
-				padding: 0.3rem 0.8rem;
-				border-radius: 999px;
-			}
-			.badge-fav {
-				background: rgba(255, 215, 0, 0.85);
-				color: #333;
-			}
-			.badge-trend {
-				background: rgba(255, 69, 0, 0.85);
-				color: #fff;
-			}
+      <!-- Hero Section -->
+      <section class="w-full bg-surface-container-low pt-16 pb-16 border-b border-outline px-5 md:px-16">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
+          <div class="md:col-span-8 md:col-start-3 text-center">
+            {(categoryArray && categoryArray.length > 0) && (
+              <span class="inline-block border-b border-outline pb-1 mb-4 text-[12px] font-semibold uppercase tracking-widest text-on-surface-variant">
+                {categoryArray.join(' • ')}{locality && ` • ${locality}`}
+              </span>
+            )}
+            <h1
+              class="text-[clamp(2rem,5vw,4rem)] font-bold text-primary mb-4 leading-tight"
+              style="font-family:'Playfair Display',serif; letter-spacing:-0.02em;"
+            >
+              {title}
+            </h1>
+            <p class="text-[18px] text-on-surface-variant max-w-2xl mx-auto leading-relaxed">{description}</p>
+          </div>
+        </div>
+      </section>
 
-			/* Meta info */
-			.meta-info {
-				display: flex;
-				flex-wrap: wrap;
-				justify-content: center;
-				gap: 1rem;
-				margin: 1rem 0;
-				font-size: 0.9rem;
-				color: rgb(var(--gray));
-			}
-			.meta-info span {
-				display: flex;
-				align-items: center;
-				gap: 0.3rem;
-			}
+      <!-- Feature Image -->
+      {heroImage && (
+        <section class="w-full px-5 md:px-16 py-8">
+          <div class="max-w-7xl mx-auto">
+            <div class="w-full h-[400px] md:h-[600px] border border-outline relative shadow-[4px_4px_0px_0px_#001c38] overflow-hidden">
+              <img
+                src={heroImage}
+                alt={`Imagen de ${title}`}
+                class="w-full h-full object-cover"
+              />
+            </div>
+          </div>
+        </section>
+      )}
 
-			/* Categories */
-			.categories {
-				display: flex;
-				justify-content: center;
-				flex-wrap: wrap;
-				gap: 0.4rem;
-				margin: 0.75rem 0;
-			}
-			.category-tag {
-				font-size: 0.8rem;
-				padding: 0.2rem 0.6rem;
-				border-radius: 999px;
-				background: rgba(var(--accent-rgb), 0.1);
-				color: var(--accent);
-				font-weight: 500;
-				text-transform: capitalize;
-			}
+      <!-- Content Grid -->
+      <section class="w-full px-5 md:px-16 pb-16">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-16">
 
-			/* Ratings */
-			.ratings {
-				display: grid;
-				grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-				gap: 0.75rem;
-				margin: 1.5rem 0;
-				padding: 1.25rem;
-				background: rgba(var(--gray-light), 0.5);
-				border-radius: 12px;
-			}
-			.rating-item {
-				display: flex;
-				justify-content: space-evenly;
-				align-items: center;
-				font-size: 0.9rem;
-			}
-			.rating-label {
-				font-weight: 600;
-				color: rgb(var(--gray-dark));
-			}
-			.rating-stars {
-				color: var(--accent);
-				align-items: left;
-				letter-spacing: 2px;
-			}
+          <!-- Main Column -->
+          <article class="md:col-span-8">
 
-			/* Restaurant links */
-			.restaurant-links {
-				display: flex;
-				flex-wrap: wrap;
-				justify-content: center;
-				gap: 0.75rem;
-				margin: 1.5rem 0;
-			}
-			.restaurant-link {
-				display: inline-flex;
-				align-items: center;
-				gap: 0.4rem;
-				padding: 0.5rem 1rem;
-				border-radius: 8px;
-				background: var(--accent);
-				color: #fff;
-				text-decoration: none;
-				font-size: 0.85rem;
-				font-weight: 500;
-				transition: opacity 0.2s;
-			}
-			.restaurant-link:hover {
-				opacity: 0.85;
-			}
+            <!-- Meta: date, badges -->
+            <div class="flex flex-wrap items-center gap-4 mb-8 pb-4 border-b border-outline">
+              <span class="text-[12px] text-on-surface-variant uppercase tracking-widest">
+                <FormattedDate date={pubDate} />
+              </span>
+              {visitDate && (
+                <span class="text-[12px] text-on-surface-variant uppercase tracking-widest">
+                  Visitado: <FormattedDate date={visitDate} />
+                </span>
+              )}
+              {favorite && (
+                <span class="text-[12px] font-bold text-on-tertiary-container uppercase tracking-widest border border-on-tertiary-container px-2 py-0.5">Favorito</span>
+              )}
+              {trending && (
+                <span class="text-[12px] font-bold text-primary uppercase tracking-widest border border-primary px-2 py-0.5">Tendencia</span>
+              )}
+            </div>
 
-			/* Anecdote */
-			.anecdote {
-				margin: 1.5rem 0;
-				padding: 1.25rem 1.5rem;
-				border-left: 4px solid var(--accent);
-				background: rgba(var(--accent-rgb), 0.05);
-				border-radius: 0 8px 8px 0;
-				font-style: italic;
-				color: rgb(var(--gray-dark));
-			}
-			.anecdote::before {
-				content: '💡 ';
-				font-style: normal;
-			}
-		</style>
-	</head>
+            <!-- Anecdote -->
+            {anecdote && (
+              <aside class="mb-8 p-6 bg-surface-container border border-on-tertiary-container shadow-[4px_4px_0px_0px_#f86630] relative">
+                <div class="absolute -top-4 left-6 bg-surface-container px-2 border border-on-tertiary-container">
+                  <span class="text-[14px] font-bold uppercase tracking-widest text-on-tertiary-container">Anécdota</span>
+                </div>
+                <p class="text-[18px] text-primary italic leading-relaxed">{anecdote}</p>
+              </aside>
+            )}
 
-	<body>
-		<Header />
-		<main id="main-content">
-			<article>
-				<div class="hero-image">
-					{heroImage && <img width={1020} height={510} src={heroImage} alt={`Imagen de ${title}`} />}
-				</div>
-				<div class="prose">
-					<div class="title-section">
-						{/* Badges */}
-						{(favorite || trending) && (
-							<div class="badges">
-								{favorite && <span class="badge badge-fav">⭐ Favorito</span>}
-								{trending && <span class="badge badge-trend">🔥 Tendencia</span>}
-							</div>
-						)}
+            <!-- MDX content -->
+            <div class="prose-content">
+              <slot />
+            </div>
 
-						<div class="date">
-							<FormattedDate date={pubDate} />
-							{visitDate && (
-								<span> · Visitado el <FormattedDate date={visitDate} /></span>
-							)}
-							{updatedDate && (
-								<div class="last-updated-on">
-									Última actualización el <FormattedDate date={updatedDate} />
-								</div>
-							)}
-						</div>
-						<h1>{title}</h1>
+            <!-- Instagram Embed -->
+            <InstagramEmbed instagramPostId={instagramPostId} />
 
-						{/* Meta info: localidad, dirección, precio */}
-						<div class="meta-info">
-							{locality && <span>📍 {locality}</span>}
-							{address && <span>🏠 {address}</span>}
-							{averagePrice && <span>💰 ~{averagePrice}€/persona</span>}
-						</div>
+            <!-- Share Buttons -->
+            <div class="mt-8 pt-8 border-t border-outline">
+              <ShareButtons />
+            </div>
+          </article>
 
-						{/* Categorías */}
-						{categoryArray && categoryArray.length > 0 && (
-							<div class="categories">
-								{categoryArray.map((cat) => (
-									<span class="category-tag">{cat}</span>
-								))}
-							</div>
-						)}
+          <!-- Sidebar -->
+          <aside class="md:col-span-4">
+            <div class="sticky top-24 border border-outline bg-surface-bright p-6 shadow-[4px_4px_0px_0px_#001c38]">
 
-						<hr />
-					</div>
+              <h3
+                class="text-[24px] font-semibold text-primary border-b border-outline pb-2 mb-4"
+                style="font-family:'Playfair Display',serif;"
+              >
+                Ficha
+              </h3>
 
-					{/* Ratings por dimensión */}
-					{rating && (
-						<div class="ratings">
-							<div class="rating-item">
-								<span class="rating-label">🍽️ Comida</span>
-								<span class="rating-stars">{renderStars(rating.food)}</span>
-							</div>
-							<div class="rating-item">
-								<span class="rating-label">🤵 Servicio</span>
-								<span class="rating-stars">{renderStars(rating.service)}</span>
-							</div>
-							<div class="rating-item">
-								<span class="rating-label">✨ Ambiente</span>
-								<span class="rating-stars">{renderStars(rating.ambiance)}</span>
-							</div>
-							<div class="rating-item">
-								<span class="rating-label">💎 Calidad-precio</span>
-								<span class="rating-stars">{renderStars(rating.value)}</span>
-							</div>
-						</div>
-					)}
+              <dl class="space-y-4 mb-6 text-[16px]">
+                <div>
+                  <dt class="text-[12px] font-semibold uppercase tracking-widest text-on-surface-variant mb-1">Restaurante</dt>
+                  <dd class="text-primary font-semibold">{title}</dd>
+                </div>
+                {locality && (
+                  <div>
+                    <dt class="text-[12px] font-semibold uppercase tracking-widest text-on-surface-variant mb-1">Localidad</dt>
+                    <dd class="text-on-surface">{locality}</dd>
+                  </div>
+                )}
+                {address && (
+                  <div>
+                    <dt class="text-[12px] font-semibold uppercase tracking-widest text-on-surface-variant mb-1">Dirección</dt>
+                    <dd class="text-on-surface">{address}</dd>
+                  </div>
+                )}
+                {averagePrice && (
+                  <div>
+                    <dt class="text-[12px] font-semibold uppercase tracking-widest text-on-surface-variant mb-1">Precio medio</dt>
+                    <dd class="text-primary font-semibold">~{averagePrice}€/persona</dd>
+                  </div>
+                )}
+                {restaurantLinks?.website && (
+                  <div>
+                    <dt class="text-[12px] font-semibold uppercase tracking-widest text-on-surface-variant mb-1">Web</dt>
+                    <dd>
+                      <a href={restaurantLinks.website} target="_blank" rel="noopener noreferrer" class="text-secondary hover:underline underline-offset-4 decoration-1">
+                        {restaurantLinks.website.replace(/^https?:\/\//, '')}
+                      </a>
+                    </dd>
+                  </div>
+                )}
+              </dl>
 
-					{/* Anécdota */}
-					{anecdote && (
-						<aside class="anecdote">
-							{anecdote}
-						</aside>
-					)}
+              <!-- Ratings -->
+              {rating && (
+                <>
+                  <h4 class="text-[14px] font-bold uppercase tracking-widest text-primary border-b border-outline pb-2 mb-4" style="font-family:'Plus Jakarta Sans',sans-serif;">
+                    Puntuaciones
+                  </h4>
+                  <div class="space-y-4 mb-6">
+                    {[
+                      { label: 'Comida', score: rating.food },
+                      { label: 'Servicio', score: rating.service },
+                      { label: 'Ambiente', score: rating.ambiance },
+                      { label: 'Calidad-precio', score: rating.value },
+                    ].map(({ label, score }) => (
+                      <div>
+                        <div class="flex justify-between text-[12px] font-semibold text-on-surface mb-1">
+                          <span>{label}</span>
+                          <span>{score}/10</span>
+                        </div>
+                        <div class="w-full h-1 bg-surface-variant border border-outline-variant overflow-hidden">
+                          <div class="h-full bg-secondary" style={`width:${score * 10}%`}></div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
 
-					{/* Contenido principal (MDX) */}
-					<slot />
+                  <!-- Verdict Box -->
+                  <div class="p-4 bg-surface-container border border-on-tertiary-container shadow-[4px_4px_0px_0px_#f86630] relative">
+                    <div class="absolute -top-3 left-4 bg-surface-container px-2 border border-on-tertiary-container">
+                      <span class="text-[12px] font-bold uppercase tracking-widest text-on-tertiary-container">Veredicto</span>
+                    </div>
+                    <div class="flex items-center gap-4">
+                      <div class="bg-on-tertiary-container text-on-primary text-[32px] font-bold px-4 py-2 border border-primary" style="font-family:'Playfair Display',serif;">
+                        {ratingAvg(rating)}
+                      </div>
+                      <span class="text-[14px] font-bold uppercase tracking-widest text-on-surface-variant">
+                        {parseFloat(ratingAvg(rating)) >= 9 ? 'Excepcional' :
+                         parseFloat(ratingAvg(rating)) >= 8 ? 'Muy recomendable' :
+                         parseFloat(ratingAvg(rating)) >= 7 ? 'Recomendable' :
+                         parseFloat(ratingAvg(rating)) >= 6 ? 'Aceptable' : 'Mejorable'}
+                      </span>
+                    </div>
+                  </div>
+                </>
+              )}
 
-					{/* Instagram embed */}
-					<InstagramEmbed instagramPostId={instagramPostId} />
+              <!-- Restaurant Links -->
+              {restaurantLinks && (
+                <nav class="mt-4 flex flex-col gap-2" aria-label="Enlaces del restaurante">
+                  {restaurantLinks.reservations && (
+                    <a href={restaurantLinks.reservations} target="_blank" rel="noopener noreferrer"
+                      class="flex items-center gap-2 px-4 py-2 border border-[#2b2f3a] text-[14px] font-bold uppercase tracking-widest text-primary hover:bg-surface-container transition-colors">
+                      <span class="material-symbols-outlined text-[16px]">event_available</span>
+                      Reservar
+                    </a>
+                  )}
+                  {restaurantLinks.maps && (
+                    <a href={restaurantLinks.maps} target="_blank" rel="noopener noreferrer"
+                      class="flex items-center gap-2 px-4 py-2 border border-[#2b2f3a] text-[14px] font-bold uppercase tracking-widest text-primary hover:bg-surface-container transition-colors">
+                      <span class="material-symbols-outlined text-[16px]">location_on</span>
+                      Ver en mapa
+                    </a>
+                  )}
+                </nav>
+              )}
+            </div>
+          </aside>
 
-					{/* Enlaces del restaurante */}
-					{restaurantLinks && (
-						<nav class="restaurant-links" aria-label="Enlaces del restaurante">
-							{restaurantLinks.website && (
-								<a href={restaurantLinks.website} target="_blank" rel="noopener noreferrer" class="restaurant-link">
-									🌐 Web
-								</a>
-							)}
-							{restaurantLinks.reservations && (
-								<a href={restaurantLinks.reservations} target="_blank" rel="noopener noreferrer" class="restaurant-link">
-									📅 Reservas
-								</a>
-							)}
-							{restaurantLinks.menu && (
-								<a href={restaurantLinks.menu} target="_blank" rel="noopener noreferrer" class="restaurant-link">
-									📋 Carta
-								</a>
-							)}
-							{restaurantLinks.instagram && (
-								<a href={restaurantLinks.instagram} target="_blank" rel="noopener noreferrer" class="restaurant-link">
-									📸 Instagram
-								</a>
-							)}
-							{restaurantLinks.googleMaps && (
-								<a href={restaurantLinks.googleMaps} target="_blank" rel="noopener noreferrer" class="restaurant-link">
-									🗺️ Google Maps
-								</a>
-							)}
-						</nav>
-					)}
+        </div>
+      </section>
 
-					{/* Compartir en redes */}
-					<ShareButtons
-						url={Astro.url.href}
-						title={`${title} — Ars Culinaria`}
-						description={description}
-					/>
-
-				</div>
-			</article>
-		</main>
-		<Footer />
-	</body>
+    </main>
+    <Footer />
+  </body>
 </html>

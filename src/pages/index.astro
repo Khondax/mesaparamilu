@@ -1,150 +1,122 @@
----
+﻿---
 import BaseHead from '../components/BaseHead.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import CardReview from '../components/CardReview.astro';
-// import Newsletter from '../components/Newsletter.astro';
 import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 import { getCollection } from 'astro:content';
 
 const allReviews = (await getCollection('reviews')).sort(
-	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
 );
 
 const favorites = allReviews.filter((r) => r.data.favorite);
-const latestReviews = allReviews.slice(0, 10);
+const latestReviews = allReviews.slice(0, 6);
 ---
 
 <!doctype html>
 <html lang="es">
-	<head>
-		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
-		<style>
-			main {
-				width: 1080px;
-				max-width: calc(100% - 2em);
-				margin: auto;
-				padding: 1em;
-			}
+  <head>
+    <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+  </head>
+  <body class="bg-[#f1ece2] text-on-surface min-h-screen flex flex-col antialiased">
+    <Header />
+    <main id="main-content" class="flex-grow">
 
-			/* Hero */
-			.hero {
-				text-align: center;
-				padding: 2rem 0 1.5rem;
-			}
-			.hero h1 {
-				font-size: 2.5rem;
-				margin: 0 0 0.5rem 0;
-			}
-			.hero p {
-				font-size: 1.1rem;
-				color: rgb(var(--gray));
-				margin: 0 0 1.5rem 0;
-			}
-			.hero-actions {
-				display: flex;
-				justify-content: center;
-				gap: 1rem;
-				flex-wrap: wrap;
-			}
-			.btn {
-				display: inline-flex;
-				align-items: center;
-				gap: 0.4rem;
-				padding: 0.7rem 1.5rem;
-				border-radius: 8px;
-				font-size: 0.95rem;
-				font-weight: 600;
-				font-family: inherit;
-				text-decoration: none;
-				transition: opacity 0.2s;
-				cursor: pointer;
-			}
-			.btn:hover { opacity: 0.85; }
-			.btn-primary {
-				background: var(--accent);
-				color: #fff;
-				border: none;
-			}
-			.btn-secondary {
-				background: transparent;
-				color: var(--accent);
-				border: 2px solid var(--accent);
-			}
+      <!-- Hero Section -->
+      <section class="px-5 md:px-16 py-16 grid grid-cols-1 md:grid-cols-12 gap-6 items-center min-h-[600px] bg-[#F1ECE2]">
+        <div class="md:col-span-5 flex flex-col gap-8 pr-6">
+          <h1
+            class="text-[clamp(2.5rem,5vw,4rem)] font-bold text-primary-container leading-tight"
+            style="font-family:'Playfair Display',serif; letter-spacing:-0.02em;"
+          >
+            El arte de<br/>
+            <span class="italic text-secondary">comer despacio</span>
+          </h1>
+          <p class="text-[18px] text-on-surface-variant max-w-md leading-relaxed" style="font-family:'Plus Jakarta Sans',sans-serif;">
+            {SITE_DESCRIPTION}
+          </p>
+          <div class="flex gap-4 flex-wrap">
+            <a
+              href="/reviews"
+              class="inline-flex items-center gap-2 px-6 py-3 bg-on-tertiary-container text-white text-[14px] font-bold uppercase tracking-widest border border-[#2b2f3a] shadow-[4px_4px_0px_0px_#2b2f3a] hover:shadow-[2px_2px_0px_0px_#2b2f3a] hover:translate-x-[2px] hover:translate-y-[2px] transition-all duration-200"
+              style="font-family:'Plus Jakarta Sans',sans-serif;"
+            >
+              Ver reseñas
+            </a>
+            <a
+              href="/buscar"
+              class="inline-flex items-center gap-2 px-6 py-3 bg-transparent text-primary text-[14px] font-bold uppercase tracking-widest border border-[#2b2f3a] hover:bg-surface-container transition-colors duration-200"
+              style="font-family:'Plus Jakarta Sans',sans-serif;"
+            >
+              <span class="material-symbols-outlined" style="font-size:18px;">search</span>
+              Buscar
+            </a>
+          </div>
+        </div>
+        <div class="md:col-span-7 h-full w-full relative group min-h-[400px]">
+          <div class="absolute inset-0 bg-primary-container translate-x-4 translate-y-4 border border-[#2b2f3a]"></div>
+          <div class="relative h-full w-full border border-[#2b2f3a] overflow-hidden bg-surface-container-lowest min-h-[400px]">
+            {latestReviews[0]?.data.image ? (
+              <img
+                src={latestReviews[0].data.image}
+                alt={latestReviews[0].data.title}
+                class="w-full h-full object-cover grayscale-[20%] group-hover:scale-105 transition-transform duration-700"
+                style="min-height:400px;"
+              />
+            ) : (
+              <div class="w-full h-full bg-surface-container-high min-h-[400px] flex items-center justify-center">
+                <span class="material-symbols-outlined text-[96px] text-on-surface-variant">restaurant</span>
+              </div>
+            )}
+          </div>
+        </div>
+      </section>
 
-			/* Secciones */
-			.section-header {
-				display: flex;
-				justify-content: space-between;
-				align-items: baseline;
-				margin: 2.5rem 0 1rem;
-				border-bottom: 2px solid rgba(var(--gray-light), 0.8);
-				padding-bottom: 0.5rem;
-			}
-			.section-header h2 {
-				margin: 0;
-				font-size: 1.5rem;
-			}
-			.section-header a {
-				font-size: 0.9rem;
-				color: var(--accent);
-			}
+      <!-- Latest Critiques -->
+      <section class="px-5 md:px-16 py-16 bg-surface-container-lowest border-y border-[#2b2f3a]">
+        <div class="flex justify-between items-end mb-8">
+          <h2
+            class="text-[32px] font-semibold text-primary-container"
+            style="font-family:'Playfair Display',serif;"
+          >
+            Últimas Reseñas
+          </h2>
+          <a
+            href="/reviews"
+            class="text-[14px] font-bold uppercase tracking-widest text-secondary hover:text-primary transition-colors border-b border-secondary pb-1"
+            style="font-family:'Plus Jakarta Sans',sans-serif;"
+          >
+            Ver todas
+          </a>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {latestReviews.map((review) => (
+            <CardReview id={review.id} {...review.data} />
+          ))}
+        </div>
+      </section>
 
-			/* Grid */
-			.reviews-grid {
-				display: grid;
-				gap: 1.5rem;
-				grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-			}
+      <!-- Favorites -->
+      {favorites.length > 0 && (
+        <section class="px-5 md:px-16 py-16">
+          <div class="flex justify-between items-end mb-8">
+            <h2
+              class="text-[32px] font-semibold text-primary-container"
+              style="font-family:'Playfair Display',serif;"
+            >
+              Nuestros Favoritos
+            </h2>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {favorites.map((review) => (
+              <CardReview id={review.id} {...review.data} />
+            ))}
+          </div>
+        </section>
+      )}
 
-			@media (max-width: 720px) {
-				.hero h1 { font-size: 1.8rem; }
-				.reviews-grid {
-					grid-template-columns: 1fr;
-				}
-			}
-		</style>
-	</head>
-	<body>
-		<Header />
-		<main id="main-content">
-			{/* Hero */}
-			<div class="hero">
-				<h1>Bienvenidos a nuestra mesa 🍴</h1>
-				<p>Reseñas honestas de los restaurantes que más nos gustan, escritas por Miguel y Lucía.</p>
-				<div class="hero-actions">
-					<a href="/buscar" class="btn btn-primary">🔍 Buscar restaurantes</a>
-					<a href="/reviews" class="btn btn-secondary">📋 Todas las reseñas</a>
-				</div>
-			</div>
-
-			{/* Favoritos */}
-			{favorites.length > 0 && (
-				<>
-					<div class="section-header">
-						<h2>⭐ Nuestros favoritos</h2>
-					</div>
-					<div class="reviews-grid">
-						{favorites.map((review) => (
-							<CardReview id={review.id} {...review.data} />
-						))}
-					</div>
-				</>
-			)}
-
-			{/* Últimas reseñas */}
-			<div class="section-header">
-				<h2>🕐 Últimas reseñas</h2>
-				<a href="/reviews">Ver todas →</a>
-			</div>
-			<div class="reviews-grid">
-				{latestReviews.map((review) => (
-					<CardReview id={review.id} {...review.data} />
-				))}
-			</div>
-			{/* Newsletter */}
-			<!-- <Newsletter heading="📬 Suscríbete para no perderte nada" subtitle="Reseñas nuevas, descubrimientos y recomendaciones directamente en tu email." /> -->
-		</main>
-		<Footer />
-	</body>
+    </main>
+    <Footer />
+  </body>
 </html>

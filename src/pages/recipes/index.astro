@@ -1,111 +1,92 @@
----
+﻿---
 import BaseHead from '../../components/BaseHead.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
 import { SITE_TITLE, SITE_DESCRIPTION } from '../../consts';
 import { getCollection } from 'astro:content';
-import FormattedDate from '../../components/FormattedDate.astro';
 
 const posts = (await getCollection('recipes')).sort(
-	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
 );
 ---
 
 <!doctype html>
 <html lang="es">
-	<head>
-		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
-		<style>
-			main {
-				width: 960px;
-			}
-			ul {
-				display: flex;
-				flex-wrap: wrap;
-				gap: 2rem;
-				list-style-type: none;
-				margin: 0;
-				padding: 0;
-			}
-			ul li {
-				width: calc(50% - 1rem);
-			}
-			ul li * {
-				text-decoration: none;
-				transition: 0.2s ease;
-			}
-			ul li:first-child {
-				width: 100%;
-				margin-bottom: 1rem;
-				text-align: center;
-			}
-			ul li:first-child img {
-				width: 100%;
-			}
-			ul li:first-child .title {
-				font-size: 2.369rem;
-			}
-			ul li img {
-				margin-bottom: 0.5rem;
-				border-radius: 12px;
-			}
-			ul li a {
-				display: block;
-			}
-			.title {
-				margin: 0;
-				color: rgb(var(--black));
-				line-height: 1;
-			}
-			.date {
-				margin: 0;
-				color: rgb(var(--gray));
-			}
-			ul li a:hover h4,
-			ul li a:hover .date {
-				color: var(--accent);
-			}
-			ul a:hover img {
-				box-shadow: var(--box-shadow);
-			}
-			@media (max-width: 1080px) {
-				ul {
-					gap: 0.5em;
-				}
-				ul li {
-					width: 100%;
-					text-align: center;
-				}
-				ul li:first-child {
-					margin-bottom: 0;
-				}
-				ul li:first-child .title {
-					font-size: 1.563em;
-				}
-			}
-		</style>
-	</head>
-	<body>
-		<Header />
-		<main id="main-content">
-			<section>
-				<ul>
-					{
-						posts.map((post) => (
-							<li>
-								<a href={`/recipes/${post.id}/`}>
-									<img width={1080} height={360} src={post.data.image} alt="" />
-									<h4 class="title">{post.data.title}</h4>
-									<p class="date">
-										<FormattedDate date={post.data.pubDate} />
-									</p>
-								</a>
-							</li>
-						))
-					}
-				</ul>
-			</section>
-		</main>
-		<Footer />
-	</body>
+  <head>
+    <BaseHead title={`Recetas — ${SITE_TITLE}`} description={SITE_DESCRIPTION} />
+  </head>
+  <body class="bg-surface-bright text-on-surface min-h-screen flex flex-col antialiased">
+    <Header />
+    <main id="main-content" class="flex-grow w-full max-w-[1600px] mx-auto px-5 md:px-16 py-16">
+
+      <!-- Header Section -->
+      <header class="mb-16 flex flex-col md:flex-row justify-between items-end gap-8 border-b border-outline pb-4">
+        <div class="max-w-2xl">
+          <h1
+            class="text-[clamp(2.5rem,5vw,4rem)] font-bold text-primary mb-2"
+            style="font-family:'Playfair Display',serif; letter-spacing:-0.02em;"
+          >
+            Archivo de Recetas
+          </h1>
+          <p class="text-[18px] text-on-surface-variant leading-relaxed" style="font-family:'Plus Jakarta Sans',sans-serif;">
+            Una colección curada de exploraciones culinarias, desde cocciones lentas hasta técnicas de alto nivel. Cocina deliberada para paladares exigentes.
+          </p>
+        </div>
+      </header>
+
+      <!-- Recipe Grid -->
+      {posts.length > 0 ? (
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          {posts.map((post) => (
+            <a
+              href={`/recipes/${post.id}/`}
+              class="group relative w-full aspect-square border border-outline overflow-hidden flex flex-col justify-between p-4 bg-surface-variant hover:shadow-[4px_4px_0px_0px_#001a2b] transition-all duration-300"
+              style="font-family:'Plus Jakarta Sans',sans-serif;"
+            >
+              <!-- Background image -->
+              {post.data.image && (
+                <div class="absolute inset-0 z-0">
+                  <img
+                    src={post.data.image}
+                    alt={post.data.title}
+                    class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    loading="lazy"
+                  />
+                  <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20"></div>
+                </div>
+              )}
+
+              <!-- Top badges -->
+              <div class="relative z-10 flex justify-between items-start w-full">
+                <span class="bg-surface-bright border border-outline text-[12px] font-semibold px-3 py-1 text-primary shadow-[2px_2px_0px_0px_rgba(0,26,43,1)] uppercase tracking-widest">
+                  Receta
+                </span>
+              </div>
+
+              <!-- Title Box -->
+              <div class="relative z-10 mt-auto bg-surface-bright border border-outline p-4 group-hover:-translate-y-1 group-hover:shadow-[4px_4px_0px_0px_rgba(0,26,43,1)] transition-all duration-300">
+                <h3
+                  class="text-[24px] font-semibold text-primary mb-1 line-clamp-2 leading-tight"
+                  style="font-family:'Playfair Display',serif;"
+                >
+                  {post.data.title}
+                </h3>
+                {post.data.description && (
+                  <p class="text-[12px] text-on-surface-variant uppercase tracking-widest line-clamp-1">{post.data.description}</p>
+                )}
+              </div>
+            </a>
+          ))}
+        </div>
+      ) : (
+        <div class="text-center py-16 border border-outline bg-surface-container">
+          <p class="text-[18px] text-on-surface-variant" style="font-family:'Plus Jakarta Sans',sans-serif;">
+            Aún no hay recetas publicadas. ¡Vuelve pronto!
+          </p>
+        </div>
+      )}
+
+    </main>
+    <Footer />
+  </body>
 </html>

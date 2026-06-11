@@ -1,417 +1,283 @@
----
+﻿---
 import BaseHead from '../components/BaseHead.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
-import CardReview from '../components/CardReview.astro';
 import { SITE_TITLE } from '../consts';
 import { getCollection } from 'astro:content';
 
 const reviews = (await getCollection('reviews')).sort(
-	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
 );
 
-// Extraer opciones únicas para filtros
 const localities = [...new Set(reviews.map((r) => r.data.locality).filter(Boolean))].sort();
 const categories = [...new Set(reviews.flatMap((r) => r.data.categoryArray ?? []))].sort();
 const maxPrice = Math.max(...reviews.map((r) => r.data.averagePrice ?? 0));
 
-// Serializar datos para el JS del cliente (solo lo necesario)
 const reviewsForClient = reviews.map((r) => ({
-	id: r.id,
-	title: r.data.title,
-	description: r.data.description,
-	locality: r.data.locality,
-	categories: r.data.categoryArray ?? [],
-	averagePrice: r.data.averagePrice ?? 0,
-	favorite: r.data.favorite,
-	trending: r.data.trending,
-	coordinates: r.data.coordinates ?? null,
+  id: r.id,
+  title: r.data.title,
+  description: r.data.description,
+  locality: r.data.locality,
+  categories: r.data.categoryArray ?? [],
+  averagePrice: r.data.averagePrice ?? 0,
+  favorite: r.data.favorite,
+  trending: r.data.trending,
+  image: r.data.image ?? null,
+  rating: r.data.rating
+    ? ((r.data.rating.food + r.data.rating.service + r.data.rating.ambiance + r.data.rating.value) / 4).toFixed(1)
+    : null,
 }));
 
-// Datos para el mapa
 const mapPoints = reviews
-	.filter((r) => r.data.coordinates)
-	.map((r) => ({
-		id: r.id,
-		title: r.data.title,
-		locality: r.data.locality,
-		lat: r.data.coordinates!.lat,
-		lng: r.data.coordinates!.lng,
-		rating: r.data.rating
-			? ((r.data.rating.food + r.data.rating.service + r.data.rating.ambiance + r.data.rating.value) / 4).toFixed(1)
-			: null,
-	}));
+  .filter((r) => r.data.coordinates)
+  .map((r) => ({
+    id: r.id,
+    title: r.data.title,
+    locality: r.data.locality,
+    lat: r.data.coordinates!.lat,
+    lng: r.data.coordinates!.lng,
+    rating: r.data.rating
+      ? ((r.data.rating.food + r.data.rating.service + r.data.rating.ambiance + r.data.rating.value) / 4).toFixed(1)
+      : null,
+  }));
 ---
 
 <!doctype html>
 <html lang="es">
-	<head>
-		<BaseHead title={`Buscar — ${SITE_TITLE}`} description="Busca y filtra restaurantes por localidad, tipo de cocina, precio y más." />
-		<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-		<style>
-			main {
-				width: 1080px;
-				max-width: calc(100% - 2em);
-				margin: auto;
-				padding: 1em;
-			}
+  <head>
+    <BaseHead title={`Buscar — ${SITE_TITLE}`} description="Busca y filtra restaurantes por localidad, tipo de cocina, precio y más." />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <style>
+      #map { width: 100%; height: 400px; z-index: 0; border: 1px solid #2b2f3a; }
+      .hide-scrollbar::-webkit-scrollbar { display: none; }
+      .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+  </head>
+  <body class="bg-surface text-on-surface min-h-screen flex flex-col antialiased" style="font-family:'Plus Jakarta Sans',sans-serif;">
+    <Header />
+    <main id="main-content" class="flex-grow w-full max-w-7xl mx-auto px-5 md:px-16 py-16">
 
-			.page-title {
-				text-align: center;
-				margin-bottom: 0.5rem;
-			}
-			.page-subtitle {
-				text-align: center;
-				color: rgb(var(--gray));
-				margin-bottom: 2rem;
-			}
+      <!-- Page Header -->
+      <div class="mb-8 border-b border-outline pb-8">
+        <h1
+          class="text-[clamp(2rem,4vw,3rem)] font-bold text-primary mb-2"
+          style="font-family:'Playfair Display',serif; letter-spacing:-0.02em;"
+        >
+          Buscador de Restaurantes
+        </h1>
+        <p class="text-[16px] text-on-surface-variant">
+          Filtra por nombre, localidad, tipo de cocina o rango de precio.
+        </p>
+      </div>
 
-			/* Filtros */
-			.filters {
-				display: flex;
-				flex-wrap: wrap;
-				gap: 0.75rem;
-				align-items: flex-end;
-				padding: 1.25rem;
-				background: rgba(var(--gray-light), 0.5);
-				border-radius: 12px;
-				margin-bottom: 1.5rem;
-			}
-			.filter-group {
-				display: flex;
-				flex-direction: column;
-				gap: 0.3rem;
-				flex: 1;
-				min-width: 180px;
-			}
-			.filter-group label {
-				font-size: 0.8rem;
-				font-weight: 600;
-				color: rgb(var(--gray-dark));
-				text-transform: uppercase;
-				letter-spacing: 0.05em;
-			}
-			.filter-group input,
-			.filter-group select {
-				padding: 0.5rem 0.75rem;
-				border: 1px solid rgba(var(--gray), 0.3);
-				border-radius: 8px;
-				font-size: 0.9rem;
-				font-family: inherit;
-				background: rgb(var(--bg));
-				color: rgb(var(--gray-dark));
-				transition: border-color 0.2s;
-			}
-			.filter-group input:focus,
-			.filter-group select:focus {
-				outline: none;
-				border-color: var(--accent);
-			}
-			.filter-actions {
-				display: flex;
-				align-items: flex-end;
-				gap: 0.5rem;
-			}
-			.btn-clear {
-				padding: 0.5rem 1rem;
-				border: 1px solid rgba(var(--gray), 0.3);
-				border-radius: 8px;
-				background: rgb(var(--bg));
-				color: rgb(var(--gray));
-				cursor: pointer;
-				font-size: 0.85rem;
-				font-family: inherit;
-				transition: all 0.2s;
-				white-space: nowrap;
-			}
-			.btn-clear:hover {
-				border-color: var(--accent);
-				color: var(--accent);
-			}
+      <!-- Surprise Me -->
+      <div class="flex flex-wrap gap-4 items-end p-6 border border-[#2b2f3a] bg-surface-container-low mb-8 shadow-[4px_4px_0px_0px_#2b2f3a]">
+        <div class="flex-1 min-w-[200px]">
+          <label class="block text-[12px] font-bold uppercase tracking-widest text-on-surface-variant mb-1">Sorpréndeme en...</label>
+          <select id="surprise-locality" class="w-full border border-[#2b2f3a] bg-surface px-4 py-3 text-[14px] text-on-surface focus:bg-[#fce5cd] focus:outline-none">
+            <option value="">Todas las localidades</option>
+            {localities.map((loc) => <option value={loc}>{loc}</option>)}
+          </select>
+        </div>
+        <button id="btn-surprise"
+          class="px-6 py-3 bg-on-tertiary-container text-white text-[14px] font-bold uppercase tracking-widest border border-[#2b2f3a] shadow-[4px_4px_0px_0px_#2b2f3a] hover:shadow-[2px_2px_0px_0px_#2b2f3a] hover:translate-x-[2px] hover:translate-y-[2px] transition-all">
+          Sorpréndeme
+        </button>
+      </div>
 
-			/* Resultados */
-			.results-info {
-				font-size: 0.9rem;
-				color: rgb(var(--gray));
-				margin-bottom: 1rem;
-			}
-			.reviews-grid {
-				display: grid;
-				gap: 1.5rem;
-				grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-			}
-			.no-results {
-				text-align: center;
-				padding: 3rem 1rem;
-				color: rgb(var(--gray));
-			}
-			.no-results p {
-				font-size: 1.1rem;
-			}
+      <!-- Filters -->
+      <div class="flex flex-wrap gap-4 items-end p-6 border border-outline bg-surface-container mb-8">
+        <div class="flex-1 min-w-[200px]">
+          <label for="filter-search" class="block text-[12px] font-bold uppercase tracking-widest text-on-surface-variant mb-1">Buscar</label>
+          <div class="relative">
+            <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline" style="font-size:18px;">search</span>
+            <input id="filter-search" type="text" placeholder="Nombre o descripción..."
+              class="w-full pl-10 pr-4 py-3 border border-[#2b2f3a] bg-surface focus:bg-[#fce5cd] focus:outline-none text-[16px] text-on-surface" />
+          </div>
+        </div>
+        <div class="flex-1 min-w-[180px]">
+          <label for="filter-locality" class="block text-[12px] font-bold uppercase tracking-widest text-on-surface-variant mb-1">Localidad</label>
+          <select id="filter-locality" class="w-full border border-[#2b2f3a] bg-surface px-4 py-3 text-[14px] text-on-surface focus:bg-[#fce5cd] focus:outline-none">
+            <option value="">Todas</option>
+            {localities.map((loc) => <option value={loc}>{loc}</option>)}
+          </select>
+        </div>
+        <div class="flex-1 min-w-[180px]">
+          <label for="filter-category" class="block text-[12px] font-bold uppercase tracking-widest text-on-surface-variant mb-1">Cocina</label>
+          <select id="filter-category" class="w-full border border-[#2b2f3a] bg-surface px-4 py-3 text-[14px] text-on-surface focus:bg-[#fce5cd] focus:outline-none">
+            <option value="">Todas</option>
+            {categories.map((cat) => <option value={cat}>{cat}</option>)}
+          </select>
+        </div>
+        <div class="flex-1 min-w-[180px]">
+          <label for="filter-price" class="block text-[12px] font-bold uppercase tracking-widest text-on-surface-variant mb-1">
+            Precio máx.: <span id="price-display">{maxPrice || 150}€</span>
+          </label>
+          <input id="filter-price" type="range" min="0" max={maxPrice || 150} step="5" value={maxPrice || 150}
+            class="w-full accent-secondary" />
+        </div>
+        <div>
+          <button id="btn-clear"
+            class="px-4 py-3 border border-outline text-[14px] font-bold uppercase tracking-widest text-on-surface-variant hover:border-primary hover:text-primary transition-colors">
+            Limpiar
+          </button>
+        </div>
+      </div>
 
-			/* Mapa */
-			.map-section {
-				margin-bottom: 2rem;
-			}
-			.map-section h2 {
-				margin-bottom: 0.75rem;
-			}
-			#map {
-				width: 100%;
-				height: 400px;
-				border-radius: 12px;
-				box-shadow: var(--box-shadow);
-				z-index: 0;
-			}
+      <!-- Results info -->
+      <p id="results-info" class="text-[14px] text-on-surface-variant mb-4 uppercase tracking-widest">
+        Mostrando {reviews.length} restaurantes
+      </p>
 
-			/* Sorpréndeme */
-			.surprise-section {
-				display: flex;
-				flex-wrap: wrap;
-				gap: 0.75rem;
-				align-items: flex-end;
-				padding: 1.25rem;
-				background: linear-gradient(135deg, rgba(var(--accent-rgb), 0.05), rgba(var(--accent-rgb), 0.12));
-				border-radius: 12px;
-				margin-bottom: 2rem;
-				border: 1px solid rgba(var(--accent-rgb), 0.15);
-			}
-			.surprise-section h3 {
-				width: 100%;
-				margin: 0 0 0.25rem 0;
-				font-size: 1.1rem;
-				color: var(--accent-dark);
-			}
-			.surprise-section select {
-				flex: 1;
-				min-width: 200px;
-				padding: 0.5rem 0.75rem;
-				border: 1px solid rgba(var(--gray), 0.3);
-				border-radius: 8px;
-				font-size: 0.9rem;
-				font-family: inherit;
-				background: rgb(var(--bg));
-				color: rgb(var(--gray-dark));
-			}
-			.btn-surprise {
-				padding: 0.6rem 1.5rem;
-				border: none;
-				border-radius: 8px;
-				background: var(--accent);
-				color: #fff;
-				font-size: 0.95rem;
-				font-weight: 600;
-				font-family: inherit;
-				cursor: pointer;
-				transition: opacity 0.2s;
-				white-space: nowrap;
-			}
-			.btn-surprise:hover {
-				opacity: 0.85;
-			}
+      <!-- Review Cards Grid -->
+      <div id="reviews-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+        {reviews.map((review) => (
+          <div
+            class="review-card-wrapper"
+            data-id={review.id}
+            data-title={review.data.title.toLowerCase()}
+            data-description={review.data.description?.toLowerCase() ?? ''}
+            data-locality={review.data.locality ?? ''}
+            data-categories={(review.data.categoryArray ?? []).join(',')}
+            data-price={review.data.averagePrice ?? 0}
+          >
+            <a
+              href={`/reviews/${review.id}/`}
+              class="group flex flex-col border border-[#2b2f3a] bg-surface-bright hover:shadow-[4px_4px_0px_0px_#2b2f3a] hover:-translate-y-1 transition-all duration-300 h-full"
+            >
+              <div class="aspect-[4/3] w-full overflow-hidden border-b border-[#2b2f3a] relative">
+                {review.data.rating && (
+                  <div class="absolute top-4 left-4 bg-[#f86630] text-[#003049] text-[14px] font-bold px-3 py-1 border border-[#2b2f3a] z-10 shadow-[2px_2px_0px_0px_#003049] uppercase tracking-widest">
+                    {((review.data.rating.food + review.data.rating.service + review.data.rating.ambiance + review.data.rating.value) / 4).toFixed(1)}/10
+                  </div>
+                )}
+                {review.data.image ? (
+                  <img src={review.data.image} alt={review.data.title} loading="lazy"
+                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                ) : (
+                  <div class="w-full h-full bg-surface-container-high flex items-center justify-center min-h-[200px]">
+                    <span class="material-symbols-outlined text-[64px] text-on-surface-variant">restaurant</span>
+                  </div>
+                )}
+              </div>
+              <div class="p-4 flex flex-col gap-2 flex-grow">
+                {review.data.categoryArray?.[0] && (
+                  <span class="text-[12px] font-semibold uppercase tracking-widest text-secondary">{review.data.categoryArray[0]}</span>
+                )}
+                <h3 class="text-[24px] font-semibold text-primary-container group-hover:text-secondary transition-colors leading-tight"
+                  style="font-family:'Playfair Display',serif;"
+                >
+                  {review.data.title}
+                </h3>
+                {review.data.locality && (
+                  <p class="text-[12px] text-on-surface-variant uppercase tracking-widest">{review.data.locality}</p>
+                )}
+                <p class="text-[16px] text-on-surface-variant line-clamp-3 leading-relaxed">{review.data.description}</p>
+              </div>
+            </a>
+          </div>
+        ))}
+      </div>
 
-			@media (max-width: 720px) {
-				.filters {
-					flex-direction: column;
-				}
-				.filter-group {
-					min-width: 100%;
-				}
-				#map {
-					height: 280px;
-				}
-			}
-		</style>
-	</head>
-	<body>
-		<Header />
-		<main id="main-content">
-			<h1 class="page-title">🔍 Buscador de restaurantes</h1>
-			<p class="page-subtitle">Filtra por nombre, localidad, tipo de cocina o rango de precio</p>
+      <div id="no-results" class="hidden text-center py-16 border border-outline bg-surface-container mb-12">
+        <p class="text-[18px] text-on-surface-variant mb-4">No se encontraron restaurantes con esos filtros.</p>
+        <button id="btn-clear-2" class="px-6 py-3 border border-[#2b2f3a] text-[14px] font-bold uppercase tracking-widest text-primary hover:bg-surface-container transition-colors">
+          Limpiar filtros
+        </button>
+      </div>
 
-			{/* Sorpréndeme */}
-			<div class="surprise-section">
-				<h3>🎲 ¿No sabes dónde ir? ¡Sorpréndeme!</h3>
-				<select id="surprise-locality">
-					<option value="">Todas las localidades</option>
-					{localities.map((loc) => <option value={loc}>{loc}</option>)}
-				</select>
-				<button class="btn-surprise" id="btn-surprise">Sorpréndeme</button>
-			</div>
+      <!-- Map -->
+      <div class="border-t border-outline pt-8">
+        <h2 class="text-[32px] font-semibold text-primary mb-4" style="font-family:'Playfair Display',serif;">Mapa de restaurantes</h2>
+        <div id="map"></div>
+      </div>
 
-			{/* Filtros */}
-			<div class="filters">
-				<div class="filter-group">
-					<label for="filter-search">Buscar</label>
-					<input type="text" id="filter-search" placeholder="Nombre o descripción..." />
-				</div>
-				<div class="filter-group">
-					<label for="filter-locality">Localidad</label>
-					<select id="filter-locality">
-						<option value="">Todas</option>
-						{localities.map((loc) => <option value={loc}>{loc}</option>)}
-					</select>
-				</div>
-				<div class="filter-group">
-					<label for="filter-category">Cocina</label>
-					<select id="filter-category">
-						<option value="">Todas</option>
-						{categories.map((cat) => <option value={cat}>{cat}</option>)}
-					</select>
-				</div>
-				<div class="filter-group">
-					<label for="filter-price">Precio máx. (€/persona)</label>
-					<input type="range" id="filter-price" min="0" max={maxPrice || 150} step="5" value={maxPrice || 150} />
-					<span id="price-display" style="font-size:0.8rem;color:rgb(var(--gray));">Hasta {maxPrice || 150}€</span>
-				</div>
-				<div class="filter-actions">
-					<button class="btn-clear" id="btn-clear">Limpiar filtros</button>
-				</div>
-			</div>
+    </main>
+    <Footer />
 
-			{/* Info resultados */}
-			<p class="results-info" id="results-info">Mostrando {reviews.length} restaurantes</p>
+    <script is:inline src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
-			{/* Grid de tarjetas */}
-			<div class="reviews-grid" id="reviews-grid">
-				{reviews.map((review) => (
-					<div
-						class="review-card-wrapper"
-						data-id={review.id}
-						data-title={review.data.title.toLowerCase()}
-						data-description={review.data.description.toLowerCase()}
-						data-locality={review.data.locality}
-						data-categories={(review.data.categoryArray ?? []).join(',')}
-						data-price={review.data.averagePrice ?? 0}
-						data-favorite={review.data.favorite}
-						data-trending={review.data.trending}
-					>
-						<CardReview id={review.id} {...review.data} />
-					</div>
-				))}
-			</div>
-			<div class="no-results" id="no-results" style="display:none;">
-				<p>😕 No se encontraron restaurantes con esos filtros.</p>
-				<button class="btn-clear" id="btn-clear-2">Limpiar filtros</button>
-			</div>
+    <script is:inline define:vars={{ reviewsForClient, mapPoints }}>
+      // === FILTROS ===
+      const searchInput = document.getElementById('filter-search');
+      const localitySelect = document.getElementById('filter-locality');
+      const categorySelect = document.getElementById('filter-category');
+      const priceRange = document.getElementById('filter-price');
+      const priceDisplay = document.getElementById('price-display');
+      const resultsInfo = document.getElementById('results-info');
+      const noResults = document.getElementById('no-results');
+      const grid = document.getElementById('reviews-grid');
+      const cards = Array.from(grid.querySelectorAll('.review-card-wrapper'));
 
-			{/* Mapa */}
-			<div class="map-section">
-				<h2>🗺️ Mapa de restaurantes</h2>
-				<div id="map"></div>
-			</div>
-		</main>
-		<Footer />
+      function applyFilters() {
+        const search = searchInput.value.toLowerCase().trim();
+        const locality = localitySelect.value;
+        const category = categorySelect.value;
+        const maxPrice = parseInt(priceRange.value, 10);
+        let visible = 0;
+        cards.forEach((card) => {
+          const title = card.dataset.title;
+          const desc = card.dataset.description;
+          const loc = card.dataset.locality;
+          const cats = card.dataset.categories;
+          const price = parseInt(card.dataset.price, 10);
+          const matchSearch = !search || title.includes(search) || desc.includes(search);
+          const matchLocality = !locality || loc === locality;
+          const matchCategory = !category || cats.includes(category);
+          const matchPrice = price === 0 || price <= maxPrice;
+          const show = matchSearch && matchLocality && matchCategory && matchPrice;
+          card.style.display = show ? '' : 'none';
+          if (show) visible++;
+        });
+        resultsInfo.textContent = `Mostrando ${visible} restaurante${visible !== 1 ? 's' : ''}`;
+        noResults.classList.toggle('hidden', visible !== 0);
+        grid.style.display = visible === 0 ? 'none' : '';
+      }
 
-		{/* Leaflet JS */}
-		<script is:inline src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+      priceRange.addEventListener('input', () => { priceDisplay.textContent = priceRange.value + '€'; });
+      [searchInput, localitySelect, categorySelect, priceRange].forEach((el) => {
+        el.addEventListener('input', applyFilters);
+        el.addEventListener('change', applyFilters);
+      });
 
-		{/* Datos inyectados para JS del cliente */}
-		<script is:inline define:vars={{ reviewsForClient, mapPoints }}>
-			// === FILTROS ===
-			const searchInput = document.getElementById('filter-search');
-			const localitySelect = document.getElementById('filter-locality');
-			const categorySelect = document.getElementById('filter-category');
-			const priceRange = document.getElementById('filter-price');
-			const priceDisplay = document.getElementById('price-display');
-			const resultsInfo = document.getElementById('results-info');
-			const noResults = document.getElementById('no-results');
-			const grid = document.getElementById('reviews-grid');
-			const cards = Array.from(grid.querySelectorAll('.review-card-wrapper'));
+      function clearFilters() {
+        searchInput.value = '';
+        localitySelect.value = '';
+        categorySelect.value = '';
+        priceRange.value = priceRange.max;
+        priceDisplay.textContent = priceRange.max + '€';
+        applyFilters();
+      }
+      document.getElementById('btn-clear').addEventListener('click', clearFilters);
+      document.getElementById('btn-clear-2').addEventListener('click', clearFilters);
 
-			function applyFilters() {
-				const search = searchInput.value.toLowerCase().trim();
-				const locality = localitySelect.value;
-				const category = categorySelect.value;
-				const maxPrice = parseInt(priceRange.value, 10);
+      document.getElementById('btn-surprise').addEventListener('click', () => {
+        const loc = document.getElementById('surprise-locality').value;
+        let pool = reviewsForClient;
+        if (loc) pool = pool.filter((r) => r.locality === loc);
+        if (pool.length === 0) { alert('No hay reseñas disponibles.'); return; }
+        const random = pool[Math.floor(Math.random() * pool.length)];
+        window.location.href = `/reviews/${random.id}/`;
+      });
 
-				let visible = 0;
-
-				cards.forEach((card) => {
-					const title = card.dataset.title;
-					const desc = card.dataset.description;
-					const loc = card.dataset.locality;
-					const cats = card.dataset.categories;
-					const price = parseInt(card.dataset.price, 10);
-
-					const matchSearch = !search || title.includes(search) || desc.includes(search);
-					const matchLocality = !locality || loc === locality;
-					const matchCategory = !category || cats.includes(category);
-					const matchPrice = price <= maxPrice || price === 0;
-
-					const show = matchSearch && matchLocality && matchCategory && matchPrice;
-					card.style.display = show ? '' : 'none';
-					if (show) visible++;
-				});
-
-				resultsInfo.textContent = `Mostrando ${visible} restaurante${visible !== 1 ? 's' : ''}`;
-				noResults.style.display = visible === 0 ? '' : 'none';
-				grid.style.display = visible === 0 ? 'none' : '';
-			}
-
-			priceRange.addEventListener('input', () => {
-				priceDisplay.textContent = `Hasta ${priceRange.value}€`;
-			});
-
-			[searchInput, localitySelect, categorySelect, priceRange].forEach((el) => {
-				el.addEventListener('input', applyFilters);
-				el.addEventListener('change', applyFilters);
-			});
-
-			function clearFilters() {
-				searchInput.value = '';
-				localitySelect.value = '';
-				categorySelect.value = '';
-				priceRange.value = priceRange.max;
-				priceDisplay.textContent = `Hasta ${priceRange.max}€`;
-				applyFilters();
-			}
-
-			document.getElementById('btn-clear').addEventListener('click', clearFilters);
-			document.getElementById('btn-clear-2').addEventListener('click', clearFilters);
-
-			// === SORPRÉNDEME ===
-			document.getElementById('btn-surprise').addEventListener('click', () => {
-				const loc = document.getElementById('surprise-locality').value;
-				let pool = reviewsForClient;
-				if (loc) {
-					pool = pool.filter((r) => r.locality === loc);
-				}
-				if (pool.length === 0) {
-					alert('No hay reseñas disponibles para esa selección.');
-					return;
-				}
-				const random = pool[Math.floor(Math.random() * pool.length)];
-				window.location.href = `/reviews/${random.id}/`;
-			});
-
-			// === MAPA ===
-			if (mapPoints.length > 0) {
-				const map = L.map('map').setView([40.0, -3.7], 5);
-				L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-					attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a>',
-					maxZoom: 18,
-				}).addTo(map);
-
-				const bounds = [];
-				mapPoints.forEach((point) => {
-					const ratingText = point.rating ? ` — ⭐ ${point.rating}` : '';
-					const marker = L.marker([point.lat, point.lng]).addTo(map);
-					marker.bindPopup(
-						`<strong><a href="/reviews/${point.id}/">${point.title}</a></strong><br/>` +
-						`📍 ${point.locality}${ratingText}`
-					);
-					bounds.push([point.lat, point.lng]);
-				});
-
-				if (bounds.length > 1) {
-					map.fitBounds(bounds, { padding: [40, 40] });
-				} else if (bounds.length === 1) {
-					map.setView(bounds[0], 12);
-				}
-			} else {
-				document.getElementById('map').innerHTML = '<p style="padding:2rem;text-align:center;color:gray;">No hay restaurantes con coordenadas para mostrar en el mapa.</p>';
-			}
-		</script>
-	</body>
+      if (mapPoints.length > 0) {
+        const map = L.map('map').setView([40.0, -3.7], 5);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a>',
+          maxZoom: 18,
+        }).addTo(map);
+        const bounds = [];
+        mapPoints.forEach((point) => {
+          const ratingText = point.rating ? ` — ${point.rating}/10` : '';
+          const marker = L.marker([point.lat, point.lng]).addTo(map);
+          marker.bindPopup(`<strong><a href="/reviews/${point.id}/">${point.title}</a></strong><br/>${point.locality}${ratingText}`);
+          bounds.push([point.lat, point.lng]);
+        });
+        if (bounds.length > 1) map.fitBounds(bounds, { padding: [40, 40] });
+        else if (bounds.length === 1) map.setView(bounds[0], 12);
+      } else {
+        document.getElementById('map').innerHTML = '<p style="padding:2rem;text-align:center;color:gray;">No hay restaurantes con coordenadas para mostrar en el mapa.</p>';
+      }
+    </script>
+  </body>
 </html>
