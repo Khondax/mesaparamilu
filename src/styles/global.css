@@ -39,7 +39,7 @@
   --color-surface-bright: #faf8ff;
   --color-surface-dim: #d6d9e8;
   --color-surface-container: #eaedfc;
-  --color-surface-container-low: #f1f3ff;
+  --color-surface-container-low: #FFFFFC;
   --color-surface-container-lowest: #ffffff;
   --color-surface-container-high: #e5e7f6;
   --color-surface-container-highest: #dfe2f1;
@@ -62,7 +62,7 @@
   --color-brand-border: #2b2f3a;
   /* Antique/warm cream */
   --color-antique: #fce5cd;
-  --color-warm-bg: #f1ece2;
+  --color-warm-linen: #f1ece2;
 
   /* --- Spacing --- */
   --spacing-margin-desktop: 64px;
@@ -99,7 +99,6 @@
 /* ===== Base Styles ===== */
 body {
   font-family: "Plus Jakarta Sans", sans-serif;
-  background-color: #faf8ff;
   color: #171b26;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

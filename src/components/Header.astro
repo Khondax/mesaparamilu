@@ -4,7 +4,7 @@ const pathname = Astro.url.pathname;
 const isActive = (href: string) => pathname === href || pathname.startsWith(href + '/');
 ---
 <a href="#main-content" class="skip-to-content">Saltar al contenido</a>
-<header class="w-full border-b border-[#2b2f3a] bg-surface-bright sticky top-0 z-50">
+<header class="w-full border-b border-[#2b2f3a] bg-surface-container sticky top-0 z-50">
   <nav
     aria-label="Navegación principal"
     class="flex justify-between items-center w-full px-5 md:px-16 py-6 max-w-full mx-auto"

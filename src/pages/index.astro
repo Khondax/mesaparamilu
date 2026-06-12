@@ -3,6 +3,7 @@ import BaseHead from '../components/BaseHead.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import CardReview from '../components/CardReview.astro';
+import FavoritesCarousel from '../components/FavoritesCarousel.astro';
 import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 import { getCollection } from 'astro:content';
 
@@ -19,12 +20,12 @@ const latestReviews = allReviews.slice(0, 6);
   <head>
     <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
   </head>
-  <body class="bg-[#f1ece2] text-on-surface min-h-screen flex flex-col antialiased">
+  <body class="bg-surface-container-low text-on-surface min-h-screen flex flex-col antialiased">
     <Header />
     <main id="main-content" class="flex-grow">
 
       <!-- Hero Section -->
-      <section class="px-5 md:px-16 py-16 grid grid-cols-1 md:grid-cols-12 gap-6 items-center min-h-[600px] bg-[#F1ECE2]">
+      <section class="px-5 md:px-16 py-16 grid grid-cols-1 md:grid-cols-12 gap-6 items-center min-h-[600px]">
         <div class="md:col-span-5 flex flex-col gap-8 pr-6">
           <h1
             class="text-[clamp(2.5rem,5vw,4rem)] font-bold text-primary-container leading-tight"
@@ -46,7 +47,7 @@ const latestReviews = allReviews.slice(0, 6);
             </a>
             <a
               href="/buscar"
-              class="inline-flex items-center gap-2 px-6 py-3 bg-transparent text-primary text-[14px] font-bold uppercase tracking-widest border border-[#2b2f3a] hover:bg-surface-container transition-colors duration-200"
+              class="inline-flex items-center gap-2 px-6 py-3 bg-[#FCE5CD] text-primary text-[14px] font-bold uppercase tracking-widest border border-[#2b2f3a] hover:bg-warm-linen transition-colors duration-200"
               style="font-family:'Plus Jakarta Sans',sans-serif;"
             >
               <span class="material-symbols-outlined" style="font-size:18px;">search</span>
@@ -74,7 +75,7 @@ const latestReviews = allReviews.slice(0, 6);
       </section>
 
       <!-- Latest Critiques -->
-      <section class="px-5 md:px-16 py-16 bg-surface-container-lowest border-y border-[#2b2f3a]">
+      <section class="px-5 md:px-16 py-16 bg-warm-linen border-y border-[#2b2f3a]">
         <div class="flex justify-between items-end mb-8">
           <h2
             class="text-[32px] font-semibold text-primary-container"
@@ -108,11 +109,7 @@ const latestReviews = allReviews.slice(0, 6);
               Nuestros Favoritos
             </h2>
           </div>
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {favorites.map((review) => (
-              <CardReview id={review.id} {...review.data} />
-            ))}
-          </div>
+          <FavoritesCarousel favorites={favorites} />
         </section>
       )}
 

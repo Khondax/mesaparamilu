@@ -1,0 +1,422 @@
+---
+/**
+ * FavoritesCarousel — carrusel de reseñas favoritas.
+ *
+ * Dos columnas:
+ *   - Izquierda: la favorita DESTACADA (enlace a su reseña). Rota cada 5 s con un
+ *     CROSSFADE real (la saliente se desvanece mientras la entrante aparece
+ *     encima → sin hueco ni parpadeo). Barra de progreso persistente.
+ *   - Derecha: el resto de favoritas en un MARQUEE vertical continuo y lento que,
+ *     además, ACTÚA DE SELECTOR: cada item es un botón que, al pulsarlo, pasa a
+ *     ser la destacada (crossfade). El item activo queda resaltado. (Ya no hay
+ *     puntos: los nombres y fotos de la lista hacen de indicadores.)
+ *
+ * El marquee se monta en cliente (Web Animations API): se mide la altura real,
+ * se clonan las copias necesarias para llenar el viewport y se desplaza en bucle
+ * sin saltos. Progresivo: render inicial en servidor (funciona sin JS) y un
+ * script `is:inline` añade crossfade, rotación, marquee, selección y pausa al
+ * pasar el ratón. Mantiene el estilo del sitio (tokens Tailwind + bordes `#2b2f3a`).
+ */
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  favorites: CollectionEntry<'reviews'>[];
+}
+
+const { favorites } = Astro.props;
+
+function ratingAvg(r: CollectionEntry<'reviews'>['data']['rating']): string | null {
+  if (!r) return null;
+  return ((r.food + r.service + r.ambiance + r.value) / 4).toFixed(1);
+}
+
+const slides = favorites.map((r) => ({
+  id: r.id,
+  title: r.data.title,
+  description: r.data.description,
+  image: r.data.image ?? null,
+  locality: r.data.locality ?? '',
+  category: r.data.categoryArray?.[0] ?? null,
+  averagePrice: r.data.averagePrice ?? null,
+  rating: ratingAvg(r.data.rating),
+}));
+
+const first = slides[0];
+---
+
+{slides.length > 0 && (
+  <div id="fav-carousel" class="grid grid-cols-1 lg:grid-cols-5 gap-6 items-start">
+
+    <!-- Columna izquierda: favorita destacada (crossfade, enlace a la reseña) -->
+    <div class="lg:col-span-3">
+      <div id="fav-featured" class="fav-featured relative">
+        <div id="fav-featured-base" class="fav-layer">
+          <a
+            href={`/reviews/${first.id}/`}
+            class="fav-card group flex flex-col border border-[#2b2f3a] bg-surface-bright hover:shadow-[6px_6px_0px_0px_#2b2f3a] transition-shadow duration-300"
+            style="font-family:'Plus Jakarta Sans',sans-serif;"
+          >
+            <div class="relative aspect-[16/9] w-full overflow-hidden border-b border-[#2b2f3a]">
+              {first.rating && (
+                <div class="absolute top-4 left-4 z-10 bg-[#f86630] text-[#003049] text-[14px] font-bold px-3 py-1 border border-[#2b2f3a] shadow-[2px_2px_0px_0px_#003049] uppercase tracking-widest">
+                  {first.rating}/10
+                </div>
+              )}
+              <div class="absolute top-4 right-4 z-10 bg-primary-container text-on-primary-container text-[12px] font-bold px-2 py-1 border border-[#2b2f3a] uppercase tracking-widest">
+                Favorito
+              </div>
+              {first.image ? (
+                <img src={first.image} alt={first.title} class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+              ) : (
+                <div class="w-full h-full bg-surface-container-high flex items-center justify-center">
+                  <span class="material-symbols-outlined text-[64px] text-on-surface-variant">restaurant</span>
+                </div>
+              )}
+            </div>
+            <div class="p-5 flex flex-col gap-2 flex-grow">
+              {first.category && (
+                <span class="text-[12px] font-semibold uppercase tracking-widest text-secondary">{first.category}</span>
+              )}
+              <h3 class="text-[24px] font-semibold text-primary-container group-hover:text-secondary transition-colors leading-tight" style="font-family:'Playfair Display',serif;">
+                {first.title}
+              </h3>
+              {first.locality && (
+                <p class="text-[12px] text-on-surface-variant uppercase tracking-widest">{first.locality}</p>
+              )}
+              <p class="text-[16px] text-on-surface-variant line-clamp-2 leading-relaxed">{first.description}</p>
+              <div class="mt-auto pt-3 flex items-center justify-between">
+                {first.averagePrice ? (
+                  <span class="text-[12px] text-on-surface-variant uppercase tracking-widest">~{first.averagePrice}€/pax</span>
+                ) : (<span></span>)}
+                <span class="text-[14px] font-bold text-secondary uppercase tracking-widest group-hover:text-primary transition-colors">Leer reseña →</span>
+              </div>
+            </div>
+          </a>
+        </div>
+
+        <!-- Barra de progreso persistente (no se recrea al rotar) -->
+        <div class="absolute bottom-0 left-0 right-0 h-2 bg-[#2b2f3a]/40 z-20 pointer-events-none">
+          <div id="fav-progress-bar" class="fav-progress-bar h-full w-full bg-[#f86630]"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Columna derecha: marquee continuo que además es el selector -->
+    <div class="lg:col-span-2 flex flex-col">
+      <span class="text-[12px] font-bold uppercase tracking-widest text-on-surface-variant mb-3">Más favoritos · elige una</span>
+      <div id="fav-rest" class="fav-rest-viewport relative overflow-hidden h-[420px] lg:h-[520px]">
+        <div id="fav-rest-track" class="fav-rest-track flex flex-col">
+          {slides.map((s, i) => (
+            <button
+              type="button"
+              data-i={i}
+              aria-current={i === 0 ? 'true' : undefined}
+              class={`fav-rest-item fav-card group flex gap-4 items-center w-full text-left appearance-none cursor-pointer border border-[#2b2f3a] bg-surface-bright p-3 mb-4 hover:shadow-[4px_4px_0px_0px_#2b2f3a] transition-shadow duration-300${i === 0 ? ' is-current' : ''}`}
+              style="font-family:'Plus Jakarta Sans',sans-serif;"
+            >
+              <div class="relative w-24 h-20 shrink-0 overflow-hidden border border-[#2b2f3a]">
+                {s.rating && (
+                  <div class="absolute top-1 left-1 z-10 bg-[#f86630] text-[#003049] text-[10px] font-bold px-1.5 py-0.5 border border-[#2b2f3a] uppercase tracking-widest">
+                    {s.rating}
+                  </div>
+                )}
+                {s.image ? (
+                  <img src={s.image} alt={s.title} class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                ) : (
+                  <div class="w-full h-full bg-surface-container-high flex items-center justify-center">
+                    <span class="material-symbols-outlined text-[28px] text-on-surface-variant">restaurant</span>
+                  </div>
+                )}
+              </div>
+              <div class="flex flex-col gap-1 min-w-0">
+                {s.category && (
+                  <span class="text-[11px] font-semibold uppercase tracking-widest text-secondary truncate">{s.category}</span>
+                )}
+                <h4 class="text-[18px] font-semibold text-primary-container group-hover:text-secondary transition-colors leading-tight truncate" style="font-family:'Playfair Display',serif;">
+                  {s.title}
+                </h4>
+                {s.locality && (
+                  <p class="text-[11px] text-on-surface-variant uppercase tracking-widest truncate">{s.locality}</p>
+                )}
+              </div>
+            </button>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+)}
+
+{slides.length > 0 && (
+  <script is:inline define:vars={{ slides }}>
+    (function () {
+      const root = document.getElementById('fav-carousel');
+      const featuredEl = document.getElementById('fav-featured');
+      const baseEl = document.getElementById('fav-featured-base');
+      const restEl = document.getElementById('fav-rest');
+      const trackEl = document.getElementById('fav-rest-track');
+      if (!root || !featuredEl || !baseEl) return;
+
+      const INTERVAL = 5000;
+      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      let current = 0;
+      let timer = null;
+      let paused = false;
+      let marqueeAnim = null;
+
+      const esc = (v) =>
+        String(v == null ? '' : v).replace(/[&<>"']/g, (c) =>
+          ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])
+        );
+
+      function buildFeaturedCard(s) {
+        const badge = s.rating
+          ? `<div class="absolute top-4 left-4 z-10 bg-[#f86630] text-[#003049] text-[14px] font-bold px-3 py-1 border border-[#2b2f3a] shadow-[2px_2px_0px_0px_#003049] uppercase tracking-widest">${esc(s.rating)}/10</div>`
+          : '';
+        const media = s.image
+          ? `<img src="${esc(s.image)}" alt="${esc(s.title)}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />`
+          : `<div class="w-full h-full bg-surface-container-high flex items-center justify-center"><span class="material-symbols-outlined text-[64px] text-on-surface-variant">restaurant</span></div>`;
+        const cat = s.category
+          ? `<span class="text-[12px] font-semibold uppercase tracking-widest text-secondary">${esc(s.category)}</span>`
+          : '';
+        const loc = s.locality
+          ? `<p class="text-[12px] text-on-surface-variant uppercase tracking-widest">${esc(s.locality)}</p>`
+          : '';
+        const price = s.averagePrice
+          ? `<span class="text-[12px] text-on-surface-variant uppercase tracking-widest">~${esc(s.averagePrice)}€/pax</span>`
+          : '<span></span>';
+        return (
+          `<a href="/reviews/${esc(s.id)}/" class="fav-card group flex flex-col border border-[#2b2f3a] bg-surface-bright hover:shadow-[6px_6px_0px_0px_#2b2f3a] transition-shadow duration-300" style="font-family:'Plus Jakarta Sans',sans-serif;">` +
+            `<div class="relative aspect-[16/9] w-full overflow-hidden border-b border-[#2b2f3a]">` +
+              badge +
+              `<div class="absolute top-4 right-4 z-10 bg-primary-container text-on-primary-container text-[12px] font-bold px-2 py-1 border border-[#2b2f3a] uppercase tracking-widest">Favorito</div>` +
+              media +
+            `</div>` +
+            `<div class="p-5 flex flex-col gap-2 flex-grow">` +
+              cat +
+              `<h3 class="text-[24px] font-semibold text-primary-container group-hover:text-secondary transition-colors leading-tight" style="font-family:'Playfair Display',serif;">${esc(s.title)}</h3>` +
+              loc +
+              `<p class="text-[16px] text-on-surface-variant line-clamp-2 leading-relaxed">${esc(s.description)}</p>` +
+              `<div class="mt-auto pt-3 flex items-center justify-between">${price}<span class="text-[14px] font-bold text-secondary uppercase tracking-widest group-hover:text-primary transition-colors">Leer reseña →</span></div>` +
+            `</div>` +
+          `</a>`
+        );
+      }
+
+      // ---- Crossfade de la favorita destacada ----
+      function commitOverlay(over) {
+        if (!over || over.__committed) return;
+        over.__committed = true;
+        baseEl.innerHTML = over.innerHTML;
+        over.remove();
+      }
+      function setFeatured(s, animate) {
+        const prev = featuredEl.querySelector('.fav-over');
+        if (prev) commitOverlay(prev);
+        if (!animate || reduce) {
+          baseEl.innerHTML = buildFeaturedCard(s);
+          return;
+        }
+        const over = document.createElement('div');
+        over.className = 'fav-layer fav-over';
+        over.innerHTML = buildFeaturedCard(s);
+        featuredEl.appendChild(over);
+        void over.offsetWidth;
+        over.classList.add('fav-over-in');
+        const done = () => commitOverlay(over);
+        over.addEventListener('transitionend', done, { once: true });
+        window.setTimeout(done, 1300);
+      }
+
+      // ---- Barra de progreso (persistente) ----
+      function restartProgress() {
+        const bar = document.getElementById('fav-progress-bar');
+        if (!bar || reduce) return;
+        bar.style.setProperty('--fav-interval', INTERVAL + 'ms');
+        bar.classList.remove('run');
+        void bar.offsetWidth;
+        bar.classList.add('run');
+        bar.style.animationPlayState = paused ? 'paused' : 'running';
+      }
+
+      // ---- Resaltado del item activo (en todas sus copias del marquee) ----
+      function updateActive(idx) {
+        if (!trackEl) return;
+        trackEl.querySelectorAll('.fav-rest-item').forEach((el) => {
+          const on = Number(el.dataset.i) === idx;
+          el.classList.toggle('is-current', on);
+          if (on) el.setAttribute('aria-current', 'true');
+          else el.removeAttribute('aria-current');
+        });
+      }
+
+      function show(idx) {
+        current = ((idx % slides.length) + slides.length) % slides.length;
+        setFeatured(slides[current], true);
+        updateActive(current);
+        restartProgress();
+      }
+      function next() {
+        show(current + 1);
+      }
+
+      // ---- Marquee vertical continuo (Web Animations API) ----
+      function initMarquee() {
+        if (!trackEl || !restEl || reduce) return;
+        const originals = Array.from(trackEl.children);
+        if (originals.length === 0) return;
+        const listHeight = trackEl.scrollHeight; // una copia (incluye su margen)
+        if (listHeight <= 0) return;
+        const safeVp = Math.max(restEl.clientHeight, 600); // cubre lg = 520px
+        const copies = Math.max(2, Math.ceil(safeVp / listHeight) + 1);
+        for (let c = 1; c < copies; c++) {
+          originals.forEach((node) => {
+            const clone = node.cloneNode(true);
+            clone.setAttribute('aria-hidden', 'true');
+            clone.setAttribute('tabindex', '-1');
+            trackEl.appendChild(clone);
+          });
+        }
+        const PX_PER_SEC = 28;
+        const dur = Math.max((listHeight / PX_PER_SEC) * 1000, 9000);
+        marqueeAnim = trackEl.animate(
+          [{ transform: 'translateY(0)' }, { transform: 'translateY(' + -listHeight + 'px)' }],
+          { duration: dur, iterations: Infinity, easing: 'linear' }
+        );
+        if (paused) marqueeAnim.pause();
+      }
+      function marqueePlay() { if (marqueeAnim) marqueeAnim.play(); }
+      function marqueePause() { if (marqueeAnim) marqueeAnim.pause(); }
+
+      // ---- Temporizador de la destacada ----
+      function start() {
+        if (slides.length < 2 || paused) return;
+        stop();
+        timer = window.setInterval(next, INTERVAL);
+        restartProgress();
+      }
+      function stop() {
+        if (timer) { window.clearInterval(timer); timer = null; }
+      }
+      function pause() {
+        if (paused) return;
+        paused = true;
+        stop();
+        const bar = document.getElementById('fav-progress-bar');
+        if (bar) bar.style.animationPlayState = 'paused';
+        marqueePause();
+      }
+      function resume() {
+        if (!paused) return;
+        paused = false;
+        const bar = document.getElementById('fav-progress-bar');
+        if (bar) bar.style.animationPlayState = 'running';
+        marqueePlay();
+        start();
+      }
+
+      // Precargamos imágenes para que el crossfade no muestre cuadros en blanco.
+      slides.forEach((s) => {
+        if (s.image) { const im = new Image(); im.src = s.image; }
+      });
+
+      initMarquee();
+      updateActive(0);
+      restartProgress();
+      start();
+
+      // Pausar SOLO al pasar el ratón/foco por una tarjeta real (destacada o
+      // item de la derecha), nunca por el fondo o los huecos.
+      function onCardOver(e) {
+        if (e.target.closest && e.target.closest('.fav-card')) pause();
+      }
+      function onCardOut(e) {
+        const to = e.relatedTarget;
+        if (!to || !to.closest || !to.closest('.fav-card')) resume();
+      }
+      [featuredEl, restEl].forEach((el) => {
+        if (!el) return;
+        el.addEventListener('mouseover', onCardOver);
+        el.addEventListener('mouseout', onCardOut);
+        el.addEventListener('focusin', onCardOver);
+        el.addEventListener('focusout', onCardOut);
+      });
+
+      // La lista derecha ES el selector: pulsar un item lo pone como destacada.
+      if (trackEl) {
+        trackEl.addEventListener('click', (e) => {
+          const btn = e.target.closest('.fav-rest-item');
+          if (!btn) return;
+          const i = Number(btn.dataset.i);
+          if (Number.isNaN(i)) return;
+          show(i);
+          start(); // si no está en hover, reinicia el temporizador
+        });
+      }
+
+      document.addEventListener('visibilitychange', () => {
+        if (document.hidden) { stop(); marqueePause(); }
+        else if (!paused) { marqueePlay(); start(); }
+      });
+    })();
+  </script>
+)}
+
+<style is:global>
+  /* Estilos globales (no "scoped"): el carrusel crea la capa de crossfade y los
+     clones del marquee en cliente, y los estilos "scoped" de Astro no aplican a
+     elementos creados en runtime. Prefijos `fav-` para evitar colisiones. */
+
+  #fav-featured {
+    position: relative;
+  }
+  .fav-layer {
+    width: 100%;
+  }
+  .fav-over {
+    position: absolute;
+    inset: 0;
+    z-index: 10;
+    opacity: 0;
+  }
+  .fav-over-in {
+    opacity: 1;
+  }
+
+  .fav-rest-viewport {
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 7%, #000 93%, transparent 100%);
+    mask-image: linear-gradient(to bottom, transparent 0, #000 7%, #000 93%, transparent 100%);
+  }
+  .fav-rest-track {
+    will-change: transform;
+  }
+
+  /* Item activo del selector (resaltado, sin desplazar el layout). */
+  .fav-rest-item.is-current {
+    outline: 2px solid #f86630;
+    outline-offset: -2px;
+    background: rgba(248, 102, 48, 0.07);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .fav-over {
+      transition: opacity 900ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .fav-progress-bar {
+      transform: scaleX(0);
+      transform-origin: left center;
+    }
+    .fav-progress-bar.run {
+      animation: favProgress var(--fav-interval, 5000ms) linear forwards;
+    }
+  }
+
+  @keyframes favProgress {
+    from {
+      transform: scaleX(0);
+    }
+    to {
+      transform: scaleX(1);
+    }
+  }
+</style>
