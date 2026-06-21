@@ -16,7 +16,8 @@ const posts = (await getCollection('reviews')).sort(
   <head>
     <BaseHead title={`Reseñas — ${SITE_TITLE}`} description={SITE_DESCRIPTION} />
   </head>
-  <body class="bg-surface-bright text-on-surface min-h-screen flex flex-col antialiased">
+  <!-- <body class="bg-surface-bright text-on-surface min-h-screen flex flex-col antialiased"> -->
+  <body class="bg-surface-container-low text-on-surface min-h-screen flex flex-col antialiased">
     <Header />
     <main id="main-content" class="flex-grow w-full max-w-7xl mx-auto px-5 md:px-16 py-16">
 
@@ -43,7 +44,7 @@ const posts = (await getCollection('reviews')).sort(
         {posts.map((post) => (
           <a
             href={`/reviews/${post.id}/`}
-            class="group flex flex-col md:flex-row bg-surface-bright border border-[#2b2f3a] hover:bg-surface-container-low transition-colors duration-300"
+            class="group flex flex-col md:flex-row bg-surface-container-lowest border border-[#2b2f3a] hover:bg-bright-linen transition-colors duration-300"
             style="font-family:'Plus Jakarta Sans',sans-serif;"
           >
             <!-- Image (Left) -->

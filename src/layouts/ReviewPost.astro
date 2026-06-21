@@ -41,7 +41,7 @@ const shareUrl = new URL(Astro.url.pathname, Astro.site).href;
   <head>
     <BaseHead title={title} description={description} image={heroImage} />
   </head>
-  <body class="bg-surface text-on-surface antialiased" style="font-family:'Plus Jakarta Sans',sans-serif;">
+  <body class="bg-surface-container-lowest text-on-surface antialiased" style="font-family:'Plus Jakarta Sans',sans-serif;">
     <Header />
     <main class="w-full">
 
@@ -56,7 +56,7 @@ const shareUrl = new URL(Astro.url.pathname, Astro.site).href;
                     <a href={`/categorias/${categorySlug(cat)}/`} class="hover:text-secondary transition-colors">{cat}</a>
                     {idx < categoryArray.length - 1 && ' • '}
                   </>
-                ))}{locality && ` • ${locality}`}
+                ))}{locality && ` - ${locality}`}
               </span>
             )}
             <h1
@@ -66,6 +66,11 @@ const shareUrl = new URL(Astro.url.pathname, Astro.site).href;
               {title}
             </h1>
             <p class="text-[18px] text-on-surface-variant max-w-2xl mx-auto leading-relaxed">{description}</p>
+            <div class="flex items-center justify-center">
+              {favorite && (
+                <span class="text-[12px] font-bold text-on-tertiary-container uppercase tracking-widest border border-on-tertiary-container px-2 py-0.5">Favorito</span>
+              )}
+            </div>
           </div>
         </div>
       </section>
@@ -102,8 +107,10 @@ const shareUrl = new URL(Astro.url.pathname, Astro.site).href;
                   Visitado: <FormattedDate date={visitDate} />
                 </span>
               )}
-              {favorite && (
-                <span class="text-[12px] font-bold text-on-tertiary-container uppercase tracking-widest border border-on-tertiary-container px-2 py-0.5">Favorito</span>
+              {updatedDate && (
+                <span class="text-[12px] text-on-surface-variant uppercase tracking-widest">
+                  Actualizado: <FormattedDate date={updatedDate} />
+                </span>
               )}
               {trending && (
                 <span class="text-[12px] font-bold text-primary uppercase tracking-widest border border-primary px-2 py-0.5">Tendencia</span>
@@ -112,8 +119,8 @@ const shareUrl = new URL(Astro.url.pathname, Astro.site).href;
 
             <!-- Anecdote -->
             {anecdote && (
-              <aside class="mb-8 p-6 bg-surface-container border border-on-tertiary-container shadow-[4px_4px_0px_0px_#f86630] relative">
-                <div class="absolute -top-4 left-6 bg-surface-container px-2 border border-on-tertiary-container">
+              <aside class="mb-8 p-6 bg-bright-linen border border-on-tertiary-container shadow-[4px_4px_0px_0px_#f86630] relative">
+                <div class="absolute -top-4 left-6 bg-antique px-2 border border-on-tertiary-container">
                   <span class="text-[14px] font-bold uppercase tracking-widest text-on-tertiary-container">Anécdota</span>
                 </div>
                 <p class="text-[18px] text-primary italic leading-relaxed">{anecdote}</p>
@@ -136,7 +143,8 @@ const shareUrl = new URL(Astro.url.pathname, Astro.site).href;
 
           <!-- Sidebar -->
           <aside class="md:col-span-4">
-            <div class="sticky top-24 border border-outline bg-surface-bright p-6 shadow-[4px_4px_0px_0px_#001c38]">
+            <!-- <div class="sticky top-24 border border-outline bg-surface-bright p-6 shadow-[4px_4px_0px_0px_#001c38]"> -->
+            <div class="sticky top-24 border border-outline bg-surface-container-low p-6 shadow-[4px_4px_0px_0px_#001c38]">
 
               <h3
                 class="text-[24px] font-semibold text-primary border-b border-outline pb-2 mb-4"

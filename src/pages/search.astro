@@ -53,7 +53,7 @@ const mapPoints = reviews
       .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
   </head>
-  <body class="bg-surface text-on-surface min-h-screen flex flex-col antialiased" style="font-family:'Plus Jakarta Sans',sans-serif;">
+  <body class="bg-surface-container-low text-on-surface min-h-screen flex flex-col antialiased" style="font-family:'Plus Jakarta Sans',sans-serif;">
     <Header />
     <main id="main-content" class="flex-grow w-full max-w-7xl mx-auto px-5 md:px-16 py-16">
 
@@ -71,10 +71,10 @@ const mapPoints = reviews
       </div>
 
       <!-- Surprise Me -->
-      <div class="flex flex-wrap gap-4 items-end p-6 border border-[#2b2f3a] bg-surface-container-low mb-8 shadow-[4px_4px_0px_0px_#2b2f3a]">
+      <div class="flex flex-wrap gap-4 items-end p-6 border border-[#2b2f3a] bg-bright-linen mb-8 shadow-[4px_4px_0px_0px_#2b2f3a]">
         <div class="flex-1 min-w-[200px]">
           <label class="block text-[12px] font-bold uppercase tracking-widest text-on-surface-variant mb-1">Sorpréndeme en...</label>
-          <select id="surprise-locality" class="w-full border border-[#2b2f3a] bg-surface px-4 py-3 text-[14px] text-on-surface focus:bg-[#fce5cd] focus:outline-none">
+          <select id="surprise-locality" class="w-full border border-[#2b2f3a] bg-surface-container-low px-4 py-3 text-[14px] text-on-surface focus:bg-surface-container-low focus:outline-none">
             <option value="">Todas las localidades</option>
             {localities.map((loc) => <option value={loc}>{loc}</option>)}
           </select>
@@ -92,28 +92,28 @@ const mapPoints = reviews
           <div class="relative">
             <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline" style="font-size:18px;">search</span>
             <input id="filter-search" type="text" placeholder="Nombre o descripción..."
-              class="w-full pl-10 pr-4 py-3 border border-[#2b2f3a] bg-surface focus:bg-[#fce5cd] focus:outline-none text-[16px] text-on-surface" />
+              class="w-full pl-10 pr-4 py-3 border border-[#2b2f3a] bg-surface focus:bg-surface-container-low focus:outline-none text-[16px] text-on-surface" />
           </div>
         </div>
         <div class="flex-1 min-w-[180px]">
           <label for="filter-locality" class="block text-[12px] font-bold uppercase tracking-widest text-on-surface-variant mb-1">Localidad</label>
-          <select id="filter-locality" class="w-full border border-[#2b2f3a] bg-surface px-4 py-3 text-[14px] text-on-surface focus:bg-[#fce5cd] focus:outline-none">
+          <select id="filter-locality" class="w-full border border-[#2b2f3a] bg-surface px-4 py-3 text-[14px] text-on-surface focus:bg-surface-container-low focus:outline-none">
             <option value="">Todas</option>
             {localities.map((loc) => <option value={loc}>{loc}</option>)}
           </select>
         </div>
         <div class="flex-1 min-w-[180px]">
           <label for="filter-category" class="block text-[12px] font-bold uppercase tracking-widest text-on-surface-variant mb-1">Cocina</label>
-          <select id="filter-category" class="w-full border border-[#2b2f3a] bg-surface px-4 py-3 text-[14px] text-on-surface focus:bg-[#fce5cd] focus:outline-none">
+          <select id="filter-category" class="w-full border border-[#2b2f3a] bg-surface px-4 py-3 text-[14px] text-on-surface focus:bg-surface-container-low focus:outline-none">
             <option value="">Todas</option>
             {categories.map((cat) => <option value={cat}>{cat}</option>)}
           </select>
         </div>
         <div class="flex-1 min-w-[180px]">
           <label for="filter-price" class="block text-[12px] font-bold uppercase tracking-widest text-on-surface-variant mb-1">
-            Precio máx.: <span id="price-display">{maxPrice || 150}€</span>
+            Precio máx.: <span id="price-display">{maxPrice || 500}€</span>
           </label>
-          <input id="filter-price" type="range" min="0" max={maxPrice || 150} step="5" value={maxPrice || 150}
+          <input id="filter-price" type="range" min="0" max={maxPrice || 500} step="5" value={maxPrice || 500}
             class="w-full accent-secondary" />
         </div>
         <div>
