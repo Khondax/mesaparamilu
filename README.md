@@ -30,13 +30,13 @@
 5. ✅ Despliegue automático en Vercel/otros.
 6. ✅ Añadir métricas de uso/clicks.
 7. ✅ Cambiar el nombre de MesaParaMilu? quizá algo más pegadizo?... algo más corto en general es mejor.... ¡¡ARS CULINARIA!! ("arte culinario" o "gastronomía") Variante: Ignis Culinaria ("el fuego de la cocina" o "fuego culinario")
-8. ✅1/2 Crear una estructura de .md, tipo plantilla, con buenas prácticas y código insertable (para imágenes), sobre la que crear cada reseña de un restaurante. Sobre como rellenar los metadatos, introducción al restaurante, hablar del local, cada plato, servicio, etc etc.
-9. ✅1/2 Currar en la interfaz (Stitch?), es un proyecto 100% frontend, no necesita lógica prácticamente, pero si cosas bonitas, transiciones...
+8. ✅1/2❌ Crear una estructura de .md, tipo plantilla, con buenas prácticas y código insertable (para imágenes), sobre la que crear cada reseña de un restaurante. Sobre como rellenar los metadatos, introducción al restaurante, hablar del local, cada plato, servicio, etc etc.
+9. ✅1/2❌ Currar en la interfaz (Stitch?), es un proyecto 100% frontend, no necesita lógica prácticamente, pero si cosas bonitas, transiciones...
 10. ✅ Mejorar el filtrado de restaurantes y añadir más categorías (montar categorías dinámicas? así cada vez que se añade una al listado general los restaurantes que la contengan con referenciables).
 11.	✅ Enlace a NUESTRA publicación en Instagram.
 12. ❌ Firmar las reseñas por autor? (M, L o ArsCulinaria para firmar reseñas que hemos ido sin el otro, con amigos o familia, o en conjunto).
 13. ❌ Posible carrusel de fotos para las sobrantes de la reseña (fotos del local, vinos si no tienen mención especial, alguna nuestra, etc.)
-14. ❌ Añadir una sección de futuras visitas? Recomendaciones que nos han hecho y queremos ir?
+14. ✅1/2❌ Añadir una sección de futuras visitas? Recomendaciones que nos han hecho y queremos ir?
 15. ❌ .
 16. ❌ Poner ArsCulinaria en marcha.
 
