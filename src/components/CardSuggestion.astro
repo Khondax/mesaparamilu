@@ -1,0 +1,130 @@
+---
+import type { SuggestionData } from '../content/suggestion-schema';
+
+type Props = SuggestionData;
+
+const {
+  title,
+  description,
+  image,
+  locality,
+  address,
+  categoryArray,
+  recommendedBy,
+  priority,
+  restaurantLinks,
+} = Astro.props;
+
+/** Enlaces externos a mostrar como botones en la tarjeta */
+const links = [
+  restaurantLinks?.website && {
+    href: restaurantLinks.website,
+    icon: 'language',
+    label: 'Web',
+  },
+  restaurantLinks?.instagram && {
+    href: restaurantLinks.instagram,
+    icon: 'photo_camera',
+    label: 'Instagram',
+  },
+  restaurantLinks?.menu && {
+    href: restaurantLinks.menu,
+    icon: 'restaurant_menu',
+    label: 'Carta',
+  },
+  restaurantLinks?.reservations && {
+    href: restaurantLinks.reservations,
+    icon: 'event_available',
+    label: 'Reservar',
+  },
+  restaurantLinks?.googleMaps && {
+    href: restaurantLinks.googleMaps,
+    icon: 'location_on',
+    label: 'Mapa',
+  },
+].filter(Boolean) as { href: string; icon: string; label: string }[];
+---
+
+<article
+  class="group flex flex-col md:flex-row bg-surface-container-lowest border border-[#2b2f3a] hover:shadow-[4px_4px_0px_0px_#2b2f3a] transition-shadow duration-300"
+  style="font-family:'Plus Jakarta Sans',sans-serif;"
+>
+  <!-- Image (Left) -->
+  <div class="w-full md:w-2/5 md:border-r border-[#2b2f3a] relative aspect-[4/3] md:aspect-auto overflow-hidden">
+    {image ? (
+      <img
+        src={image}
+        alt={`Restaurante ${title}`}
+        class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+        loading="lazy"
+      />
+    ) : (
+      <div class="w-full h-full bg-surface-container-high min-h-[200px] flex items-center justify-center">
+        <span class="material-symbols-outlined text-[64px] text-on-surface-variant">restaurant</span>
+      </div>
+    )}
+    <!-- "Por visitar" badge -->
+    <div class="absolute top-4 left-4 bg-on-tertiary-container text-white px-3 py-2 border border-[#2b2f3a] shadow-[2px_2px_0px_0px_#2b2f3a] text-[14px] font-bold flex items-center gap-2 uppercase tracking-widest">
+      <span class="material-symbols-outlined text-[16px]" style="font-variation-settings:'FILL' 1;">bookmark</span>
+      Por visitar
+    </div>
+    {priority && (
+      <div class="absolute top-4 right-4 bg-primary-container text-on-primary-container text-[12px] font-bold px-2 py-1 border border-[#2b2f3a] uppercase tracking-widest">
+        Prioridad
+      </div>
+    )}
+  </div>
+
+  <!-- Content (Right) -->
+  <div class="w-full md:w-3/5 p-6 md:p-8 flex flex-col justify-center">
+    <!-- Locality + culinary styles -->
+    <div class="flex flex-wrap gap-3 mb-4 text-[12px] font-semibold uppercase tracking-widest text-on-surface-variant">
+      {locality && <span class="border-b border-[#2b2f3a] pb-1">{locality}</span>}
+      {categoryArray?.map((cat: string) => (
+        <span>{cat}</span>
+      ))}
+    </div>
+
+    <h2
+      class="text-[24px] font-semibold text-primary-container group-hover:text-secondary transition-colors mb-3 leading-tight"
+      style="font-family:'Playfair Display',serif;"
+    >
+      {title}
+    </h2>
+
+    {recommendedBy && (
+      <p class="text-[13px] text-secondary font-semibold uppercase tracking-widest mb-3 flex items-center gap-1.5">
+        <span class="material-symbols-outlined text-[16px]">recommend</span>
+        Recomendado por {recommendedBy}
+      </p>
+    )}
+
+    <p class="text-[16px] text-on-surface-variant line-clamp-3 leading-relaxed mb-4">
+      {description}
+    </p>
+
+    {address && (
+      <p class="text-[14px] text-on-surface-variant flex items-start gap-1.5 mb-4">
+        <span class="material-symbols-outlined text-[18px] shrink-0">place</span>
+        <span>{address}</span>
+      </p>
+    )}
+
+    <!-- External links -->
+    {links.length > 0 && (
+      <nav class="flex flex-wrap gap-2 mt-auto pt-2" aria-label={`Enlaces de ${title}`}>
+        {links.map((link) => (
+          <a
+            href={link.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="flex items-center gap-1.5 px-3 py-1.5 border border-[#2b2f3a] text-[12px] font-bold uppercase tracking-widest text-primary hover:bg-bright-linen transition-colors"
+          >
+            <span class="material-symbols-outlined text-[16px]">{link.icon}</span>
+            {link.label}
+          </a>
+        ))}
+      </nav>
+    )}
+  </div>
+</article>

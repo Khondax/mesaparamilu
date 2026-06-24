@@ -30,6 +30,15 @@ const isActive = (href: string) => pathname === href || pathname.startsWith(href
         ]}
       >Reseñas</a>
       <a
+        href="/suggestions"
+        class:list={[
+          'transition-colors duration-300 pb-1',
+          isActive('/suggestions')
+            ? 'text-on-tertiary-container border-b-2 border-on-tertiary-container'
+            : 'text-on-surface-variant hover:text-on-tertiary-container',
+        ]}
+      >Por visitar</a>
+      <a
         href="/buscar"
         class:list={[
           'transition-colors duration-300 pb-1',
@@ -109,6 +118,7 @@ const isActive = (href: string) => pathname === href || pathname.startsWith(href
   >
     <nav class="flex flex-col gap-4 text-[14px] font-bold uppercase tracking-widest" style="font-family:'Plus Jakarta Sans',sans-serif;">
       <a href="/reviews" class="text-on-surface-variant hover:text-on-tertiary-container transition-colors py-2">Reseñas</a>
+      <a href="/suggestions" class="text-on-surface-variant hover:text-on-tertiary-container transition-colors py-2">Por visitar</a>
       <a href="/recipes" class="text-on-surface-variant hover:text-on-tertiary-container transition-colors py-2">Recetas</a>
       <a href="/about" class="text-on-surface-variant hover:text-on-tertiary-container transition-colors py-2">Nosotros</a>
       <a href="/buscar" class="text-on-surface-variant hover:text-on-tertiary-container transition-colors py-2">Buscar</a>

@@ -1,0 +1,65 @@
+---
+import BaseHead from '../../components/BaseHead.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import CardSuggestion from '../../components/CardSuggestion.astro';
+import { SITE_TITLE } from '../../consts';
+import { getCollection } from 'astro:content';
+
+const PAGE_DESCRIPTION =
+  'Restaurantes que nos han recomendado y todavía no hemos visitado. Nuestra lista de pendientes.';
+
+// Prioridad primero; dentro de cada grupo, los añadidos más recientes arriba.
+const suggestions = (await getCollection('suggestions')).sort((a, b) => {
+  if (a.data.priority !== b.data.priority) return a.data.priority ? -1 : 1;
+  return (b.data.pubDate?.valueOf() ?? 0) - (a.data.pubDate?.valueOf() ?? 0);
+});
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <BaseHead title={`Por visitar — ${SITE_TITLE}`} description={PAGE_DESCRIPTION} />
+  </head>
+  <body class="bg-surface-container-low text-on-surface min-h-screen flex flex-col antialiased">
+    <Header />
+    <main id="main-content" class="flex-grow w-full max-w-7xl mx-auto px-5 md:px-16 py-16">
+
+      <!-- Page Header -->
+      <div class="mb-16 border-b border-outline pb-8 flex flex-col md:flex-row justify-between items-end gap-8">
+        <div>
+          <h1
+            class="text-[clamp(2.5rem,5vw,4rem)] font-bold text-primary mb-2"
+            style="font-family:'Playfair Display',serif; letter-spacing:-0.02em;"
+          >
+            Por Visitar
+          </h1>
+          <p class="text-[18px] text-on-surface-variant max-w-2xl leading-relaxed" style="font-family:'Plus Jakarta Sans',sans-serif;">
+            {PAGE_DESCRIPTION}
+          </p>
+        </div>
+        <p class="text-[14px] text-on-surface-variant uppercase tracking-widest shrink-0" style="font-family:'Plus Jakarta Sans',sans-serif;">
+          {suggestions.length} {suggestions.length === 1 ? 'pendiente' : 'pendientes'}
+        </p>
+      </div>
+
+      <!-- Suggestions List -->
+      {suggestions.length > 0 ? (
+        <div class="flex flex-col gap-8">
+          {suggestions.map((suggestion) => (
+            <CardSuggestion {...suggestion.data} />
+          ))}
+        </div>
+      ) : (
+        <div class="border border-outline bg-surface-container-lowest p-12 text-center">
+          <span class="material-symbols-outlined text-[48px] text-on-surface-variant mb-4">bookmark</span>
+          <p class="text-[18px] text-on-surface-variant" style="font-family:'Plus Jakarta Sans',sans-serif;">
+            Todavía no hay recomendaciones pendientes. ¡Pronto añadiremos nuevos sitios!
+          </p>
+        </div>
+      )}
+
+    </main>
+    <Footer />
+  </body>
+</html>
